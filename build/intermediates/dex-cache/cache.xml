@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pre-dex-items>
+
+    <item
+        dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/support-v4-19.1.0-cc0dee6c96ed53def403971e3605145f1569b242.jar"
+        jar="/Users/rayarvin/adt-android/sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67"/>
+    <item
+        dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/sugar-1.2-dafb97aa7527886745e4d2dcd6f272f13ff8b5b7.jar"
+        jar="/Users/rayarvin/repos/Therable/app/libs/sugar-1.2.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="4ae4285268188e3546c2c1bbf199d2d824f6a596"/>
+
+</pre-dex-items>
