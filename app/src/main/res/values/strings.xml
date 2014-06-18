@@ -9,5 +9,47 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="hello_world">Hello world!</string>
+
+    <string-array name="menuTitles">
+        <item>Drawer menu 1</item>
+        <item>Drawer menu 2</item>
+        <item>Drawer menu 3</item>
+        <item>Drawer menu 4</item>
+    </string-array>
+
+    <array name="menuIcons">
+        <item>@drawable/ic_write</item>
+        <item>@drawable/ic_calendar</item>
+        <item>@drawable/ic_info</item>
+    </array>
+
+    <array name="emoticonthumbs">
+        <item>@drawable/ic_emoticons_01</item>
+        <item>@drawable/ic_emoticons_02</item>
+        <item>@drawable/ic_emoticons_03</item>
+        <item>@drawable/ic_emoticons_04</item>
+        <item>@drawable/ic_emoticons_05</item>
+        <item>@drawable/ic_emoticons_06</item>
+        <item>@drawable/ic_emoticons_07</item>
+        <item>@drawable/ic_emoticons_08</item>
+        <item>@drawable/ic_emoticons_09</item>
+    </array>
+
+    <string-array name="emotionLabels">
+        <item>admiration</item>
+        <item>ecstacy</item>
+        <item>vigilance</item>
+        <item>terror</item>
+        <item>amazement</item>
+        <item>grief</item>
+        <item>loathing</item>
+        <item>rage</item>
+        <item>apathy</item>
+    </string-array>
+
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

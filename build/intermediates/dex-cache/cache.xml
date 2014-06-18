@@ -8,6 +8,12 @@
         revision="19.1.0"
         sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67"/>
     <item
+        dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/classes-249fe34db78f406e0cdf18233937d7bc3bd5ceb6.jar"
+        jar="/Users/rayarvin/repos/Therable/build/intermediates/exploded-aar/com.github.gabrielemariotti.cards/library/1.7.1/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="460627de6fe34d9b3517b2c2bf6f412e1258847a"/>
+    <item
         dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/sugar-1.2-dafb97aa7527886745e4d2dcd6f272f13ff8b5b7.jar"
         jar="/Users/rayarvin/repos/Therable/app/libs/sugar-1.2.jar"
         jumboMode="false"
