@@ -1,7 +1,9 @@
 package com.omnibuttie.therable.views.fragments;
 
 import android.app.Activity;
+import android.app.LoaderManager;
 import android.content.Context;
+import android.content.Loader;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
@@ -33,7 +35,7 @@ import it.gmariotti.cardslib.library.view.CardView;
  * create an instance of this fragment.
  *
  */
-public class JournalCards extends Fragment {
+public class JournalCards extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList>{
     private OnFragmentInteractionListener mListener;
     private ArrayList<Card> cards;
 
@@ -121,4 +123,18 @@ public class JournalCards extends Fragment {
         public void onFragmentInteraction(Uri uri);
     }
 
+    @Override
+    public Loader<ArrayList> onCreateLoader(int id, Bundle args) {
+        return null;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<ArrayList> loader, ArrayList data) {
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<ArrayList> loader) {
+
+    }
 }
