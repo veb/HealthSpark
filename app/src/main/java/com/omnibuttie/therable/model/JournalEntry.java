@@ -3,6 +3,7 @@ package com.omnibuttie.therable.model;
 import android.content.Context;
 
 import com.orm.SugarRecord;
+import com.orm.dsl.Ignore;
 
 import java.util.Date;
 
@@ -13,38 +14,38 @@ public class JournalEntry extends SugarRecord<JournalEntry> {
     Date dateCreated;
     Date dateModified;
     String content;
+    boolean isArchived;
+
     int mood;
     int intensity;
 
-    User owner;
 
-    public JournalEntry(Context context, String content, int mood, int intensity, User owner) {
-        super(context);
+
+    public JournalEntry(String content, int mood, int intensity) {
+        super();
         this.content = content;
         this.mood = mood;
         this.intensity = intensity;
-        this.owner = owner;
 
         this.dateCreated = new Date();
         this.dateModified = this.dateCreated;
 
     }
 
-    public JournalEntry(Context context) {
-        super(context);
+    public JournalEntry() {
         this.dateCreated = new Date();
         this.dateModified = this.dateCreated;
+        this.isArchived = false;
     }
 
-    public JournalEntry(Context context, Date dateCreated, Date dateModified, String content, int mood, int intensity, User owner) {
-        super(context);
+    public JournalEntry(Date dateCreated, Date dateModified, String content, int mood, int intensity) {
+        super();
         this.dateCreated = dateCreated;
         this.dateModified = dateModified;
         this.content = content;
         this.mood = mood;
-
+        this.isArchived = false;
         this.intensity = intensity;
-        this.owner = owner;
     }
 
     public Date getDateCreated() {
@@ -75,6 +76,14 @@ public class JournalEntry extends SugarRecord<JournalEntry> {
         return mood;
     }
 
+    public boolean isArchived() {
+        return isArchived;
+    }
+
+    public void setArchived(boolean isArchived) {
+        this.isArchived = isArchived;
+    }
+
     public void setMood(int mood) {
         this.mood = mood;
     }
@@ -87,13 +96,6 @@ public class JournalEntry extends SugarRecord<JournalEntry> {
         this.intensity = intensity;
     }
 
-    public User getOwner() {
-        return owner;
-    }
-
-    public void setOwner(User owner) {
-        this.owner = owner;
-    }
 
     @Override
     public String toString() {
@@ -103,7 +105,7 @@ public class JournalEntry extends SugarRecord<JournalEntry> {
                 ", content='" + content + '\'' +
                 ", mood=" + mood +
                 ", intensity=" + intensity +
-                ", owner=" + owner +
+                ", isArchived=" + isArchived +
                 '}';
     }
 }

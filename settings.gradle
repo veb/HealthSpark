@@ -1,1 +1,2 @@
-include ':app'
+include ':app', ':looperPager'
+include ':sugar/library'

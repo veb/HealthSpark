@@ -8,16 +8,23 @@ import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.omnibuttie.therable.R;
+import com.omnibuttie.therable.dataLoaders.JournalEntryLoader;
+import com.omnibuttie.therable.model.JournalEntry;
+import com.omnibuttie.therable.model.User;
 import com.omnibuttie.therable.views.cards.EntryCard;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
@@ -35,9 +42,20 @@ import it.gmariotti.cardslib.library.view.CardView;
  * create an instance of this fragment.
  *
  */
-public class JournalCards extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList>{
+public class JournalCards extends Fragment implements LoaderManager.LoaderCallbacks<List<EntryCard>>{
+    Context context;
+    CardListView cardListView;
     private OnFragmentInteractionListener mListener;
     private ArrayList<Card> cards;
+
+    private ArrayList<JournalEntry> journalEntries;
+
+    String[] emoticonString;
+    TypedArray emoticonIcons;
+
+    CardArrayAdapter cardArrayAdapter;
+
+    JournalEntryLoader cardLoader;
 
     // TODO: Rename and change types and number of parameters
     public static JournalCards newInstance() {
@@ -51,6 +69,8 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        cardLoader = new JournalEntryLoader(getActivity());
     }
 
     @Override
@@ -58,29 +78,28 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        Context context = this.getActivity();
+        context = this.getActivity();
+        emoticonString = context.getResources().getStringArray(R.array.emotionLabels);
+        emoticonIcons = context.getResources().obtainTypedArray(R.array.emoticonthumbs);
+
         cards = new ArrayList<Card>();
         View view = inflater.inflate(R.layout.fragment_journal_cards, container, false);
 
-        String[] emoticonString = context.getResources().getStringArray(R.array.emotionLabels);
-        TypedArray emoticonIcons = context.getResources().obtainTypedArray(R.array.emoticonthumbs);
+//        for (JournalEntry entry:JournalEntry.listAll(JournalEntry.class)) {
+//            EntryCard card = new EntryCard(context, entry.getDateModified(), entry.getContent(), emoticonString[entry.getMood()], emoticonIcons.getResourceId(entry.getMood(), -1));
+//            cards.add(card);
+//        }
 
-        for (int i=0; i<emoticonIcons.length(); i++) {
-            EntryCard card = new EntryCard(context,
-                    new Date(),
-                    "Lorem Bitches",
-                    emoticonString[i],
-                    emoticonIcons.getResourceId(i, -1));
-
-            cards.add(card);
-        }
-
-        CardArrayAdapter cardArrayAdapter = new CardArrayAdapter(context, cards);
-        CardListView cardListView = (CardListView)view.findViewById(R.id.cardList);
+        cardArrayAdapter = new CardArrayAdapter(context, cards);
+        cardListView = (CardListView)view.findViewById(R.id.cardList);
 
         if (cardListView != null) {
             cardListView.setAdapter(cardArrayAdapter);
         }
+
+        getLoaderManager().initLoader(0, null, this);
+//
+        cardLoader.forceLoad();
         return view;
     }
 
@@ -124,17 +143,26 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
     }
 
     @Override
-    public Loader<ArrayList> onCreateLoader(int id, Bundle args) {
-        return null;
+    public Loader<List<EntryCard>> onCreateLoader(int id, Bundle args) {
+        return cardLoader;
     }
 
     @Override
-    public void onLoadFinished(Loader<ArrayList> loader, ArrayList data) {
-
+    public void onLoadFinished(Loader<List<EntryCard>> loader, List<EntryCard> data) {
+        cards = new ArrayList<Card>(data);
+        cardArrayAdapter = new CardArrayAdapter(context, cards);
+        cardListView.setAdapter(cardArrayAdapter);
+        cardArrayAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onLoaderReset(Loader<ArrayList> loader) {
+    public void onLoaderReset(Loader<List<EntryCard>> loader) {
+        cards.clear();
+        cardArrayAdapter.notifyDataSetChanged();
+    }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
     }
 }

@@ -1,11 +1,11 @@
-apply plugin: 'android'
+apply plugin: 'android-library'
 
 android {
     compileSdkVersion 19
     buildToolsVersion '19.1.0'
     defaultConfig {
-        applicationId 'com.omnibuttie.therable'
-        minSdkVersion 15
+        applicationId 'com.avwave.looperPager'
+        minSdkVersion 8
         targetSdkVersion 19
         versionCode 1
         versionName '1.0'
@@ -22,8 +22,5 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:support-v4:19.+'
-    compile 'com.github.gabrielemariotti.cards:library:1.7.1'
-    compile project(':sugar/library')
-    compile project(':looperPager')
+    compile 'com.android.support:appcompat-v7:19.+'
 }

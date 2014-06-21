@@ -15,16 +15,16 @@ public class User extends SugarRecord<User> {
     long userID;
     String username;
 
-    public User(Context context, String userToken, long userID, String username) {
-        super(context);
+    public User(String userToken, long userID, String username) {
+        super();
         this.userToken = userToken;
         this.userID = userID;
         this.username = username;
     }
 
-    public User(Context context) {
+    public User() {
 
-        super(context);
+        super();
     }
 
     public String getUserToken() {

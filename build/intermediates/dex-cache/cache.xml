@@ -2,11 +2,23 @@
 <pre-dex-items>
 
     <item
+        dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/classes-fe1f45e7409b027ef5e0c41b7eb767b51f2d0c80.jar"
+        jar="/Users/rayarvin/repos/Therable/build/intermediates/exploded-aar/Therable/sugar/library/unspecified/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="2b179b7d73e65f8201b1b1303a5ffec28c3e265d"/>
+    <item
         dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/support-v4-19.1.0-cc0dee6c96ed53def403971e3605145f1569b242.jar"
         jar="/Users/rayarvin/adt-android/sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67"/>
+    <item
+        dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/classes-38e29360fd3bf775d8b4679838ce02356211a93f.jar"
+        jar="/Users/rayarvin/repos/Therable/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28"/>
     <item
         dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/classes-249fe34db78f406e0cdf18233937d7bc3bd5ceb6.jar"
         jar="/Users/rayarvin/repos/Therable/build/intermediates/exploded-aar/com.github.gabrielemariotti.cards/library/1.7.1/classes.jar"
@@ -14,10 +26,10 @@
         revision="19.1.0"
         sha1="460627de6fe34d9b3517b2c2bf6f412e1258847a"/>
     <item
-        dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/sugar-1.2-dafb97aa7527886745e4d2dcd6f272f13ff8b5b7.jar"
-        jar="/Users/rayarvin/repos/Therable/app/libs/sugar-1.2.jar"
+        dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/classes-cae662d5963bd7b032c4c66785a2bb85a4c5c3a5.jar"
+        jar="/Users/rayarvin/repos/Therable/build/intermediates/exploded-aar/Therable/looperPager/unspecified/classes.jar"
         jumboMode="false"
         revision="19.1.0"
-        sha1="4ae4285268188e3546c2c1bbf199d2d824f6a596"/>
+        sha1="14029021272193668c7a8c3c3e48212445e99657"/>
 
 </pre-dex-items>
