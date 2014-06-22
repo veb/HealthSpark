@@ -2,38 +2,71 @@ package com.omnibuttie.therable.views;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.SeekBar;
 
 import com.avwave.looperPager.PageFadeTransformer;
 import com.omnibuttie.therable.R;
 
-public class Composer extends Activity implements AdapterView.OnItemSelectedListener  {
-    ImageAdapter adapter;
-    ViewPager g;
+public class Composer extends Activity implements AdapterView.OnItemSelectedListener {
+
+    TypedArray emoticons;
+    TypedArray emoticonThumbs;
+    TypedArray emotiveColors;
+
+    String emotionStrings;
     View v;
+
+    View statusEditor;
+    ImageView statusThumbnail;
+    EditText statusText;
+
+    View emoteSelector;
+    ImageAdapter adapter;
+    ViewPager statusPager;
+    SeekBar statusSeekBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_composer);
 
+        emoticons = getResources().obtainTypedArray(R.array.emoticons);
+        emoticonThumbs = getResources().obtainTypedArray(R.array.emoticonthumbs);
+        emotiveColors = getResources().obtainTypedArray(R.array.emotiveColors);
+
+        statusEditor = findViewById(R.id.statusEditor);
+        statusThumbnail = (ImageView) findViewById(R.id.statusThumbnail);
+        statusText = (EditText) findViewById(R.id.statusEditText);
+
+
+        emoteSelector = findViewById(R.id.emoteSelector);
+        statusSeekBar = (SeekBar) findViewById(R.id.seekBar);
         adapter = new ImageAdapter(this);
 
-        g = (ViewPager) findViewById(R.id.emotePager);
-        g.setAdapter(adapter);
-        g.setPageTransformer(true, new PageFadeTransformer());
+        statusPager = (ViewPager) findViewById(R.id.emotePager);
+        statusPager.setAdapter(adapter);
+        statusPager.setPageTransformer(true, new PageFadeTransformer());
 
-        g.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        statusPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -41,7 +74,13 @@ public class Composer extends Activity implements AdapterView.OnItemSelectedList
 
             @Override
             public void onPageSelected(int position) {
+//                statusSeekBar.getProgressDrawable().setColorFilter(getResources().getColor(colors[position]), PorterDuff.Mode.SRC_IN);
+//                statusSeekBar.getThumb().setColorFilter(getResources().getColor(colors[position]), PorterDuff.Mode.SRC_IN);
 
+                statusSeekBar.getProgressDrawable().setColorFilter(emotiveColors.getColor(position, Color.BLACK), PorterDuff.Mode.SRC_IN);
+                statusSeekBar.getThumb().setColorFilter(emotiveColors.getColor(position, Color.BLACK), PorterDuff.Mode.SRC_IN);
+
+                statusThumbnail.setImageResource(emoticons.getResourceId(position, -1));
             }
 
             @Override
@@ -49,6 +88,7 @@ public class Composer extends Activity implements AdapterView.OnItemSelectedList
 
             }
         });
+
     }
 
 
@@ -81,6 +121,20 @@ public class Composer extends Activity implements AdapterView.OnItemSelectedList
 
     }
 
+    public void onThumbnailClick (View v) {
+        statusEditor.setVisibility(View.GONE);
+        emoteSelector.setVisibility(View.VISIBLE);
+
+        statusText.clearFocus();
+        InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        mgr.hideSoftInputFromWindow(statusText.getWindowToken(), 0);
+    }
+
+    public void onEditTextClick(View v) {
+        statusEditor.setVisibility(View.VISIBLE);
+        emoteSelector.setVisibility(View.GONE);
+
+    }
 
     public class ImageAdapter extends PagerAdapter {
         private Context ctx;
@@ -90,7 +144,7 @@ public class Composer extends Activity implements AdapterView.OnItemSelectedList
         }
 
         public int getCount() {
-            return emoteIcons.length;
+            return emotiveColors.length();
         }
 
         public Object getItem(int pos) {
@@ -108,7 +162,21 @@ public class Composer extends Activity implements AdapterView.OnItemSelectedList
 
             image.setScaleType(ImageView.ScaleType.FIT_CENTER);
             image.setTag(position);
-            image.setImageResource(emoteIcons[position]);
+            image.setImageResource(emoticons.getResourceId(position, -1));
+
+            image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onEditTextClick(v);
+                    statusText.setFocusableInTouchMode(true);
+                    statusText.setFocusable(true);
+                    statusText.requestFocus();
+
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(statusText, InputMethodManager.SHOW_IMPLICIT);
+                }
+            });
+
 
             viewGroup.addView(image);
             return image;
@@ -128,15 +196,5 @@ public class Composer extends Activity implements AdapterView.OnItemSelectedList
             return view == ((View) object);
         }
     }
-    Integer[] emoteIcons = {
-            R.drawable.emoticons01,
-            R.drawable.emoticons02,
-            R.drawable.emoticons03,
-            R.drawable.emoticons04,
-            R.drawable.emoticons05,
-            R.drawable.emoticons06,
-            R.drawable.emoticons07,
-            R.drawable.emoticons08,
-            R.drawable.emoticons09,
-    };
+
 }
