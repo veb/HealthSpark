@@ -2,7 +2,9 @@ package com.omnibuttie.therable.views.fragments;
 
 import android.app.Activity;
 import android.app.LoaderManager;
+import android.content.AsyncTaskLoader;
 import android.content.Context;
+import android.content.Intent;
 import android.content.Loader;
 import android.content.res.TypedArray;
 import android.net.Uri;
@@ -14,12 +16,17 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.omnibuttie.therable.R;
+
 import com.omnibuttie.therable.dataLoaders.JournalEntryLoader;
 import com.omnibuttie.therable.model.JournalEntry;
 import com.omnibuttie.therable.model.User;
+import com.omnibuttie.therable.views.Composer;
 import com.omnibuttie.therable.views.cards.EntryCard;
+import com.orm.query.Select;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -70,7 +77,7 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        cardLoader = new JournalEntryLoader(getActivity());
+        cardLoader = new JournalEntryLoader(getActivity(), listener);
     }
 
     @Override
@@ -96,6 +103,8 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
         if (cardListView != null) {
             cardListView.setAdapter(cardArrayAdapter);
         }
+
+
 
         getLoaderManager().initLoader(0, null, this);
 //
@@ -144,6 +153,7 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
 
     @Override
     public Loader<List<EntryCard>> onCreateLoader(int id, Bundle args) {
+        cardLoader = new JournalEntryLoader(getActivity(), listener);
         return cardLoader;
     }
 
@@ -162,7 +172,26 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        getLoaderManager().restartLoader(0, null, this);
+        cardLoader.forceLoad();
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
     }
+
+
+
+    Card.OnCardClickListener listener = new Card.OnCardClickListener() {
+        @Override
+        public void onClick(Card card, View view) {
+            Toast.makeText(context, "Click Listener card=" + ((EntryCard)card).getJournalID(), Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(context, Composer.class);
+            intent.putExtra("JournalID", ((EntryCard)card).getJournalID());
+            startActivity(intent);
+        }
+    };
 }

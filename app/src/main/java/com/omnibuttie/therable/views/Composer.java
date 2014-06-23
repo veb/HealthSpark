@@ -24,6 +24,7 @@ import android.widget.SeekBar;
 
 import com.avwave.looperPager.PageFadeTransformer;
 import com.omnibuttie.therable.R;
+import com.omnibuttie.therable.model.JournalEntry;
 
 public class Composer extends Activity implements AdapterView.OnItemSelectedListener {
 
@@ -43,10 +44,17 @@ public class Composer extends Activity implements AdapterView.OnItemSelectedList
     ViewPager statusPager;
     SeekBar statusSeekBar;
 
+    JournalEntry entry;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        long journalID = getIntent().getLongExtra("JournalID", -1);
+        if (journalID != -1); {
+            entry = JournalEntry.findById(JournalEntry.class, journalID);
+        }
+
         setContentView(R.layout.activity_composer);
 
         emoticons = getResources().obtainTypedArray(R.array.emoticons);
@@ -77,20 +85,36 @@ public class Composer extends Activity implements AdapterView.OnItemSelectedList
 //                statusSeekBar.getProgressDrawable().setColorFilter(getResources().getColor(colors[position]), PorterDuff.Mode.SRC_IN);
 //                statusSeekBar.getThumb().setColorFilter(getResources().getColor(colors[position]), PorterDuff.Mode.SRC_IN);
 
-                statusSeekBar.getProgressDrawable().setColorFilter(emotiveColors.getColor(position, Color.BLACK), PorterDuff.Mode.SRC_IN);
-                statusSeekBar.getThumb().setColorFilter(emotiveColors.getColor(position, Color.BLACK), PorterDuff.Mode.SRC_IN);
-
-                statusThumbnail.setImageResource(emoticons.getResourceId(position, -1));
+                setStatusColors(position);
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
 
             }
+
         });
 
+        fillCard();
     }
 
+    public void setStatusColors(int position) {
+        statusSeekBar.getProgressDrawable().setColorFilter(emotiveColors.getColor(position, Color.BLACK), PorterDuff.Mode.SRC_IN);
+        statusSeekBar.getThumb().setColorFilter(emotiveColors.getColor(position, Color.BLACK), PorterDuff.Mode.SRC_IN);
+        statusThumbnail.setImageResource(emoticons.getResourceId(position, -1));
+        statusPager.setCurrentItem(position);
+    }
+
+    public void fillCard() {
+        onEditTextClick(null);
+        if (entry == null){
+            setStatusColors(8);
+            return;
+        }
+        statusText.setText(entry.getContent());
+        setStatusColors(entry.getMood());
+        statusSeekBar.setProgress(entry.getIntensity());
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -106,6 +130,7 @@ public class Composer extends Activity implements AdapterView.OnItemSelectedList
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            doPost();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -134,6 +159,16 @@ public class Composer extends Activity implements AdapterView.OnItemSelectedList
         statusEditor.setVisibility(View.VISIBLE);
         emoteSelector.setVisibility(View.GONE);
 
+    }
+
+    public void doPost() {
+        JournalEntry journalEntry = new JournalEntry();
+        journalEntry.setMood(statusPager.getCurrentItem());
+        journalEntry.setContent(statusText.getText().toString());
+        journalEntry.setIntensity(statusSeekBar.getProgress());
+        journalEntry.setArchived(false);
+        journalEntry.save();
+        finish();
     }
 
     public class ImageAdapter extends PagerAdapter {

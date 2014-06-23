@@ -1,6 +1,7 @@
 package com.omnibuttie.therable.views.cards;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -9,6 +10,7 @@ import android.widget.Toast;
 
 import com.omnibuttie.therable.R;
 import com.omnibuttie.therable.model.JournalEntry;
+import com.omnibuttie.therable.views.Composer;
 
 import java.util.Date;
 
@@ -28,9 +30,13 @@ public class EntryCard extends Card {
     protected String title;
     protected int emoteResource;
 
+    protected long journalID;
 
-    public EntryCard(Context context, Date entryDate, String content, String title, int emoteResource) {
+    protected OnCardClickListener cardClickListener;
+
+    public EntryCard(Context context, long journalID, Date entryDate, String content, String title, int emoteResource) {
         this(context);
+        this.journalID = journalID;
         this.entryDate = entryDate;
         this.content = content;
         this.title = title;
@@ -41,6 +47,8 @@ public class EntryCard extends Card {
         this(context, R.layout.journal_card_row);
     }
 
+
+
     public EntryCard(Context context, int innerLayout) {
         super(context, innerLayout);
         init();
@@ -48,12 +56,7 @@ public class EntryCard extends Card {
 
     private void init() {
         emoteResource = -1;
-        setOnClickListener(new OnCardClickListener() {
-            @Override
-            public void onClick(Card card, View view) {
-                Toast.makeText(getContext(), "Click Listener card=", Toast.LENGTH_LONG).show();
-            }
-        });
+
     }
 
     @Override
@@ -64,32 +67,45 @@ public class EntryCard extends Card {
         cardEntryDate = (TextView) parent.findViewById(R.id.card_entry_date);
 
         if (entryDate != null)
-            setEntryDate(entryDate);
+            cardEntryDate.setText(entryDate.toString());
         if (content != null)
-            setContent(content);
+            cardStatus.setText(content);
         if (title != null)
-            setTitle(title);
+            cardTitle.setText(title);
         if (emoteResource != -1)
-            setEmoteResource(emoteResource);
+            cardEmote.setImageResource(emoteResource);
     }
 
     public void setEntryDate(Date entryDate) {
         this.entryDate = entryDate;
-        cardEntryDate.setText(entryDate.toString());
     }
 
     public void setContent(String content) {
         this.content = content;
-        cardStatus.setText(content);
     }
 
     public void setTitle(String title) {
         this.title = title;
-        cardTitle.setText(title);
+    }
+
+    public long getJournalID() {
+        return journalID;
+    }
+
+    public void setJournalID(long journalID) {
+        this.journalID = journalID;
     }
 
     public void setEmoteResource(int emoteResource) {
         this.emoteResource = emoteResource;
-        cardEmote.setImageResource(emoteResource);
+    }
+
+    public OnCardClickListener getCardClickListener() {
+        return cardClickListener;
+    }
+
+    public void setCardClickListener(OnCardClickListener cardClickListener) {
+        this.cardClickListener = cardClickListener;
+        setOnClickListener(cardClickListener);
     }
 }

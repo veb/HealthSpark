@@ -3,6 +3,7 @@ package com.omnibuttie.therable.views;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.net.Uri;
@@ -41,6 +42,8 @@ public class MainActivity extends Activity implements CalendarFragment.OnFragmen
     private List<RowItem> rowItems;
 
     private DrawerAdapter adapter;
+
+    final int WRITEREQUESTCODE = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,16 +114,23 @@ public class MainActivity extends Activity implements CalendarFragment.OnFragmen
             return true;
         }
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.write_settings) {
+            openComposer(-1);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    public void openComposer(int journalEntryID) {
+        Intent intent = new Intent(this, Composer.class);
+        intent.putExtra("JournalID", journalEntryID);
+        startActivityForResult(intent, WRITEREQUESTCODE);
+    }
+
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         boolean drawerOpen = drawerLayout.isDrawerOpen(drawerList);
-        menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
+        menu.findItem(R.id.write_settings).setVisible(!drawerOpen);
         return super.onPrepareOptionsMenu(menu);
     }
 
