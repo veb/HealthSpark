@@ -2,6 +2,7 @@ package com.omnibuttie.therable.views.cards;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.util.Linkify;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -13,6 +14,7 @@ import com.omnibuttie.therable.model.JournalEntry;
 import com.omnibuttie.therable.views.Composer;
 
 import java.util.Date;
+import java.util.regex.Pattern;
 
 import it.gmariotti.cardslib.library.internal.Card;
 
@@ -66,8 +68,12 @@ public class EntryCard extends Card {
 
         if (entryDate != null)
             cardEntryDate.setText(entryDate.toString());
-        if (content != null)
+        if (content != null) {
             cardStatus.setText(content);
+            Pattern tagMatcher = Pattern.compile("[#]+[A-Za-z0-9-_]+\\b");
+            String newActivityURL = "content://com.omnibuttie.therable.views.TagDetailsActivity/";
+            Linkify.addLinks(cardStatus, tagMatcher, newActivityURL);
+        }
         if (title != null)
             cardTitle.setText(title);
         if (emoteResource != -1)
@@ -80,6 +86,7 @@ public class EntryCard extends Card {
 
     public void setContent(String content) {
         this.content = content;
+
     }
 
     public void setTitle(String title) {

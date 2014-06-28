@@ -22,14 +22,14 @@ import com.omnibuttie.therable.adapters.DrawerAdapter;
 import com.omnibuttie.therable.adapters.RowItem;
 import com.omnibuttie.therable.views.cards.EntryCard;
 import com.omnibuttie.therable.views.fragments.CalendarFragment;
+import com.omnibuttie.therable.views.fragments.HashtagFragment;
 import com.omnibuttie.therable.views.fragments.InfoFragment;
 import com.omnibuttie.therable.views.fragments.JournalCards;
-import com.omnibuttie.therable.views.fragments.JournalFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends Activity implements CalendarFragment.OnFragmentInteractionListener, InfoFragment.OnFragmentInteractionListener, JournalFragment.OnFragmentInteractionListener, JournalCards.OnFragmentInteractionListener {
+public class MainActivity extends Activity implements CalendarFragment.OnFragmentInteractionListener, InfoFragment.OnFragmentInteractionListener, HashtagFragment.OnFragmentInteractionListener, JournalCards.OnFragmentInteractionListener {
     String[] menuTitles;
     TypedArray menuIcons;
 
@@ -168,13 +168,13 @@ public class MainActivity extends Activity implements CalendarFragment.OnFragmen
         Fragment fragment = null;
         switch (position) {
             case 0:
-                fragment = JournalCards.newInstance(EntryCard.VIEW_ALL);
+                fragment = JournalCards.newInstance(EntryCard.VIEW_ALL, null);
                 break;
             case 1:
-                fragment = JournalCards.newInstance(EntryCard.VIEW_ARCHIVE);
+                fragment = JournalCards.newInstance(EntryCard.VIEW_ARCHIVE, null);
                 break;
             case 2:
-                fragment = CalendarFragment.newInstance("", "");
+                fragment = HashtagFragment.newInstance();
                 break;
             case 3:
                 fragment = InfoFragment.newInstance("", "");

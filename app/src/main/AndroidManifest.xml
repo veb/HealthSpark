@@ -21,6 +21,10 @@
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="com.omnibuttie" />
 
+        <provider
+            android:authorities="com.omnibuttie.therable.views.tagdetailsactivity"
+            android:name="com.omnibuttie.therable.providers.TagProvider"/>
+
         <activity
             android:name=".views.MainActivity"
             android:label="@string/app_name" >
@@ -29,12 +33,22 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".views.Composer"
             android:label="@string/title_activity_composer" >
         </activity>
+        <activity
+            android:name=".views.TagDetailsActivity"
+            android:label="@string/taglistTitle" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="vnd.android.cursor.item/vnd.cc.tag"/>
+            </intent-filter>
+        </activity>
+        
+
     </application>
 
 </manifest>

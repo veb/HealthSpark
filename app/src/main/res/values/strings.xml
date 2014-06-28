@@ -25,7 +25,6 @@
         <item>@drawable/ic_info</item>
         <item>@drawable/ic_info</item>
     </array>
-
     <array name="emoticonthumbs">
         <item>@drawable/ic_emoticons_01</item>
         <item>@drawable/ic_emoticons_02</item>
@@ -37,7 +36,6 @@
         <item>@drawable/ic_emoticons_08</item>
         <item>@drawable/ic_emoticons_09</item>
     </array>
-
     <array name="emoticons">
         <item>@drawable/emoticons01</item>
         <item>@drawable/emoticons02</item>
@@ -49,7 +47,6 @@
         <item>@drawable/emoticons08</item>
         <item>@drawable/emoticons09</item>
     </array>
-
     <array name="emotiveColors">
         <item>@color/LimeGreen</item>
         <item>@color/Gold</item>
@@ -61,8 +58,6 @@
         <item>@color/Red</item>
         <item>@color/DimGray</item>
     </array>
-
-
 
     <string-array name="emotionLabels">
         <item>admiration</item>
@@ -79,5 +74,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_composer">Composer</string>
     <string name="composerhint">How do you feel?</string>
+    <string name="title_activity_tag_details">TagDetailsActivity</string>
+    <string name="taglistTitle">List of tags</string>
 
 </resources>

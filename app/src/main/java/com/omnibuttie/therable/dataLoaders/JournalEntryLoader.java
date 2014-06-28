@@ -26,6 +26,7 @@ public class JournalEntryLoader extends AsyncTaskLoader<List<EntryCard>> {
     protected Card.OnUndoSwipeListListener undoSwipeListListener;
 
     protected int CardViewType;
+    protected String contentFilter;
 
     @Override
     public List<EntryCard> loadInBackground() {
@@ -44,7 +45,11 @@ public class JournalEntryLoader extends AsyncTaskLoader<List<EntryCard>> {
                 journalList = Select.from(JournalEntry.class).where(Condition.prop("is_archived").eq(1)).orderBy("date_modified desc").list();
                 break;
             default:
-                journalList = Select.from(JournalEntry.class).orderBy("date_modified desc").list();
+                if (contentFilter != null) {
+                    journalList = Select.from(JournalEntry.class).where(Condition.prop("content").like("%" + contentFilter + "%")).orderBy("date_modified desc").list();
+                } else {
+                    journalList = Select.from(JournalEntry.class).orderBy("date_modified desc").list();
+                }
         }
 
         for (JournalEntry entry:journalList) {
@@ -74,13 +79,14 @@ public class JournalEntryLoader extends AsyncTaskLoader<List<EntryCard>> {
     }
 
     public JournalEntryLoader(Context context, Card.OnCardClickListener cardClickListener) {
-        this(context, cardClickListener, EntryCard.VIEW_ALL);
+        this(context, cardClickListener, EntryCard.VIEW_ALL, null);
     }
 
-    public JournalEntryLoader(Context context, Card.OnCardClickListener cardClickListener, int cardViewType) {
+    public JournalEntryLoader(Context context, Card.OnCardClickListener cardClickListener, int cardViewType, String contentFilter) {
         super(context);
         this.cardClickListener = cardClickListener;
         CardViewType = cardViewType;
+        this.contentFilter = contentFilter;
     }
 
     public Card.OnCardClickListener getCardClickListener() {
@@ -105,5 +111,13 @@ public class JournalEntryLoader extends AsyncTaskLoader<List<EntryCard>> {
 
     public void setUndoSwipeListListener(Card.OnUndoSwipeListListener undoSwipeListListener) {
         this.undoSwipeListListener = undoSwipeListListener;
+    }
+
+    public String getContentFilter() {
+        return contentFilter;
+    }
+
+    public void setContentFilter(String contentFilter) {
+        this.contentFilter = contentFilter;
     }
 }

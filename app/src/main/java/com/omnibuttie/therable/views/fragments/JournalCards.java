@@ -44,6 +44,7 @@ import it.gmariotti.cardslib.library.view.listener.UndoBarController;
 public class JournalCards extends Fragment implements LoaderManager.LoaderCallbacks<List<EntryCard>>{
     int CARD_VIEW_TYPE;
 
+    String contentFilter;
     Context context;
     CardListView cardListView;
     private OnFragmentInteractionListener mListener;
@@ -59,9 +60,10 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
     JournalEntryLoader cardLoader;
 
     // TODO: Rename and change types and number of parameters
-    public static JournalCards newInstance(int viewType) {
+    public static JournalCards newInstance(int viewType, String contentFilter) {
         JournalCards fragment = new JournalCards();
         fragment.CARD_VIEW_TYPE = viewType;
+        fragment.contentFilter = contentFilter;
         return fragment;
     }
 
@@ -142,7 +144,11 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
 
     @Override
     public Loader<List<EntryCard>> onCreateLoader(int id, Bundle args) {
-        cardLoader = new JournalEntryLoader(getActivity(), cardClickListener, CARD_VIEW_TYPE);
+        if (contentFilter != null) {
+            cardLoader = new JournalEntryLoader(getActivity(), cardClickListener, 0, contentFilter);
+        } else {
+            cardLoader = new JournalEntryLoader(getActivity(), cardClickListener);
+        }
         cardLoader.setUndoSwipeListListener(undoSwipeListListener);
         cardLoader.setSwipeListener(swipeListener);
         return cardLoader;
