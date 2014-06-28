@@ -7,6 +7,7 @@ import android.content.res.TypedArray;
 import com.omnibuttie.therable.R;
 import com.omnibuttie.therable.model.JournalEntry;
 import com.omnibuttie.therable.views.cards.EntryCard;
+import com.orm.query.Condition;
 import com.orm.query.Select;
 
 import java.util.ArrayList;
@@ -20,7 +21,9 @@ import it.gmariotti.cardslib.library.internal.Card;
  */
 
 public class JournalEntryLoader extends AsyncTaskLoader<List<EntryCard>> {
-    protected  Card.OnCardClickListener listener;
+    protected Card.OnCardClickListener cardClickListener;
+    protected Card.OnSwipeListener swipeListener;
+    protected Card.OnUndoSwipeListListener undoSwipeListListener;
 
     protected int CardViewType;
 
@@ -35,10 +38,10 @@ public class JournalEntryLoader extends AsyncTaskLoader<List<EntryCard>> {
 
         switch (CardViewType) {
             case EntryCard.VIEW_ALL:
-                journalList = Select.from(JournalEntry.class).orderBy("date_modified desc").list();
+                journalList = Select.from(JournalEntry.class).where(Condition.prop("is_archived").eq(0)).orderBy("date_modified desc").list();
                 break;
             case EntryCard.VIEW_ARCHIVE:
-                journalList = Select.from(JournalEntry.class).orderBy("date_modified desc").list();
+                journalList = Select.from(JournalEntry.class).where(Condition.prop("is_archived").eq(1)).orderBy("date_modified desc").list();
                 break;
             default:
                 journalList = Select.from(JournalEntry.class).orderBy("date_modified desc").list();
@@ -51,7 +54,14 @@ public class JournalEntryLoader extends AsyncTaskLoader<List<EntryCard>> {
             card.setContent(entry.getContent());
             card.setTitle(emoticonString[entry.getMood()]);
             card.setEmoteResource(emoticonIcons.getResourceId(entry.getMood(), -1));
-            card.setCardClickListener(listener);
+            card.setCardClickListener(cardClickListener);
+
+            if (swipeListener != null) {
+                card.setSwipeListener(swipeListener);
+            }
+            if (undoSwipeListListener != null) {
+                card.setUndoSwipeListListener(undoSwipeListListener);
+            }
             cards.add(card);
 
         }
@@ -63,13 +73,37 @@ public class JournalEntryLoader extends AsyncTaskLoader<List<EntryCard>> {
         super(context);
     }
 
-    public JournalEntryLoader(Context context, Card.OnCardClickListener listener) {
-        this(context, listener, EntryCard.VIEW_ALL);
+    public JournalEntryLoader(Context context, Card.OnCardClickListener cardClickListener) {
+        this(context, cardClickListener, EntryCard.VIEW_ALL);
     }
 
-    public JournalEntryLoader(Context context, Card.OnCardClickListener listener, int cardViewType) {
+    public JournalEntryLoader(Context context, Card.OnCardClickListener cardClickListener, int cardViewType) {
         super(context);
-        this.listener = listener;
+        this.cardClickListener = cardClickListener;
         CardViewType = cardViewType;
+    }
+
+    public Card.OnCardClickListener getCardClickListener() {
+        return cardClickListener;
+    }
+
+    public void setCardClickListener(Card.OnCardClickListener cardClickListener) {
+        this.cardClickListener = cardClickListener;
+    }
+
+    public Card.OnSwipeListener getSwipeListener() {
+        return swipeListener;
+    }
+
+    public void setSwipeListener(Card.OnSwipeListener swipeListener) {
+        this.swipeListener = swipeListener;
+    }
+
+    public Card.OnUndoSwipeListListener getUndoSwipeListListener() {
+        return undoSwipeListListener;
+    }
+
+    public void setUndoSwipeListListener(Card.OnUndoSwipeListListener undoSwipeListListener) {
+        this.undoSwipeListListener = undoSwipeListListener;
     }
 }

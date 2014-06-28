@@ -13,8 +13,8 @@
     <string name="hello_world">Hello world!</string>
 
     <string-array name="menuTitles">
-        <item>Drawer menu 1</item>
-        <item>Drawer menu 2</item>
+        <item>Feed</item>
+        <item>For later viewing</item>
         <item>Drawer menu 3</item>
         <item>Drawer menu 4</item>
     </string-array>

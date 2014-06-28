@@ -20,6 +20,7 @@ import android.widget.ListView;
 import com.omnibuttie.therable.R;
 import com.omnibuttie.therable.adapters.DrawerAdapter;
 import com.omnibuttie.therable.adapters.RowItem;
+import com.omnibuttie.therable.views.cards.EntryCard;
 import com.omnibuttie.therable.views.fragments.CalendarFragment;
 import com.omnibuttie.therable.views.fragments.InfoFragment;
 import com.omnibuttie.therable.views.fragments.JournalCards;
@@ -167,16 +168,16 @@ public class MainActivity extends Activity implements CalendarFragment.OnFragmen
         Fragment fragment = null;
         switch (position) {
             case 0:
-                fragment = new JournalCards();
+                fragment = JournalCards.newInstance(EntryCard.VIEW_ALL);
                 break;
             case 1:
-                fragment = new CalendarFragment();
+                fragment = JournalCards.newInstance(EntryCard.VIEW_ARCHIVE);
                 break;
             case 2:
-                fragment = new InfoFragment();
+                fragment = CalendarFragment.newInstance("", "");
                 break;
             case 3:
-                fragment = new JournalFragment();
+                fragment = InfoFragment.newInstance("", "");
             default:
                 break;
         }

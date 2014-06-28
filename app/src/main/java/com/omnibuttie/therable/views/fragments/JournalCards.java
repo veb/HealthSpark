@@ -2,7 +2,6 @@ package com.omnibuttie.therable.views.fragments;
 
 import android.app.Activity;
 import android.app.LoaderManager;
-import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
@@ -16,29 +15,22 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.omnibuttie.therable.R;
 
 import com.omnibuttie.therable.dataLoaders.JournalEntryLoader;
 import com.omnibuttie.therable.model.JournalEntry;
-import com.omnibuttie.therable.model.User;
 import com.omnibuttie.therable.views.Composer;
 import com.omnibuttie.therable.views.cards.EntryCard;
-import com.orm.query.Select;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
-import it.gmariotti.cardslib.library.internal.CardHeader;
-import it.gmariotti.cardslib.library.internal.CardThumbnail;
 import it.gmariotti.cardslib.library.view.CardListView;
-import it.gmariotti.cardslib.library.view.CardView;
+import it.gmariotti.cardslib.library.view.listener.UndoBarController;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -81,7 +73,7 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        cardLoader = new JournalEntryLoader(getActivity(), listener);
+        cardLoader = new JournalEntryLoader(getActivity(), cardClickListener);
     }
 
     @Override
@@ -150,7 +142,9 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
 
     @Override
     public Loader<List<EntryCard>> onCreateLoader(int id, Bundle args) {
-        cardLoader = new JournalEntryLoader(getActivity(), listener, CARD_VIEW_TYPE);
+        cardLoader = new JournalEntryLoader(getActivity(), cardClickListener, CARD_VIEW_TYPE);
+        cardLoader.setUndoSwipeListListener(undoSwipeListListener);
+        cardLoader.setSwipeListener(swipeListener);
         return cardLoader;
     }
 
@@ -158,7 +152,11 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
     public void onLoadFinished(Loader<List<EntryCard>> loader, List<EntryCard> data) {
         cards = new ArrayList<Card>(data);
         cardArrayAdapter = new CardArrayAdapter(context, cards);
+        cardArrayAdapter.setUndoBarUIElements(undoController);
+
         cardListView.setAdapter(cardArrayAdapter);
+
+        cardArrayAdapter.setEnableUndo(true);
         cardArrayAdapter.notifyDataSetChanged();
     }
 
@@ -181,8 +179,7 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
     }
 
 
-
-    Card.OnCardClickListener listener = new Card.OnCardClickListener() {
+    Card.OnCardClickListener cardClickListener = new Card.OnCardClickListener() {
         @Override
         public void onClick(Card card, View view) {
             Toast.makeText(context, "Click Listener card=" + ((EntryCard)card).getJournalID(), Toast.LENGTH_LONG).show();
@@ -191,4 +188,75 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
             startActivity(intent);
         }
     };
+
+    Card.OnSwipeListener swipeListener = new Card.OnSwipeListener() {
+        @Override
+        public void onSwipe(Card card) {
+            EntryCard eCard = (EntryCard) card;
+            JournalEntry entryForCard = JournalEntry.findById(JournalEntry.class, eCard.getJournalID());
+
+            switch (CARD_VIEW_TYPE) {
+                case EntryCard.VIEW_ALL:
+                    entryForCard.setArchived(true);
+                    break;
+                case EntryCard.VIEW_ARCHIVE:
+                    entryForCard.setArchived(false);
+                    break;
+            }
+
+            entryForCard.save();
+            Log.i("journalcard", "swipe:" + eCard.getJournalID());
+        }
+    };
+
+    Card.OnUndoSwipeListListener undoSwipeListListener = new Card.OnUndoSwipeListListener() {
+        @Override
+        public void onUndoSwipe(Card card) {
+            EntryCard eCard = (EntryCard) card;
+            JournalEntry entryForCard = JournalEntry.findById(JournalEntry.class, eCard.getJournalID());
+            switch (CARD_VIEW_TYPE) {
+                case EntryCard.VIEW_ALL:
+                    entryForCard.setArchived(false);
+                    break;
+                case EntryCard.VIEW_ARCHIVE:
+                    entryForCard.setArchived(true);
+                    break;
+            }
+            entryForCard.save();
+            Log.i("journalcard", "Undo: " + eCard.getJournalID());
+        }
+    };
+
+    UndoBarController.UndoBarUIElements undoController = new UndoBarController.DefaultUndoBarUIElements() {
+        @Override
+        public int getUndoBarId() {
+            return R.id.my_undobar;
+        }
+
+        @Override
+        public int getUndoBarMessageId() {
+            return R.id.my_undobar_message;
+        }
+
+        @Override
+        public int getUndoBarButtonId() {
+            return R.id.my_undobar_button;
+        }
+
+        @Override
+        public String getMessageUndo(CardArrayAdapter cardArrayAdapter, String[] itemIds, int[] itemPositions) {
+            String returns = "";
+            switch (CARD_VIEW_TYPE) {
+                case EntryCard.VIEW_ALL:
+                    returns = "Moved card to Read Later";
+                    break;
+                case EntryCard.VIEW_ARCHIVE:
+                    returns = "Moved card to Feed";
+                    break;
+            }
+            return returns;
+        }
+    };
+
+
 }

@@ -37,15 +37,9 @@ public class EntryCard extends Card {
     protected long journalID;
 
     protected OnCardClickListener cardClickListener;
+    protected OnSwipeListener swipeListener;
+    protected OnUndoSwipeListListener undoSwipeListListener;
 
-    public EntryCard(Context context, long journalID, Date entryDate, String content, String title, int emoteResource) {
-        this(context);
-        this.journalID = journalID;
-        this.entryDate = entryDate;
-        this.content = content;
-        this.title = title;
-        this.emoteResource = emoteResource;
-    }
 
     public EntryCard(Context context) {
         this(context, R.layout.journal_card_row);
@@ -60,7 +54,7 @@ public class EntryCard extends Card {
 
     private void init() {
         emoteResource = -1;
-
+        this.setSwipeable(true);
     }
 
     @Override
@@ -97,6 +91,7 @@ public class EntryCard extends Card {
     }
 
     public void setJournalID(long journalID) {
+        this.setId(String.valueOf(journalID));
         this.journalID = journalID;
     }
 
@@ -111,5 +106,23 @@ public class EntryCard extends Card {
     public void setCardClickListener(OnCardClickListener cardClickListener) {
         this.cardClickListener = cardClickListener;
         setOnClickListener(cardClickListener);
+    }
+
+    public OnSwipeListener getSwipeListener() {
+        return swipeListener;
+    }
+
+    public void setSwipeListener(OnSwipeListener swipeListener) {
+        this.swipeListener = swipeListener;
+        setOnSwipeListener(swipeListener);
+    }
+
+    public OnUndoSwipeListListener getUndoSwipeListListener() {
+        return undoSwipeListListener;
+    }
+
+    public void setUndoSwipeListListener(OnUndoSwipeListListener undoSwipeListListener) {
+        this.undoSwipeListListener = undoSwipeListListener;
+        setOnUndoSwipeListListener(undoSwipeListListener);
     }
 }
