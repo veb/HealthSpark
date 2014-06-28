@@ -32,7 +32,8 @@
             android:onClick="onEditTextClick"
             android:lines="3"
             android:focusable="true"
-            android:focusableInTouchMode="true" />
+            android:focusableInTouchMode="true"
+            android:hint="@string/composerhint"/>
         </LinearLayout>
 
 

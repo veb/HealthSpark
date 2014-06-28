@@ -20,6 +20,10 @@ import it.gmariotti.cardslib.library.internal.Card;
  * Created by rayarvin on 6/17/14.
  */
 public class EntryCard extends Card {
+    final public static int VIEW_ARCHIVE = 101;
+    final public static int VIEW_ALL = 102;
+
+
     protected TextView cardTitle;
     protected TextView cardStatus;
     protected TextView cardEntryDate;

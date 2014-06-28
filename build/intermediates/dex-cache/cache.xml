@@ -2,12 +2,6 @@
 <pre-dex-items>
 
     <item
-        dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/classes-fe1f45e7409b027ef5e0c41b7eb767b51f2d0c80.jar"
-        jar="/Users/rayarvin/repos/Therable/build/intermediates/exploded-aar/Therable/sugar/library/unspecified/classes.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="2b179b7d73e65f8201b1b1303a5ffec28c3e265d"/>
-    <item
         dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/support-v4-19.1.0-cc0dee6c96ed53def403971e3605145f1569b242.jar"
         jar="/Users/rayarvin/adt-android/sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
         jumboMode="false"
@@ -31,5 +25,11 @@
         jumboMode="false"
         revision="19.1.0"
         sha1="14029021272193668c7a8c3c3e48212445e99657"/>
+    <item
+        dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/classes-7e9f4474cdfa647c9e70e048434c267702d01524.jar"
+        jar="/Users/rayarvin/repos/Therable/build/intermediates/exploded-aar/Therable/sugarlibrary/unspecified/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="8c09306dabfd145247f044ec0734a353a37e843b"/>
 
 </pre-dex-items>

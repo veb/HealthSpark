@@ -50,6 +50,8 @@ import it.gmariotti.cardslib.library.view.CardView;
  *
  */
 public class JournalCards extends Fragment implements LoaderManager.LoaderCallbacks<List<EntryCard>>{
+    int CARD_VIEW_TYPE;
+
     Context context;
     CardListView cardListView;
     private OnFragmentInteractionListener mListener;
@@ -65,10 +67,12 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
     JournalEntryLoader cardLoader;
 
     // TODO: Rename and change types and number of parameters
-    public static JournalCards newInstance() {
+    public static JournalCards newInstance(int viewType) {
         JournalCards fragment = new JournalCards();
+        fragment.CARD_VIEW_TYPE = viewType;
         return fragment;
     }
+
     public JournalCards() {
         // Required empty public constructor
     }
@@ -92,11 +96,6 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
         cards = new ArrayList<Card>();
         View view = inflater.inflate(R.layout.fragment_journal_cards, container, false);
 
-//        for (JournalEntry entry:JournalEntry.listAll(JournalEntry.class)) {
-//            EntryCard card = new EntryCard(context, entry.getDateModified(), entry.getContent(), emoticonString[entry.getMood()], emoticonIcons.getResourceId(entry.getMood(), -1));
-//            cards.add(card);
-//        }
-
         cardArrayAdapter = new CardArrayAdapter(context, cards);
         cardListView = (CardListView)view.findViewById(R.id.cardList);
 
@@ -104,10 +103,8 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
             cardListView.setAdapter(cardArrayAdapter);
         }
 
-
-
         getLoaderManager().initLoader(0, null, this);
-//
+
         cardLoader.forceLoad();
         return view;
     }
@@ -153,7 +150,7 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
 
     @Override
     public Loader<List<EntryCard>> onCreateLoader(int id, Bundle args) {
-        cardLoader = new JournalEntryLoader(getActivity(), listener);
+        cardLoader = new JournalEntryLoader(getActivity(), listener, CARD_VIEW_TYPE);
         return cardLoader;
     }
 

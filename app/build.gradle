@@ -24,6 +24,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:support-v4:19.+'
     compile 'com.github.gabrielemariotti.cards:library:1.7.1'
-    compile project(':sugar/library')
     compile project(':looperPager')
+    compile project(':sugarlibrary')
 }
