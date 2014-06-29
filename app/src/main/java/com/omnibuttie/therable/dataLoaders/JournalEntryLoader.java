@@ -12,8 +12,11 @@ import com.orm.query.Select;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 
 import it.gmariotti.cardslib.library.internal.Card;
+
+import android.util.Log;
 
 
 /**
@@ -35,7 +38,6 @@ public class JournalEntryLoader extends AsyncTaskLoader<List<EntryCard>> {
         List<EntryCard> cards = new ArrayList<EntryCard>();
 
         List<JournalEntry> journalList = null;
-
 
         switch (CardViewType) {
             case EntryCard.VIEW_ALL:
