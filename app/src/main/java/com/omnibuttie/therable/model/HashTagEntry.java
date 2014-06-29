@@ -5,16 +5,18 @@ import com.orm.SugarRecord;
 /**
  * Created by mike on 29/06/14.
  */
-public class HashTagEntry extends SugarRecord<JournalEntry> {
+public class HashTagEntry extends SugarRecord<HashTagEntry> {
     String tag;
     JournalEntry entry;
 
     public HashTagEntry(JournalEntry entry, String tag) {
+        super();
         this.entry = entry;
         this.tag = tag;
+    }
 
-        setTag(this.tag);
-        setEntry(this.entry);
+    public HashTagEntry() {
+        super();
     }
 
     public String getTag() {

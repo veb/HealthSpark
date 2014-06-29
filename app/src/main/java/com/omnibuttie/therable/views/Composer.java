@@ -24,7 +24,13 @@ import android.widget.SeekBar;
 
 import com.avwave.looperPager.PageFadeTransformer;
 import com.omnibuttie.therable.R;
+import com.omnibuttie.therable.model.HashTagEntry;
 import com.omnibuttie.therable.model.JournalEntry;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Composer extends Activity implements AdapterView.OnItemSelectedListener {
 
@@ -162,13 +168,31 @@ public class Composer extends Activity implements AdapterView.OnItemSelectedList
     }
 
     public void doPost() {
+        Pattern tagMatcher = Pattern.compile("[#]+[A-Za-z0-9-_]+\\b");
+        Matcher m = tagMatcher.matcher(statusText.getText().toString());
+        List<String> tokens = new ArrayList<String>();
+        while(m.find()) {
+            String token = m.group();
+            tokens.add(token);
+        }
+
         JournalEntry journalEntry = new JournalEntry();
         journalEntry.setMood(statusPager.getCurrentItem());
         journalEntry.setContent(statusText.getText().toString());
         journalEntry.setIntensity(statusSeekBar.getProgress());
         journalEntry.setArchived(false);
         journalEntry.save();
+
+        HashTagEntry hashtagEntry = null;
+        for (int i = 0; i < tokens.size(); i++) {
+            hashtagEntry = new HashTagEntry();
+            hashtagEntry.setTag(tokens.get(i));
+            hashtagEntry.setEntry(journalEntry);
+            hashtagEntry.save();
+        }
+
         finish();
+
     }
 
     public class ImageAdapter extends PagerAdapter {
