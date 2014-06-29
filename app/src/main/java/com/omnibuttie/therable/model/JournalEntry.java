@@ -5,6 +5,7 @@ import android.content.Context;
 import com.orm.SugarRecord;
 import com.orm.dsl.Ignore;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -15,6 +16,8 @@ public class JournalEntry extends SugarRecord<JournalEntry> {
     Date dateModified;
     String content;
     boolean isArchived;
+
+    String simpledate;
 
     int mood;
     int intensity;
@@ -29,12 +32,11 @@ public class JournalEntry extends SugarRecord<JournalEntry> {
 
         this.dateCreated = new Date();
         this.dateModified = this.dateCreated;
+        this.simpledate = new SimpleDateFormat("yyyy-MM-dd").format(this.dateModified);
 
     }
 
     public JournalEntry() {
-        this.dateCreated = new Date();
-        this.dateModified = this.dateCreated;
         this.isArchived = false;
     }
 
@@ -46,6 +48,7 @@ public class JournalEntry extends SugarRecord<JournalEntry> {
         this.mood = mood;
         this.isArchived = false;
         this.intensity = intensity;
+        this.simpledate = new SimpleDateFormat("yyyy-MM-dd").format(this.dateModified);
     }
 
     public Date getDateCreated() {
@@ -62,6 +65,7 @@ public class JournalEntry extends SugarRecord<JournalEntry> {
 
     public void setDateModified(Date dateModified) {
         this.dateModified = dateModified;
+        this.simpledate = new SimpleDateFormat("yyyy-MM-dd").format(this.dateModified);
     }
 
     public String getContent() {

@@ -70,6 +70,7 @@ public class EntryCard extends Card {
             cardEntryDate.setText(entryDate.toString());
         if (content != null) {
             cardStatus.setText(content);
+
             Pattern tagMatcher = Pattern.compile("[#]+[A-Za-z0-9-_]+\\b");
             String newActivityURL = "content://com.omnibuttie.therable.views.TagDetailsActivity/";
             Linkify.addLinks(cardStatus, tagMatcher, newActivityURL);

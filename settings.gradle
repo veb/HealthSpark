@@ -1,2 +1,2 @@
-include ':app', ':looperPager', ':sugarlibrary', ':library'
+include ':app', ':looperPager', ':sugarlibrary', ':library', ':ColorCalendar'
 project(':library').projectDir = new File('sugar/library')

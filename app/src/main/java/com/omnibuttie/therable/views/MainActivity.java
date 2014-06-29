@@ -122,7 +122,7 @@ public class MainActivity extends Activity implements CalendarFragment.OnFragmen
         return super.onOptionsItemSelected(item);
     }
 
-    public void openComposer(int journalEntryID) {
+    public void openComposer(long journalEntryID) {
         Intent intent = new Intent(this, Composer.class);
         intent.putExtra("JournalID", journalEntryID);
         startActivityForResult(intent, WRITEREQUESTCODE);
