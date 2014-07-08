@@ -1,5 +1,8 @@
 therable
 ========
-https://docs.google.com/a/veb.co.nz/document/d/1KZ_EyCS2Qr6-JBr0FHNPADu2P440D9SXKSEiYx2tjUE/edit#
 
-Authored by Arvin Rimorin and Mike Mackenzie
+Authored by [Arvin Rimorin](mailto:rayarvin@gmail.com) and [Mike Mackenzie](mailto:mike@veb.co.nz)
+
+More information on the [Therable Wiki](https://github.com/veb/therable/wiki)
+
+[code.therable.com](http://code.therable.com) - this will be where we'll host stuff one day
