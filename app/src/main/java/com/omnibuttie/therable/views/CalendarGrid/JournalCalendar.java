@@ -10,6 +10,7 @@ import com.avwave.colorcalendar.CalendarItemProvider;
 import com.avwave.colorcalendar.MonthFragment;
 import com.avwave.colorcalendar.MyCalendar;
 import com.avwave.colorcalendar.MyCalendarProperties;
+import com.omnibuttie.therable.R;
 
 /**
  * Created by rayarvin on 6/29/14.
@@ -36,6 +37,8 @@ public class JournalCalendar extends MyCalendar {
             mFragmentManager = fm;
             mAdapter = new MyAdapter(mFragmentManager);
             mViewPager.setAdapter(mAdapter);
+
+
 
     }
 

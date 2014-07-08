@@ -1,6 +1,7 @@
 package com.omnibuttie.therable.views.fragments;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -11,6 +12,7 @@ import android.widget.BaseAdapter;
 
 import com.avwave.colorcalendar.MonthFragment;
 import com.avwave.colorcalendar.MyCalendar;
+import com.avwave.colorcalendar.MyCalendarProperties;
 import com.omnibuttie.therable.R;
 import com.omnibuttie.therable.views.CalendarGrid.JournalCalendar;
 
@@ -71,7 +73,9 @@ public class InfoFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_info, container, false);
         JournalCalendar calendar = (JournalCalendar) view.findViewById(R.id.calendar);
+
         calendar.setFragmentManager(getFragmentManager());
+
         return view;
     }
 

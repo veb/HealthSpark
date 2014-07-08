@@ -3,12 +3,16 @@ package com.omnibuttie.therable.views.CalendarGrid;
 import android.annotation.SuppressLint;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.avwave.colorcalendar.MonthFragment;
+import com.avwave.colorcalendar.MyCalendarProperties;
 import com.omnibuttie.therable.R;
 import com.omnibuttie.therable.model.JournalEntry;
 
@@ -46,6 +50,18 @@ public class MyMonthFragment extends MonthFragment {
 
         mGridView.setAdapter(mGridAdapter);
         emotiveColors = getResources().obtainTypedArray(R.array.emotiveColors);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        MyCalendarProperties prop = new MyCalendarProperties(getActivity());
+
+
+        prop.setOutOfBoundsNumberFontColor(getResources().getColor(R.color.LightSlateGray));
+        prop.setNumberFontColor(getResources().getColor(R.color.DarkSlateGray));
+        prop.setDayNamesVisible(false);
+        super.setProperties(prop);
+        super.onCreate(savedInstanceState);
     }
 
     class MyMonthAdapter extends MonthAdapter {
@@ -86,9 +102,22 @@ public class MyMonthFragment extends MonthFragment {
 //            TODO: query all group by date
             JournalEntry entry = journalEntries.get(position);
 
+            int emotiveColor = Color.WHITE;
+
             if (entry.getDateModified() != null) {
-                convertView.setBackgroundColor(emotiveColors.getColor(entry.getMood(), Color.GRAY));
+                emotiveColor = emotiveColors.getColor(entry.getMood(), Color.WHITE);
             }
+
+            Drawable backColor = new ColorDrawable(emotiveColor);
+
+            Drawable shadow = new ColorDrawable(Color.parseColor("#333333"));
+
+            Drawable[] layers = new Drawable[]{shadow, backColor};
+
+            LayerDrawable drawable = new LayerDrawable(layers);
+            drawable.setLayerInset(0,   0,0,0,0);
+            drawable.setLayerInset(1,   1,1,1,1);
+            convertView.setBackground(drawable);
 
             return convertView;
         }
