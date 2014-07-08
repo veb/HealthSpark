@@ -1,7 +1,7 @@
 therable
 ========
 
-Authored by Ray Arvin
+Authored by [Arvin Rimorin](mailto:rayarvin@gmail.com) and [Mike Mackenzie](mailto:mike@veb.co.nz)
 
 More information on the [Therable Wiki](https://github.com/veb/therable/wiki)
 
