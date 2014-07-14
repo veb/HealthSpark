@@ -1,14 +1,14 @@
 package com.omnibuttie.therable.views;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
@@ -23,13 +23,12 @@ import com.omnibuttie.therable.adapters.RowItem;
 import com.omnibuttie.therable.views.cards.EntryCard;
 import com.omnibuttie.therable.views.fragments.CalendarFragment;
 import com.omnibuttie.therable.views.fragments.HashtagFragment;
-import com.omnibuttie.therable.views.fragments.InfoFragment;
 import com.omnibuttie.therable.views.fragments.JournalCards;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends Activity implements CalendarFragment.OnFragmentInteractionListener, InfoFragment.OnFragmentInteractionListener, HashtagFragment.OnFragmentInteractionListener, JournalCards.OnFragmentInteractionListener {
+public class MainActivity extends FragmentActivity implements  CalendarFragment.OnFragmentInteractionListener, HashtagFragment.OnFragmentInteractionListener, JournalCards.OnFragmentInteractionListener {
     String[] menuTitles;
     TypedArray menuIcons;
 
@@ -123,7 +122,7 @@ public class MainActivity extends Activity implements CalendarFragment.OnFragmen
     }
 
     public void openComposer(long journalEntryID) {
-        Intent intent = new Intent(this, Composer.class);
+        Intent intent = new Intent(this, Composer_alternate.class);
         intent.putExtra("JournalID", journalEntryID);
         startActivityForResult(intent, WRITEREQUESTCODE);
     }
@@ -177,13 +176,13 @@ public class MainActivity extends Activity implements CalendarFragment.OnFragmen
                 fragment = HashtagFragment.newInstance();
                 break;
             case 3:
-                fragment = InfoFragment.newInstance("", "");
+                fragment = CalendarFragment.newInstance("", "");
             default:
                 break;
         }
 
         if (fragment != null) {
-            FragmentManager fragmentManager = getFragmentManager();
+            FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
             setTitle(menuTitles[position]);
             drawerLayout.closeDrawer(drawerList);

@@ -10,14 +10,13 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/ColorCalendar" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/caldroid_library" />
             <option value="$PROJECT_DIR$/looperPager" />
-            <option value="$PROJECT_DIR$/sugar/library" />
             <option value="$PROJECT_DIR$/sugarlibrary" />
           </set>
         </option>
       </GradleProjectSettings>
     </option>
-    <option name="offlineWork" value="true" />
   </component>
 </project>
 

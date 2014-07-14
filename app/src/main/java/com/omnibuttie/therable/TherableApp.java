@@ -1,6 +1,5 @@
 package com.omnibuttie.therable;
 
-import android.app.Application;
 import android.content.res.TypedArray;
 import android.util.Log;
 
@@ -22,19 +21,25 @@ public class TherableApp extends SugarApp {
         super.onCreate();
 
         TypedArray emoticonIcons = getResources().obtainTypedArray(R.array.emoticonthumbs);
+        String[] moodSubStrings = getResources().getStringArray(R.array.moodSubStrings);
 
         List list = JournalEntry.listAll(JournalEntry.class);
         if (list.size() <= 0) {
-            for (int i=0; i < 100; i++) {
+            for (int i=0; i < 10; i++) {
                 Random r = new Random();
                 long t1 = System.currentTimeMillis() - (Math.abs(r.nextInt()));
                 Date d1 = new Date(t1);
 
 
-                long offset = Timestamp.valueOf("2014-01-01 00:00:00").getTime();
+                long offset = Timestamp.valueOf("2014-02-01 00:01:00").getTime();
                 long end = new Date().getTime();
                 long diff = end - offset + 1;
-                Date rand = new Date(offset + (long)(Math.random() * diff));
+//                Date rand = new Date(offset + (long)(Math.random() * diff));
+
+                Calendar c = Calendar.getInstance();
+                c.setTime(new Date(offset));
+                c.add(Calendar.DATE, i);
+                Date rand = c.getTime();
 
 
                 int randEmo = r.nextInt(emoticonIcons.length());
@@ -44,11 +49,13 @@ public class TherableApp extends SugarApp {
                 JournalEntry journalEntry = new JournalEntry();
                 journalEntry.setDateModified(rand);
                 journalEntry.setDateCreated(rand);
-                journalEntry.setMood(randEmo);
-                journalEntry.setContent("Sample content " + i);
-                journalEntry.setIntensity(r.nextInt(10));
 
-//                journalEntry.setArchived(r.nextBoolean());
+
+                journalEntry.setMood(moodSubStrings[r.nextInt(moodSubStrings.length)]);
+                journalEntry.setContent("Sample content " + i);
+                journalEntry.setIntensity(r.nextInt(3));
+                journalEntry.setCause(r.nextInt(5));
+                journalEntry.setArchived(r.nextBoolean());
                 journalEntry.save();
             }
 

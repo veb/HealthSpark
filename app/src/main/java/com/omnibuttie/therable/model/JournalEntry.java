@@ -1,9 +1,6 @@
 package com.omnibuttie.therable.model;
 
-import android.content.Context;
-
 import com.orm.SugarRecord;
-import com.orm.dsl.Ignore;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,28 +16,19 @@ public class JournalEntry extends SugarRecord<JournalEntry> {
 
     String simpledate;
 
-    int mood;
+    String mood;
     int intensity;
 
-
-
-    public JournalEntry(String content, int mood, int intensity) {
-        super();
-        this.content = content;
-        this.mood = mood;
-        this.intensity = intensity;
-
-        this.dateCreated = new Date();
-        this.dateModified = this.dateCreated;
-        this.simpledate = new SimpleDateFormat("yyyy-MM-dd").format(this.dateModified);
-
-    }
+    int cause;
 
     public JournalEntry() {
+        this.dateCreated = new Date();
+        this.dateModified = this.dateCreated;
         this.isArchived = false;
+        this.simpledate = new SimpleDateFormat("yyyy-MM-dd").format(this.dateModified);
     }
 
-    public JournalEntry(Date dateCreated, Date dateModified, String content, int mood, int intensity) {
+    public JournalEntry(Date dateCreated, Date dateModified, String content, String mood, int intensity) {
         super();
         this.dateCreated = dateCreated;
         this.dateModified = dateModified;
@@ -49,6 +37,14 @@ public class JournalEntry extends SugarRecord<JournalEntry> {
         this.isArchived = false;
         this.intensity = intensity;
         this.simpledate = new SimpleDateFormat("yyyy-MM-dd").format(this.dateModified);
+    }
+
+    public int getCause() {
+        return cause;
+    }
+
+    public void setCause(int cause) {
+        this.cause = cause;
     }
 
     public Date getDateCreated() {
@@ -76,7 +72,7 @@ public class JournalEntry extends SugarRecord<JournalEntry> {
         this.content = content;
     }
 
-    public int getMood() {
+    public String getMood() {
         return mood;
     }
 
@@ -88,7 +84,7 @@ public class JournalEntry extends SugarRecord<JournalEntry> {
         this.isArchived = isArchived;
     }
 
-    public void setMood(int mood) {
+    public void setMood(String mood) {
         this.mood = mood;
     }
 

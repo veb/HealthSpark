@@ -1,8 +1,9 @@
 package com.omnibuttie.therable.dataLoaders;
 
-import android.content.AsyncTaskLoader;
+
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.v4.content.AsyncTaskLoader;
 
 import com.omnibuttie.therable.R;
 import com.omnibuttie.therable.model.JournalEntry;
@@ -12,11 +13,8 @@ import com.orm.query.Select;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Arrays;
 
 import it.gmariotti.cardslib.library.internal.Card;
-
-import android.util.Log;
 
 
 /**
@@ -59,8 +57,8 @@ public class JournalEntryLoader extends AsyncTaskLoader<List<EntryCard>> {
             card.setJournalID(entry.getId());
             card.setEntryDate(entry.getDateModified());
             card.setContent(entry.getContent());
-            card.setTitle(emoticonString[entry.getMood()]);
-            card.setEmoteResource(emoticonIcons.getResourceId(entry.getMood(), -1));
+            card.setTitle(entry.getMood());
+//            card.setEmoteResource(emoticonIcons.getResourceId(entry.getMood(), -1));
             card.setCardClickListener(cardClickListener);
 
             if (swipeListener != null) {

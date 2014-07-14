@@ -22,8 +22,8 @@
             android:value="com.omnibuttie" />
 
         <provider
-            android:authorities="com.omnibuttie.therable.views.tagdetailsactivity"
-            android:name="com.omnibuttie.therable.providers.TagProvider"/>
+            android:name=".providers.TagProvider"
+            android:authorities="com.omnibuttie.therable.views.tagdetailsactivity" />
 
         <activity
             android:name=".views.MainActivity"
@@ -42,13 +42,23 @@
             android:name=".views.TagDetailsActivity"
             android:label="@string/taglistTitle" >
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="vnd.android.cursor.item/vnd.cc.tag"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="vnd.android.cursor.item/vnd.cc.tag" />
             </intent-filter>
         </activity>
-        
+        <activity
+            android:name=".views.Composer_alternate"
+            android:label="@string/title_activity_composer_alternate"
+            android:parentActivityName=".views.MainActivity"
+            android:windowSoftInputMode="adjustResize">
 
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.omnibuttie.therable.views.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

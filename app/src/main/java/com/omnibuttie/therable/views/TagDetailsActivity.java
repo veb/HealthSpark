@@ -1,18 +1,18 @@
 package com.omnibuttie.therable.views;
 
-import android.app.Activity;
-import android.app.Fragment;
+
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 
 import com.omnibuttie.therable.R;
 import com.omnibuttie.therable.views.cards.EntryCard;
 import com.omnibuttie.therable.views.fragments.JournalCards;
 
-import java.util.ArrayList;
 
 
-public class TagDetailsActivity extends Activity implements  JournalCards.OnFragmentInteractionListener{
+public class TagDetailsActivity extends FragmentActivity implements  JournalCards.OnFragmentInteractionListener{
     @Override
     public void onFragmentInteraction(Uri uri) {
 
@@ -27,7 +27,7 @@ public class TagDetailsActivity extends Activity implements  JournalCards.OnFrag
             //strip off hashtag from the URI
             String tag=uri.toString().split("/")[3];
             Fragment newFragment = JournalCards.newInstance(EntryCard.VIEW_ALL, tag);
-            getFragmentManager().beginTransaction()
+            getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, newFragment)
                     .commit();
         }

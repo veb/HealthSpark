@@ -1,14 +1,25 @@
 package com.omnibuttie.therable.views.fragments;
 
 import android.app.Activity;
+import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.omnibuttie.therable.R;
+import com.omnibuttie.therable.model.JournalEntry;
+import com.roomorama.caldroid.CaldroidFragment;
+import com.roomorama.caldroid.CaldroidListener;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,6 +41,8 @@ public class CalendarFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private CaldroidFragment caldroidFragment;
 
     /**
      * Use this factory method to create a new instance of
@@ -59,13 +72,85 @@ public class CalendarFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        caldroidFragment = new CaldroidFragment();
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_calendar, container, false);
+        View view = inflater.inflate(R.layout.fragment_calendar, container, false);
+
+        FragmentTransaction t = getChildFragmentManager().beginTransaction();
+        t.replace(R.id.calendar1, caldroidFragment);
+        t.commit();
+
+        final SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
+        // Setup listener
+        final CaldroidListener listener = new CaldroidListener() {
+
+            @Override
+            public void onSelectDate(Date date, View view) {
+                Toast.makeText(getActivity(), formatter.format(date),
+                        Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onChangeMonth(int month, int year) {
+                String text = "month: " + month + " year: " + year;
+                Toast.makeText(getActivity(), text,
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onLongClickDate(Date date, View view) {
+                Toast.makeText(getActivity(),
+                        "Long click " + formatter.format(date),
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCaldroidViewCreated() {
+                if (caldroidFragment.getLeftArrowButton() != null) {
+                    Toast.makeText(getActivity(),
+                            "Caldroid view is created", Toast.LENGTH_SHORT)
+                            .show();
+                }
+            }
+
+        };
+
+        // Setup Caldroid
+        caldroidFragment.setCaldroidListener(listener);
+
+        markDateIntensities();
+
+        return view;
+    }
+
+
+    private void markDateIntensities() {
+//        String query = "select e.* from dates d left outer join journal_entry e on e.simpledate = d.date where strftime('%Y-%m-%d', d.date) >= ? limit ?;";
+//        String dateformat = new SimpleDateFormat("yyyy-MM-dd").format(startDate);
+//        journalEntries = JournalEntry.findWithQuery(JournalEntry.class, query, dateformat, String.valueOf(count));
+
+        TypedArray intensityColors = getResources().obtainTypedArray(R.array.intensityColors);
+
+        List<JournalEntry> entries = JournalEntry.listAll(JournalEntry.class);
+        for (JournalEntry entry:entries) {
+            if (caldroidFragment != null) {
+                int color = intensityColors.getResourceId(entry.getIntensity(), R.color.white);
+
+                caldroidFragment.setBackgroundResourceForDate(color, entry.getDateCreated());
+                caldroidFragment.setTextColorForDate(R.color.white, entry.getDateCreated());
+            }
+        }
+
+
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -1,18 +1,16 @@
 package com.omnibuttie.therable.views.cards;
 
 import android.content.Context;
-import android.content.Intent;
+import android.graphics.Typeface;
 import android.text.util.Linkify;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.omnibuttie.therable.R;
-import com.omnibuttie.therable.model.JournalEntry;
-import com.omnibuttie.therable.views.Composer;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Pattern;
 
@@ -28,8 +26,6 @@ public class EntryCard extends Card {
 
     protected TextView cardTitle;
     protected TextView cardStatus;
-    protected TextView cardEntryDate;
-    protected ImageView cardEmote;
 
     protected Date entryDate;
     protected String content;
@@ -41,6 +37,12 @@ public class EntryCard extends Card {
     protected OnCardClickListener cardClickListener;
     protected OnSwipeListener swipeListener;
     protected OnUndoSwipeListListener undoSwipeListListener;
+
+
+    TextView tvMonth;
+    TextView tvDay;
+    TextView tvTime;
+    TextView tvWeek;
 
 
     public EntryCard(Context context) {
@@ -61,13 +63,26 @@ public class EntryCard extends Card {
 
     @Override
     public void setupInnerViewElements(ViewGroup parent, View view) {
-        cardEmote = (ImageView) parent.findViewById(R.id.card_icon);
+
         cardTitle = (TextView) parent.findViewById(R.id.card_title);
         cardStatus = (TextView) parent.findViewById(R.id.card_status);
-        cardEntryDate = (TextView) parent.findViewById(R.id.card_entry_date);
 
-        if (entryDate != null)
-            cardEntryDate.setText(entryDate.toString());
+        tvDay = (TextView) parent.findViewById(R.id.tvDay);
+        tvMonth = (TextView) parent.findViewById(R.id.tvMonth);
+        tvTime = (TextView) parent.findViewById(R.id.tvTime);
+        tvWeek = (TextView) parent.findViewById(R.id.tvWeek);
+
+        Typeface font = Typeface.createFromAsset(getContext().getAssets(), "Roboto-Black.ttf");
+        tvDay.setTypeface(font);
+
+
+        if (entryDate != null) {
+            Calendar cal = Calendar.getInstance();
+            tvMonth.setText(new SimpleDateFormat("MMMM").format(entryDate));
+            tvDay.setText(new SimpleDateFormat("dd").format(entryDate));
+            tvTime.setText(new SimpleDateFormat("h:mm a").format(entryDate));
+            tvWeek.setText(new SimpleDateFormat("EEEE").format(entryDate));
+        }
         if (content != null) {
             cardStatus.setText(content);
 
@@ -77,8 +92,9 @@ public class EntryCard extends Card {
         }
         if (title != null)
             cardTitle.setText(title);
-        if (emoteResource != -1)
-            cardEmote.setImageResource(emoteResource);
+        if (emoteResource != -1) {
+//            cardEmote.setImageResource(emoteResource);
+        }
     }
 
     public void setEntryDate(Date entryDate) {

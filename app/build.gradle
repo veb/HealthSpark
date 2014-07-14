@@ -22,9 +22,14 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:support-v13:19.+'
-    compile 'com.github.gabrielemariotti.cards:library:1.7.1'
+    compile 'com.android.support:support-v13:19.1.0'
+    compile 'com.github.gabrielemariotti.cards:library:+'
     compile project(':looperPager')
     compile project(':sugarlibrary')
-    compile project(':ColorCalendar')
+    compile ('com.rockerhieu.emojicon:library:+'){
+        exclude group: 'com.android.support', module:'support-v4'
+        exclude group: 'com.android.support', module:'appcompat-v7'
+    }
+    compile 'joda-time:joda-time:1.6.1'
+    compile project(':caldroid_library')
 }

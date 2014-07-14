@@ -1,14 +1,14 @@
 package com.omnibuttie.therable.views.fragments;
 
 import android.app.Activity;
-import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.Loader;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,10 +18,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.omnibuttie.therable.R;
-
 import com.omnibuttie.therable.dataLoaders.JournalEntryLoader;
 import com.omnibuttie.therable.model.JournalEntry;
-import com.omnibuttie.therable.views.Composer;
+import com.omnibuttie.therable.views.Composer_alternate;
 import com.omnibuttie.therable.views.cards.EntryCard;
 
 import java.util.ArrayList;
@@ -59,6 +58,7 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
 
     JournalEntryLoader cardLoader;
 
+
     // TODO: Rename and change types and number of parameters
     public static JournalCards newInstance(int viewType, String contentFilter) {
         JournalCards fragment = new JournalCards();
@@ -75,7 +75,8 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        cardLoader = new JournalEntryLoader(getActivity(), cardClickListener);
+        cardLoader = new JournalEntryLoader(getActivity(), cardClickListener, CARD_VIEW_TYPE, null);
+
     }
 
     @Override
@@ -99,7 +100,6 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
 
         getLoaderManager().initLoader(0, null, this);
 
-        cardLoader.forceLoad();
         return view;
     }
 
@@ -144,15 +144,12 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
 
     @Override
     public Loader<List<EntryCard>> onCreateLoader(int id, Bundle args) {
-        if (contentFilter != null) {
-            cardLoader = new JournalEntryLoader(getActivity(), cardClickListener, 0, contentFilter);
-        } else {
-            cardLoader = new JournalEntryLoader(getActivity(), cardClickListener);
-        }
+        cardLoader = new JournalEntryLoader(getActivity(), cardClickListener, CARD_VIEW_TYPE, contentFilter);
         cardLoader.setUndoSwipeListListener(undoSwipeListListener);
         cardLoader.setSwipeListener(swipeListener);
         return cardLoader;
     }
+
 
     @Override
     public void onLoadFinished(Loader<List<EntryCard>> loader, List<EntryCard> data) {
@@ -189,7 +186,7 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
         @Override
         public void onClick(Card card, View view) {
             Toast.makeText(context, "Click Listener card=" + ((EntryCard)card).getJournalID(), Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(context, Composer.class);
+            Intent intent = new Intent(context, Composer_alternate.class);
             intent.putExtra("JournalID", ((EntryCard)card).getJournalID());
             startActivity(intent);
         }

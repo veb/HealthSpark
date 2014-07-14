@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="status_cause_spinner">SPINNER!</string>
 
     <string name="app_name">Therable</string>
     <string name="title_section1">Section 1</string>
@@ -16,14 +17,14 @@
         <item>Feed</item>
         <item>For later viewing</item>
         <item>Drawer menu 3</item>
-        <item>Drawer menu 4</item>
+        <item>Calendar</item>
     </string-array>
 
     <array name="menuIcons">
-        <item>@drawable/ic_write</item>
+        <item>@drawable/ic_list</item>
+        <item>@drawable/ic_bookmark</item>
+        <item>@drawable/ic_info</item>
         <item>@drawable/ic_calendar</item>
-        <item>@drawable/ic_info</item>
-        <item>@drawable/ic_info</item>
     </array>
     <array name="emoticonthumbs">
         <item>@drawable/ic_emoticons_01</item>
@@ -76,5 +77,13 @@
     <string name="composerhint">How do you feel?</string>
     <string name="title_activity_tag_details">TagDetailsActivity</string>
     <string name="taglistTitle">List of tags</string>
+
+    <array name="intensityColors">
+        <item>@color/ForestGreen</item>
+        <item>@color/Orange</item>
+        <item>@color/Red</item>
+    </array>
+
+    <string name="title_activity_composer_alternate">AltComposer</string>
 
 </resources>

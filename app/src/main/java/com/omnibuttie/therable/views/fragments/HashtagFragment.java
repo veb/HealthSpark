@@ -2,22 +2,18 @@ package com.omnibuttie.therable.views.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import com.omnibuttie.therable.R;
 
-import com.omnibuttie.therable.views.fragments.dummy.DummyContent;
+import com.omnibuttie.therable.R;
 
 import java.util.ArrayList;
 import java.util.regex.Pattern;

@@ -5,10 +5,8 @@ import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,8 +18,9 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import org.joda.time.LocalDate;
+
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -153,6 +152,7 @@ public class MonthFragment extends Fragment {
         int currentDay;
         int firstDayNum = getFirstDayOfMonth();
 
+
         if (firstDayNum > position) {
             //fill previous month
             int prevMonthDays = getHowManyDaysInPrevMonth();
@@ -164,11 +164,13 @@ public class MonthFragment extends Fragment {
                     convertView = getDefaultCalendarItemView(convertView);
                     ((TextView) convertView).setTextColor(mProperties.getOutOfBoundsNumberFontColor());
                     ((TextView) convertView).setText("" + currentDay);
+                    convertView.setTag(true);
                 }
             } else {
                 convertView = getDefaultCalendarItemView(convertView);
                 ((TextView) convertView).setTextColor(mProperties.getOutOfBoundsNumberFontColor());
                 ((TextView) convertView).setText("" + currentDay);
+                convertView.setTag(true);
             }
         } else if (position > getHowManyDaysInMonth() + firstDayNum - 1) {
             //fill next month
@@ -181,11 +183,13 @@ public class MonthFragment extends Fragment {
                     convertView = getDefaultCalendarItemView(convertView);
                     ((TextView) convertView).setTextColor(mProperties.getOutOfBoundsNumberFontColor());
                     ((TextView) convertView).setText("" + currentDay);
+                    convertView.setTag(true);
                 }
             } else {
                 convertView = getDefaultCalendarItemView(convertView);
                 ((TextView) convertView).setTextColor(mProperties.getOutOfBoundsNumberFontColor());
                 ((TextView) convertView).setText("" + currentDay);
+                convertView.setTag(true);
             }
         } else {
             //fill current month
@@ -205,6 +209,7 @@ public class MonthFragment extends Fragment {
             }
 
         }
+        ((TextView) convertView).setTypeface(mProperties.getNumberFontTypeface());
 
         return convertView;
     }
@@ -215,6 +220,7 @@ public class MonthFragment extends Fragment {
             ((TextView) view).setGravity(Gravity.CENTER);
             ((TextView) view).setTextColor(mProperties.getNumberFontColor());
             ((TextView) view).setTextSize(mProperties.getNumberFontSize());
+            ((TextView) view).setTypeface(mProperties.getNumberFontTypeface());
 
         }
         return view;
@@ -231,9 +237,10 @@ public class MonthFragment extends Fragment {
         return convertView;
     }
 
-    public Date getDateAtPosition(int position) {
+    public LocalDate getDateAtPosition(int position) {
         mCalendar.set(mYear, mMonth, position);
-        return mCalendar.getTime();
+
+        return new LocalDate(mCalendar);
     }
 
     public class MonthAdapter extends BaseAdapter {
