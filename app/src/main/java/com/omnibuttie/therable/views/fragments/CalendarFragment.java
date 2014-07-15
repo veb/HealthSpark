@@ -148,9 +148,6 @@ public class CalendarFragment extends Fragment {
                 caldroidFragment.setTextColorForDate(R.color.white, entry.getDateCreated());
             }
         }
-
-
-
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -144,6 +144,10 @@ public class Composer_alternate extends FragmentActivity {
         selectedPrimaryMood = mood;
     }
 
+    public void setIntensityText(int intensityValue) {
+
+    }
+
     @Override
     public void onBackPressed() {
 //        super.onBackPressed();

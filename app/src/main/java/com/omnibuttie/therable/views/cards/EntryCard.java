@@ -22,6 +22,7 @@ import it.gmariotti.cardslib.library.internal.Card;
 public class EntryCard extends Card {
     final public static int VIEW_ARCHIVE = 101;
     final public static int VIEW_ALL = 102;
+    final public static int VIEW_BY_DATE = 103;
 
 
     protected TextView cardTitle;
