@@ -53,7 +53,7 @@ public class TherableApp extends SugarApp {
 
                 journalEntry.setMood(moodSubStrings[r.nextInt(moodSubStrings.length)]);
                 journalEntry.setContent("Sample content " + i);
-                journalEntry.setIntensity(r.nextInt(3));
+                journalEntry.setIntensity(r.nextInt(2));
                 journalEntry.setCause(r.nextInt(5));
                 journalEntry.setArchived(r.nextBoolean());
                 journalEntry.save();

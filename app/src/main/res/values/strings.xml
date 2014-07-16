@@ -26,6 +26,7 @@
         <item>@drawable/ic_info</item>
         <item>@drawable/ic_calendar</item>
     </array>
+
     <array name="emoticonthumbs">
         <item>@drawable/ic_emoticons_01</item>
         <item>@drawable/ic_emoticons_02</item>
@@ -82,6 +83,18 @@
         <item>@color/ForestGreen</item>
         <item>@color/Orange</item>
         <item>@color/Red</item>
+    </array>
+
+    <array name="intensitySpineDrawables">
+        <item>@drawable/card_green_spine</item>
+        <item>@drawable/card_yellow_spine</item>
+        <item>@drawable/card_red_spine</item>
+    </array>
+
+    <array name="intensityModifiers">
+        <item>Mildly</item>
+        <item>Very</item>
+        <item>Extremely</item>
     </array>
 
     <string name="title_activity_composer_alternate">AltComposer</string>

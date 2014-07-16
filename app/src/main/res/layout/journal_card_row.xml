@@ -23,7 +23,7 @@
         android:layout_toStartOf="@+id/linearLayout2"
         android:background="@drawable/card_title_underline"/>
 
-    <com.rockerhieu.emojicon.EmojiconTextView
+    <TextView
         android:id="@+id/card_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,6 +32,7 @@
         android:text="In fermentum urna erat, eget tristique quam porttitor non. Aliquam mattis tellus libero, nec fringilla diam auctor ac volutpat."
         android:textSize="14sp"
         android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
         android:maxLines="3"
         android:layout_weight="1"
         android:paddingRight="10dp"

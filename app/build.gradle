@@ -1,4 +1,19 @@
+buildscript {
+    repositories {
+        maven { url 'http://download.crashlytics.com/maven' }
+    }
+
+    dependencies {
+        classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:1.+'
+    }
+}
 apply plugin: 'android'
+apply plugin: 'crashlytics'
+
+repositories {
+    maven { url 'http://download.crashlytics.com/maven' }
+}
+
 
 android {
     compileSdkVersion 19
@@ -10,12 +25,26 @@ android {
         versionCode 1
         versionName '1.0'
     }
+    signingConfigs {
+        debug {
+//            storeFile file("debug.keystore")
+        }
+        release {
+            storeFile file('keystore.jks')
+            storePassword "m27kg2v7!"
+            keyAlias "therablealias"
+            keyPassword "m27kg2v7!"
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
     productFlavors {
     }
 }
@@ -32,4 +61,5 @@ dependencies {
     }
     compile 'joda-time:joda-time:1.6.1'
     compile project(':caldroid_library')
+    compile 'com.crashlytics.android:crashlytics:1.+'
 }

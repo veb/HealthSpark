@@ -58,6 +58,7 @@ public class JournalEntryLoader extends AsyncTaskLoader<List<EntryCard>> {
             card.setEntryDate(entry.getDateModified());
             card.setContent(entry.getContent());
             card.setTitle(entry.getMood());
+            card.setIntensity(entry.getIntensity());
 //            card.setEmoteResource(emoticonIcons.getResourceId(entry.getMood(), -1));
             card.setCardClickListener(cardClickListener);
 

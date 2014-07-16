@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:maxLines="3"
             android:lines="3"
-            android:text="@string/status_cause_spinner"
+            android:hint="care to elaborate?"
             >
             <requestFocus/>
         </com.rockerhieu.emojicon.EmojiconEditText>
@@ -53,52 +53,5 @@
                 android:spinnerMode="dialog"
                 />
         </LinearLayout>
-
     </LinearLayout>
-
-
-    <RadioGroup
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/toolRadio"
-
-        android:layout_alignParentBottom="true"
-        >
-        <RadioButton android:id="@+id/button_one"
-            android:minWidth="30dip"
-            android:minHeight="33dip"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="Write"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:button="@null"
-            android:gravity="center"
-            android:textColor="@color/radio_colors"
-            android:background="@drawable/radio_selector_red"/>
-        <RadioButton android:id="@+id/button_two"
-            android:minWidth="30dip"
-            android:minHeight="33dip"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="Emotes"
-            android:button="@null"
-            android:gravity="center"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/radio_colors"
-            android:background="@drawable/radio_selector_orange"
-            />
-        <RadioButton android:id="@+id/button_five"
-            android:minWidth="30dip"
-            android:minHeight="33dip"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="Feels"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:button="@null"
-            android:gravity="center"
-            android:textColor="@color/radio_colors"
-            android:background="@drawable/radio_selector_darkgreen"/>
-    </RadioGroup>
-
 </RelativeLayout>

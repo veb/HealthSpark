@@ -32,6 +32,9 @@ public class Composer_alternate extends FragmentActivity {
 
     Button imFeelingButton;
     String selectedPrimaryMood;
+    int selectedIntensity;
+
+    String[] intensityModifiers;
 
     JournalEntry entry;
 
@@ -42,6 +45,7 @@ public class Composer_alternate extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_composer_alternate);
 
+        intensityModifiers = getResources().getStringArray(R.array.intensityModifiers);
 
         long journalID = getIntent().getLongExtra("JournalID", -1);
         if (journalID != -1) {
@@ -76,7 +80,7 @@ public class Composer_alternate extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 FragmentManager fm = getSupportFragmentManager();
-                EmoteGridFragment editEmoteGrid= new EmoteGridFragment();
+                EmoteGridFragment editEmoteGrid= EmoteGridFragment.newInstance(entry!=null?entry.getIntensity():0);
                 editEmoteGrid.show(fm, null);
             }
         });
@@ -85,7 +89,10 @@ public class Composer_alternate extends FragmentActivity {
     }
 
     private void fillCard() {
-        appendMood(entry.getMood());
+        if (entry == null) {
+            return;
+        }
+        appendMood(entry.getMood(), entry.getIntensity());
         editEmojicon.setText(entry.getContent());
         spinner1.setSelection(entry.getCause());
     }
@@ -138,15 +145,12 @@ public class Composer_alternate extends FragmentActivity {
 
     }
 
-    public void appendMood(String mood) {
-//        editEmojicon.append(" #"+ mood );
-        imFeelingButton.setText("I'm feeling " + mood.toLowerCase());
+    public void appendMood(String mood, int intensityValue) {
+        imFeelingButton.setText("I'm feeling " + intensityModifiers[intensityValue].toLowerCase() + " " + mood.toLowerCase());
         selectedPrimaryMood = mood;
+        selectedIntensity = intensityValue;
     }
 
-    public void setIntensityText(int intensityValue) {
-
-    }
 
     @Override
     public void onBackPressed() {

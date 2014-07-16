@@ -1,6 +1,7 @@
 package com.omnibuttie.therable.views.cards;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.text.util.Linkify;
 import android.view.View;
@@ -32,6 +33,8 @@ public class EntryCard extends Card {
     protected String content;
     protected String title;
     protected int emoteResource;
+    protected int intensity;
+
 
     protected long journalID;
 
@@ -44,6 +47,8 @@ public class EntryCard extends Card {
     TextView tvDay;
     TextView tvTime;
     TextView tvWeek;
+
+    TypedArray cardSpineDrawables;
 
 
     public EntryCard(Context context) {
@@ -60,6 +65,7 @@ public class EntryCard extends Card {
     private void init() {
         emoteResource = -1;
         this.setSwipeable(true);
+        cardSpineDrawables = getContext().getResources().obtainTypedArray(R.array.intensitySpineDrawables);
     }
 
     @Override
@@ -96,6 +102,10 @@ public class EntryCard extends Card {
         if (emoteResource != -1) {
 //            cardEmote.setImageResource(emoteResource);
         }
+
+        view.setBackground(cardSpineDrawables.getDrawable(intensity));
+
+
     }
 
     public void setEntryDate(Date entryDate) {
@@ -118,6 +128,14 @@ public class EntryCard extends Card {
     public void setJournalID(long journalID) {
         this.setId(String.valueOf(journalID));
         this.journalID = journalID;
+    }
+
+    public int getIntensity() {
+        return intensity;
+    }
+
+    public void setIntensity(int intensity) {
+        this.intensity = intensity;
     }
 
     public void setEmoteResource(int emoteResource) {

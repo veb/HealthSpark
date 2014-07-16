@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.crashlytics.android.Crashlytics;
 import com.omnibuttie.therable.R;
 import com.omnibuttie.therable.adapters.DrawerAdapter;
 import com.omnibuttie.therable.adapters.RowItem;
@@ -48,6 +49,8 @@ public class MainActivity extends FragmentActivity implements  CalendarFragment.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Crashlytics.start(this);
+
         setContentView(R.layout.activity_main);
 
         title = drawerTitle = getTitle();
