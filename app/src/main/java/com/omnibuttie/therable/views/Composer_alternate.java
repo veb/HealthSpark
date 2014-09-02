@@ -129,7 +129,7 @@ public class Composer_alternate extends FragmentActivity {
         JournalEntry journalEntry = new JournalEntry();
         journalEntry.setMood(selectedPrimaryMood);
         journalEntry.setContent(editEmojicon.getText().toString());
-        journalEntry.setIntensity(3);
+        journalEntry.setIntensity(selectedIntensity);
         journalEntry.setArchived(false);
         journalEntry.save();
 

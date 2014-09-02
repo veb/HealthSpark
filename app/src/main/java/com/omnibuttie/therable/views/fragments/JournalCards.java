@@ -185,7 +185,6 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
     Card.OnCardClickListener cardClickListener = new Card.OnCardClickListener() {
         @Override
         public void onClick(Card card, View view) {
-            Toast.makeText(context, "Click Listener card=" + ((EntryCard)card).getJournalID(), Toast.LENGTH_LONG).show();
             Intent intent = new Intent(context, Composer_alternate.class);
             intent.putExtra("JournalID", ((EntryCard)card).getJournalID());
             startActivity(intent);
