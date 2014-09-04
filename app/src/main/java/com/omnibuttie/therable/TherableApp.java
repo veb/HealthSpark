@@ -6,8 +6,9 @@ import android.util.Log;
 import com.omnibuttie.therable.model.JournalEntry;
 import com.orm.SugarApp;
 
+import org.joda.time.DateTime;
+
 import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -25,22 +26,17 @@ public class TherableApp extends SugarApp {
 
         List list = JournalEntry.listAll(JournalEntry.class);
         if (list.size() <= 0) {
-            for (int i=0; i < 10; i++) {
+            for (int i=0; i < 1000; i++) {
                 Random r = new Random();
                 long t1 = System.currentTimeMillis() - (Math.abs(r.nextInt()));
                 Date d1 = new Date(t1);
 
 
-                long offset = Timestamp.valueOf("2014-02-01 00:01:00").getTime();
-                long end = new Date().getTime();
-                long diff = end - offset + 1;
-//                Date rand = new Date(offset + (long)(Math.random() * diff));
-
-                Calendar c = Calendar.getInstance();
-                c.setTime(new Date(offset));
-                c.add(Calendar.DATE, i);
-                Date rand = c.getTime();
-
+                long rangebegin = Timestamp.valueOf("2013-01-01 00:00:00").getTime();
+                long rangeend = new Date().getTime();
+                long diff = rangeend - rangebegin + 1;
+                Timestamp randTS = new Timestamp(rangebegin + (long)(Math.random() * diff));
+                Date rand = new DateTime(randTS).toDate();
 
                 int randEmo = r.nextInt(emoticonIcons.length());
 
@@ -58,15 +54,6 @@ public class TherableApp extends SugarApp {
                 journalEntry.setArchived(r.nextBoolean());
                 journalEntry.save();
             }
-
-            JournalEntry.executeQuery("create table dates (id integer primary key);");
-            JournalEntry.executeQuery("insert into dates default values;");
-            JournalEntry.executeQuery("insert into dates default values;");
-            JournalEntry.executeQuery("insert into dates select null from dates d1, dates d2, dates d3;");
-            JournalEntry.executeQuery("insert into dates select null from dates d1, dates d2, dates d3, dates d4;");
-            JournalEntry.executeQuery("alter table dates add date datetime;");
-            JournalEntry.executeQuery("update dates set date=date('2013-01-01',(-1+id)||' day');");
-            JournalEntry.executeQuery("create index mdateindex on dates(date);");
         }
 
 

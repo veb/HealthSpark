@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="status_cause_spinner">SPINNER!</string>
 
+    <string name="status_cause_spinner">SPINNER!</string>
     <string name="app_name">Therable</string>
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
@@ -26,7 +26,6 @@
         <item>@drawable/ic_info</item>
         <item>@drawable/ic_calendar</item>
     </array>
-
     <array name="emoticonthumbs">
         <item>@drawable/ic_emoticons_01</item>
         <item>@drawable/ic_emoticons_02</item>
@@ -84,13 +83,11 @@
         <item>@color/Orange</item>
         <item>@color/Red</item>
     </array>
-
     <array name="intensitySpineDrawables">
         <item>@drawable/card_green_spine</item>
         <item>@drawable/card_yellow_spine</item>
         <item>@drawable/card_red_spine</item>
     </array>
-
     <array name="intensityModifiers">
         <item>Mildly</item>
         <item>Very</item>
@@ -98,5 +95,6 @@
     </array>
 
     <string name="title_activity_composer_alternate">AltComposer</string>
+    <string name="title_activity_sample_times_square">SampleTimesSquareActivity</string>
 
 </resources>

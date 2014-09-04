@@ -8,9 +8,9 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/ColorCalendar" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/caldroid_library" />
+            <option value="$PROJECT_DIR$/extendedCalendarView" />
             <option value="$PROJECT_DIR$/looperPager" />
             <option value="$PROJECT_DIR$/sugarlibrary" />
           </set>

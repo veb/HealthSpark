@@ -29,6 +29,8 @@ public class JournalEntryLoader extends AsyncTaskLoader<List<EntryCard>> {
     protected int CardViewType;
     protected String contentFilter;
 
+
+
     @Override
     public List<EntryCard> loadInBackground() {
         String [] emoticonString = getContext().getResources().getStringArray(R.array.emotionLabels);
@@ -44,12 +46,17 @@ public class JournalEntryLoader extends AsyncTaskLoader<List<EntryCard>> {
             case EntryCard.VIEW_ARCHIVE:
                 journalList = Select.from(JournalEntry.class).where(Condition.prop("is_archived").eq(1)).orderBy("date_modified desc").list();
                 break;
+            case EntryCard.VIEW_BY_DATE:
+                journalList = Select.from(JournalEntry.class).where(Condition.prop("simpledate").eq(contentFilter)).orderBy("date_modified desc").list();
+                break;
             default:
                 if (contentFilter != null) {
                     journalList = Select.from(JournalEntry.class).where(Condition.prop("content").like("%" + contentFilter + "%")).orderBy("date_modified desc").list();
                 } else {
                     journalList = Select.from(JournalEntry.class).orderBy("date_modified desc").list();
                 }
+
+
         }
 
         for (JournalEntry entry:journalList) {

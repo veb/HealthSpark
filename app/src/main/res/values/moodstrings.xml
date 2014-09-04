@@ -1,42 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="moodSubStrings">
-        <item>Worried</item>        <item>Untroubled</item>
-        <item>Pressured</item>      <item>Calm</item>
-        <item>Tense</item>          <item>Relaxed</item>
-        <item>Sleepless</item>      <item>Rested</item>
-        <item>Distracted</item>     <item>Focused</item>
-        <item>Irritable</item>      <item>Cheerful</item>
-        <item>Unsafe</item>         <item>Safe</item>
-        <item>Fearful</item>        <item>Fearless</item>
-        <item>Panicked</item>       <item>Content</item>
-        <item>Anxious</item>        <item>Peaceful</item>
-        <item>Depressed</item>      <item>Happy</item>
-        <item>Worthless</item>      <item>Valuable</item>
-        <item>Tired</item>          <item>Energetic</item>
-        <item>Sleepy</item>         <item>Alert</item>
-        <item>Lonely</item>         <item>Involved</item>
-        <item>Hopeless</item>       <item>Hopeful</item>
-        <item>Slow</item>           <item>Speedy</item>
-        <item>Restless</item>       <item>Relaxed</item>
-        <item>Sad</item>            <item>Happy</item>
-        <item>Pessimistic</item>    <item>Optimistic</item>
-        <item>Unloved</item>        <item>Loved</item>
-        <item>Angry</item>          <item>Content</item>
-        <item>Confused</item>       <item>Alert</item>
-        <item>Forgetful</item>      <item>Sharp</item>
-        <item>Dizzy</item>          <item>Balanced</item>
-        <item>Moody</item>          <item>Stable</item>
-        <item>Impulsive</item>      <item>Thoughtful</item>
-        <item>Avoiding</item>       <item>Welcoming</item>
-        <item>Guarded</item>        <item>Trusting</item>
-        <item>Numb</item>           <item>Responsive</item>
-        <item>Hyper</item>          <item>Calm</item>
-        <item>Withdrawn</item>      <item>Social</item>
-        <item>Bored</item>          <item>Interested</item>
-        <item>Stressed</item>       <item>Relaxed</item>
-        <item>Withdrawn</item>      <item>Social</item>
-        <item>Distracted</item>     <item>Focused</item>
+        <item>Angry</item>
+        <item>Happy</item>
+        <item>Panicked</item>
+        <item>Energized</item>
+        <item>Sad</item>
+        <item>Scared</item>
+        <item>Apathetic</item>
+        <item>Sick</item>
+        <item>Moody</item>
+        <item>Relaxed</item>
     </string-array>
 
 </resources>

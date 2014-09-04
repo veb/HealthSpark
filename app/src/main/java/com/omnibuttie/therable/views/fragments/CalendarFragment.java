@@ -1,24 +1,26 @@
 package com.omnibuttie.therable.views.fragments;
 
 import android.app.Activity;
-import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.AdapterView;
 
 import com.omnibuttie.therable.R;
-import com.omnibuttie.therable.model.JournalEntry;
-import com.roomorama.caldroid.CaldroidFragment;
-import com.roomorama.caldroid.CaldroidListener;
+import com.omnibuttie.therable.views.cards.EntryCard;
+import com.tyczj.extendedcalendarview.Day;
+import com.tyczj.extendedcalendarview.ExtendedCalendarView;
 
-import java.text.SimpleDateFormat;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import java.util.Date;
-import java.util.List;
 
 
 /**
@@ -30,34 +32,16 @@ import java.util.List;
  * create an instance of this fragment.
  *
  */
-public class CalendarFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
+public class CalendarFragment extends Fragment implements ExtendedCalendarView.OnDayClickListener{
     private OnFragmentInteractionListener mListener;
 
-    private CaldroidFragment caldroidFragment;
+    private ExtendedCalendarView calendarView;
+    private JournalCards journalFragment;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CalendarFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CalendarFragment newInstance(String param1, String param2) {
+    public static CalendarFragment newInstance() {
         CalendarFragment fragment = new CalendarFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -69,11 +53,12 @@ public class CalendarFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-        caldroidFragment = new CaldroidFragment();
 
+        }
+
+        DateTime simplifiedDate = new DateTime(new Date());
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("YYYY-MM-dd");
+        journalFragment = JournalCards.newInstance(EntryCard.VIEW_BY_DATE, fmt.print(simplifiedDate));
 
     }
 
@@ -83,78 +68,20 @@ public class CalendarFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
 
+        calendarView  = (ExtendedCalendarView)view.findViewById(R.id.calendar);
+        calendarView.setGesture(ExtendedCalendarView.LEFT_RIGHT_GESTURE);
+        calendarView.setOnDayClickListener(this);
+
         FragmentTransaction t = getChildFragmentManager().beginTransaction();
-        t.replace(R.id.calendar1, caldroidFragment);
+        t.replace(R.id.listView, journalFragment);
         t.commit();
-
-        final SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
-        // Setup listener
-        final CaldroidListener listener = new CaldroidListener() {
-
-            @Override
-            public void onSelectDate(Date date, View view) {
-                Toast.makeText(getActivity(), formatter.format(date),
-                        Toast.LENGTH_SHORT).show();
-
-            }
-
-            @Override
-            public void onChangeMonth(int month, int year) {
-                String text = "month: " + month + " year: " + year;
-                Toast.makeText(getActivity(), text,
-                        Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onLongClickDate(Date date, View view) {
-                Toast.makeText(getActivity(),
-                        "Long click " + formatter.format(date),
-                        Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCaldroidViewCreated() {
-                if (caldroidFragment.getLeftArrowButton() != null) {
-                    Toast.makeText(getActivity(),
-                            "Caldroid view is created", Toast.LENGTH_SHORT)
-                            .show();
-                }
-            }
-
-        };
-
-        // Setup Caldroid
-        caldroidFragment.setCaldroidListener(listener);
-
-        markDateIntensities();
-
         return view;
     }
 
-
-    private void markDateIntensities() {
-//        String query = "select e.* from dates d left outer join journal_entry e on e.simpledate = d.date where strftime('%Y-%m-%d', d.date) >= ? limit ?;";
-//        String dateformat = new SimpleDateFormat("yyyy-MM-dd").format(startDate);
-//        journalEntries = JournalEntry.findWithQuery(JournalEntry.class, query, dateformat, String.valueOf(count));
-
-        TypedArray intensityColors = getResources().obtainTypedArray(R.array.intensityColors);
-
-        List<JournalEntry> entries = JournalEntry.listAll(JournalEntry.class);
-        for (JournalEntry entry:entries) {
-            if (caldroidFragment != null) {
-                int color = intensityColors.getResourceId(entry.getIntensity(), R.color.white);
-
-                caldroidFragment.setBackgroundResourceForDate(color, entry.getDateCreated());
-                caldroidFragment.setTextColorForDate(R.color.white, entry.getDateCreated());
-            }
-        }
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    @Override
+    public void onDayClicked(AdapterView<?> adapter, View view, int position, long id, Day day) {
+        Log.e("DATEPICK", day.getDate());
+        journalFragment.filterDateByDateString(day.getDate());
     }
 
     @Override

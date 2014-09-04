@@ -8,18 +8,6 @@
         revision="19.1.0"
         sha1="b8189e9eef2f07fae743e05d7fe7e69daebe98d1"/>
     <item
-        dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/classes-30bf79b57b747eca5e79c8d2b72b9ab179547a87.jar"
-        jar="/Users/rayarvin/repos/Therable/app/build/intermediates/exploded-aar/Therable/sugarlibrary/unspecified/classes.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="8c09306dabfd145247f044ec0734a353a37e843b"/>
-    <item
-        dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/support-v13-19.1.0-10b7b6f64420c99c2df0d65339f69a134efbffc9.jar"
-        jar="/Users/rayarvin/adt-android/sdk/extras/android/m2repository/com/android/support/support-v13/19.1.0/support-v13-19.1.0.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="6b852a232f642c75a7fdfc7212b841b8c8f8959c"/>
-    <item
         dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/classes-3e0929d38f20137ff7258311c332d7ea0052809b.jar"
         jar="/Users/rayarvin/repos/Therable/app/build/intermediates/exploded-aar/com.github.gabrielemariotti.cards/library/1.9.0/classes.jar"
         jumboMode="false"
@@ -31,12 +19,6 @@
         jumboMode="false"
         revision="20.0.0"
         sha1="18889a91ddc87a008bce37fb516047f8aa43331a"/>
-    <item
-        dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/classes-eb003d39b624cb86bcaa5f38cec5f44ab555d02f.jar"
-        jar="/Users/rayarvin/repos/Therable/app/build/intermediates/exploded-aar/Therable/caldroid_library/unspecified/classes.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="ea9e20c7fea59c818f987991a6c97fa91b32e8aa"/>
     <item
         dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/classes-4a44b752c19a74365327e8a3730ed0a81d63d853.jar"
         jar="/Users/rayarvin/repos/Therable/app/build/intermediates/exploded-aar/com.rockerhieu.emojicon/library/1.0/classes.jar"
@@ -50,22 +32,52 @@
         revision="20.0.0"
         sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28"/>
     <item
-        dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/classes-660534991ba38344496bcb387bf17b527701b902.jar"
-        jar="/Users/rayarvin/repos/Therable/app/build/intermediates/exploded-aar/Therable/looperPager/unspecified/classes.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="47d5e35a5c9df2132510c6a0ced9c187ec9ed94b"/>
-    <item
         dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/support-v4-19.1.0-cc0dee6c96ed53def403971e3605145f1569b242.jar"
         jar="/Users/rayarvin/adt-android/sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67"/>
     <item
-        dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/joda-time-1.6.1-cd80695722eb168b3e42f3e4fe143c7d469a19d7.jar"
-        jar="/Users/rayarvin/.gradle/caches/modules-2/files-2.1/joda-time/joda-time/1.6.1/59e4bababc858900da4cf9ea1aebdb02298112cc/joda-time-1.6.1.jar"
+        dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/joda-time-2.4-09f22aa0781d46ea69e5bd3aebb276a802500691.jar"
+        jar="/Users/rayarvin/.gradle/caches/modules-2/files-2.1/joda-time/joda-time/2.4/89e9725439adffbbd41c5f5c215c136082b34a7f/joda-time-2.4.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="89e9725439adffbbd41c5f5c215c136082b34a7f"/>
+    <item
+        dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/classes-30bf79b57b747eca5e79c8d2b72b9ab179547a87.jar"
+        jar="/Users/rayarvin/repos/Therable/app/build/intermediates/exploded-aar/Therable/sugarlibrary/unspecified/classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="8c09306dabfd145247f044ec0734a353a37e843b"/>
+    <item
+        dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/support-v13-19.1.0-10b7b6f64420c99c2df0d65339f69a134efbffc9.jar"
+        jar="/Users/rayarvin/adt-android/sdk/extras/android/m2repository/com/android/support/support-v13/19.1.0/support-v13-19.1.0.jar"
         jumboMode="false"
         revision="19.1.0"
-        sha1="59e4bababc858900da4cf9ea1aebdb02298112cc"/>
+        sha1="6b852a232f642c75a7fdfc7212b841b8c8f8959c"/>
+    <item
+        dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/classes-eb003d39b624cb86bcaa5f38cec5f44ab555d02f.jar"
+        jar="/Users/rayarvin/repos/Therable/app/build/intermediates/exploded-aar/Therable/caldroid_library/unspecified/classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="ea9e20c7fea59c818f987991a6c97fa91b32e8aa"/>
+    <item
+        dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/classes-f284ee00544eadd727705be77a5b7e8ed51ad6a9.jar"
+        jar="/Users/rayarvin/repos/Therable/app/build/intermediates/exploded-aar/com.github.itsmechlark/android-times-square/1.1.1/classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="121b47aa4cba9b4a030500a6f6db2f3a4cf18933"/>
+    <item
+        dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/classes-1943b595915613c59925242a6a8fe09604fcd7a7.jar"
+        jar="/Users/rayarvin/repos/Therable/app/build/intermediates/exploded-aar/Therable/extendedCalendarView/unspecified/classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="f46e670292f51271ee15976f4d397aedd2287489"/>
+    <item
+        dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/classes-660534991ba38344496bcb387bf17b527701b902.jar"
+        jar="/Users/rayarvin/repos/Therable/app/build/intermediates/exploded-aar/Therable/looperPager/unspecified/classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="47d5e35a5c9df2132510c6a0ced9c187ec9ed94b"/>
 
 </pre-dex-items>

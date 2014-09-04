@@ -15,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.omnibuttie.therable.R;
 import com.omnibuttie.therable.dataLoaders.JournalEntryLoader;
@@ -77,6 +76,12 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
 
         cardLoader = new JournalEntryLoader(getActivity(), cardClickListener, CARD_VIEW_TYPE, null);
 
+    }
+
+    public void filterDateByDateString(String filterDateString) {
+        contentFilter = filterDateString;
+        getLoaderManager().restartLoader(0, null, this);
+        cardLoader.forceLoad();
     }
 
     @Override

@@ -22,6 +22,7 @@ import com.omnibuttie.therable.R;
 import com.omnibuttie.therable.adapters.DrawerAdapter;
 import com.omnibuttie.therable.adapters.RowItem;
 import com.omnibuttie.therable.views.cards.EntryCard;
+import com.omnibuttie.therable.views.fragments.CalendarDrillFragment;
 import com.omnibuttie.therable.views.fragments.CalendarFragment;
 import com.omnibuttie.therable.views.fragments.HashtagFragment;
 import com.omnibuttie.therable.views.fragments.JournalCards;
@@ -29,7 +30,7 @@ import com.omnibuttie.therable.views.fragments.JournalCards;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends FragmentActivity implements  CalendarFragment.OnFragmentInteractionListener, HashtagFragment.OnFragmentInteractionListener, JournalCards.OnFragmentInteractionListener {
+public class MainActivity extends FragmentActivity implements CalendarDrillFragment.OnFragmentInteractionListener, CalendarFragment.OnFragmentInteractionListener, HashtagFragment.OnFragmentInteractionListener, JournalCards.OnFragmentInteractionListener {
     String[] menuTitles;
     TypedArray menuIcons;
 
@@ -179,7 +180,7 @@ public class MainActivity extends FragmentActivity implements  CalendarFragment.
                 fragment = HashtagFragment.newInstance();
                 break;
             case 3:
-                fragment = CalendarFragment.newInstance("", "");
+                fragment = CalendarFragment.newInstance();
             default:
                 break;
         }

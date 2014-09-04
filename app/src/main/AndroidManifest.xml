@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.omnibuttie.therable" >
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".TherableApp"
@@ -55,13 +55,20 @@
             android:name=".views.Composer_alternate"
             android:label="@string/title_activity_composer_alternate"
             android:parentActivityName=".views.MainActivity"
-            android:windowSoftInputMode="adjustResize">
-
+            android:windowSoftInputMode="adjustResize" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.omnibuttie.therable.views.MainActivity" />
         </activity>
-        <meta-data android:name="com.crashlytics.ApiKey" android:value="1280bb07fa8bd3609f9144345f91ef91f0e79283"/>
+
+        <meta-data
+            android:name="com.crashlytics.ApiKey"
+            android:value="1280bb07fa8bd3609f9144345f91ef91f0e79283" />
+
+        <activity
+            android:name=".views.SampleTimesSquareActivity"
+            android:label="@string/title_activity_sample_times_square" >
+        </activity>
     </application>
 
 </manifest>

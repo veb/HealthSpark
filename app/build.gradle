@@ -55,6 +55,7 @@ dependencies {
     compile 'com.github.gabrielemariotti.cards:library:+'
     compile project(':looperPager')
     compile project(':sugarlibrary')
+    compile project(':extendedCalendarView')
     compile ('com.rockerhieu.emojicon:library:+'){
         exclude group: 'com.android.support', module:'support-v4'
         exclude group: 'com.android.support', module:'appcompat-v7'
@@ -62,4 +63,7 @@ dependencies {
     compile 'joda-time:joda-time:1.6.1'
     compile project(':caldroid_library')
     compile 'com.crashlytics.android:crashlytics:1.+'
+
+    compile 'com.github.itsmechlark:android-times-square:1.1.1@aar'
+    compile 'joda-time:joda-time:2.4'
 }
