@@ -26,7 +26,7 @@ public class TagDetailsActivity extends FragmentActivity implements  JournalCard
             Uri uri = getIntent().getData();
             //strip off hashtag from the URI
             String tag=uri.toString().split("/")[3];
-            Fragment newFragment = JournalCards.newInstance(EntryCard.VIEW_ALL, tag);
+            Fragment newFragment = JournalCards.newInstance(EntryCard.VIEW_TAGGED, tag);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, newFragment)
                     .commit();

@@ -22,7 +22,6 @@ import com.omnibuttie.therable.R;
 import com.omnibuttie.therable.adapters.DrawerAdapter;
 import com.omnibuttie.therable.adapters.RowItem;
 import com.omnibuttie.therable.views.cards.EntryCard;
-import com.omnibuttie.therable.views.fragments.CalendarDrillFragment;
 import com.omnibuttie.therable.views.fragments.CalendarFragment;
 import com.omnibuttie.therable.views.fragments.HashtagFragment;
 import com.omnibuttie.therable.views.fragments.JournalCards;
@@ -30,22 +29,17 @@ import com.omnibuttie.therable.views.fragments.JournalCards;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends FragmentActivity implements CalendarDrillFragment.OnFragmentInteractionListener, CalendarFragment.OnFragmentInteractionListener, HashtagFragment.OnFragmentInteractionListener, JournalCards.OnFragmentInteractionListener {
+public class MainActivity extends FragmentActivity implements CalendarFragment.OnFragmentInteractionListener, HashtagFragment.OnFragmentInteractionListener, JournalCards.OnFragmentInteractionListener {
+    final int WRITEREQUESTCODE = 101;
     String[] menuTitles;
     TypedArray menuIcons;
-
     private CharSequence drawerTitle;
     private CharSequence title;
-
     private DrawerLayout drawerLayout;
     private ListView drawerList;
     private ActionBarDrawerToggle drawerToggle;
-
     private List<RowItem> rowItems;
-
     private DrawerAdapter adapter;
-
-    final int WRITEREQUESTCODE = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,13 +154,6 @@ public class MainActivity extends FragmentActivity implements CalendarDrillFragm
 
     }
 
-    class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            updateDisplay(position);
-        }
-    }
-
     private void updateDisplay(int position) {
         Fragment fragment = null;
         switch (position) {
@@ -192,6 +179,13 @@ public class MainActivity extends FragmentActivity implements CalendarDrillFragm
             drawerLayout.closeDrawer(drawerList);
         } else {
             Log.e("MainActivity", "Error creating fragment");
+        }
+    }
+
+    class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            updateDisplay(position);
         }
     }
 }

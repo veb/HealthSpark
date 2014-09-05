@@ -31,9 +31,24 @@ public class JournalEntryLoader extends AsyncTaskLoader<List<EntryCard>> {
 
 
 
+    public JournalEntryLoader(Context context) {
+        super(context);
+    }
+
+    public JournalEntryLoader(Context context, Card.OnCardClickListener cardClickListener) {
+        this(context, cardClickListener, EntryCard.VIEW_ALL, null);
+    }
+
+    public JournalEntryLoader(Context context, Card.OnCardClickListener cardClickListener, int cardViewType, String contentFilter) {
+        super(context);
+        this.cardClickListener = cardClickListener;
+        CardViewType = cardViewType;
+        this.contentFilter = contentFilter;
+    }
+
     @Override
     public List<EntryCard> loadInBackground() {
-        String [] emoticonString = getContext().getResources().getStringArray(R.array.emotionLabels);
+        String[] emoticonString = getContext().getResources().getStringArray(R.array.emotionLabels);
         TypedArray emoticonIcons = getContext().getResources().obtainTypedArray(R.array.emoticons);
         List<EntryCard> cards = new ArrayList<EntryCard>();
 
@@ -59,13 +74,14 @@ public class JournalEntryLoader extends AsyncTaskLoader<List<EntryCard>> {
 
         }
 
-        for (JournalEntry entry:journalList) {
+        for (JournalEntry entry : journalList) {
             EntryCard card = new EntryCard(getContext());
             card.setJournalID(entry.getId());
             card.setEntryDate(entry.getDateModified());
             card.setContent(entry.getContent());
             card.setTitle(entry.getMood());
             card.setIntensity(entry.getIntensity());
+            card.setMoodIndex(entry.getMoodIndex());
 //            card.setEmoteResource(emoticonIcons.getResourceId(entry.getMood(), -1));
             card.setCardClickListener(cardClickListener);
 
@@ -80,21 +96,6 @@ public class JournalEntryLoader extends AsyncTaskLoader<List<EntryCard>> {
         }
 
         return cards;
-    }
-
-    public JournalEntryLoader(Context context) {
-        super(context);
-    }
-
-    public JournalEntryLoader(Context context, Card.OnCardClickListener cardClickListener) {
-        this(context, cardClickListener, EntryCard.VIEW_ALL, null);
-    }
-
-    public JournalEntryLoader(Context context, Card.OnCardClickListener cardClickListener, int cardViewType, String contentFilter) {
-        super(context);
-        this.cardClickListener = cardClickListener;
-        CardViewType = cardViewType;
-        this.contentFilter = contentFilter;
     }
 
     public Card.OnCardClickListener getCardClickListener() {

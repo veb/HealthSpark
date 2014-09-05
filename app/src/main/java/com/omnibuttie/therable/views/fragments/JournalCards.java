@@ -37,26 +37,97 @@ import it.gmariotti.cardslib.library.view.listener.UndoBarController;
  * to handle interaction events.
  * Use the {@link JournalCards#newInstance} factory method to
  * create an instance of this fragment.
- *
  */
-public class JournalCards extends Fragment implements LoaderManager.LoaderCallbacks<List<EntryCard>>{
+public class JournalCards extends Fragment implements LoaderManager.LoaderCallbacks<List<EntryCard>> {
     int CARD_VIEW_TYPE;
+    Card.OnSwipeListener swipeListener = new Card.OnSwipeListener() {
+        @Override
+        public void onSwipe(Card card) {
+            EntryCard eCard = (EntryCard) card;
+            JournalEntry entryForCard = JournalEntry.findById(JournalEntry.class, eCard.getJournalID());
 
+            switch (CARD_VIEW_TYPE) {
+                case EntryCard.VIEW_ALL:
+                    entryForCard.setArchived(true);
+                    break;
+                case EntryCard.VIEW_ARCHIVE:
+                    entryForCard.setArchived(false);
+                    break;
+            }
+
+            entryForCard.save();
+            Log.i("journalcard", "swipe:" + eCard.getJournalID());
+        }
+    };
+    Card.OnUndoSwipeListListener undoSwipeListListener = new Card.OnUndoSwipeListListener() {
+        @Override
+        public void onUndoSwipe(Card card) {
+            EntryCard eCard = (EntryCard) card;
+            JournalEntry entryForCard = JournalEntry.findById(JournalEntry.class, eCard.getJournalID());
+            switch (CARD_VIEW_TYPE) {
+                case EntryCard.VIEW_ALL:
+                    entryForCard.setArchived(false);
+                    break;
+                case EntryCard.VIEW_ARCHIVE:
+                    entryForCard.setArchived(true);
+                    break;
+            }
+            entryForCard.save();
+            Log.i("journalcard", "Undo: " + eCard.getJournalID());
+        }
+    };
+    UndoBarController.UndoBarUIElements undoController = new UndoBarController.DefaultUndoBarUIElements() {
+        @Override
+        public int getUndoBarId() {
+            return R.id.my_undobar;
+        }
+
+        @Override
+        public int getUndoBarMessageId() {
+            return R.id.my_undobar_message;
+        }
+
+        @Override
+        public int getUndoBarButtonId() {
+            return R.id.my_undobar_button;
+        }
+
+        @Override
+        public String getMessageUndo(CardArrayAdapter cardArrayAdapter, String[] itemIds, int[] itemPositions) {
+            String returns = "";
+            switch (CARD_VIEW_TYPE) {
+                case EntryCard.VIEW_ALL:
+                    returns = "Moved card to Read Later";
+                    break;
+                case EntryCard.VIEW_ARCHIVE:
+                    returns = "Moved card to Feed";
+                    break;
+            }
+            return returns;
+        }
+    };
     String contentFilter;
     Context context;
+    Card.OnCardClickListener cardClickListener = new Card.OnCardClickListener() {
+        @Override
+        public void onClick(Card card, View view) {
+            Intent intent = new Intent(context, Composer_alternate.class);
+            intent.putExtra("JournalID", ((EntryCard) card).getJournalID());
+            startActivity(intent);
+        }
+    };
     CardListView cardListView;
-    private OnFragmentInteractionListener mListener;
-    private ArrayList<Card> cards;
-
-    private ArrayList<JournalEntry> journalEntries;
-
     String[] emoticonString;
     TypedArray emoticonIcons;
-
     CardArrayAdapter cardArrayAdapter;
-
     JournalEntryLoader cardLoader;
+    private OnFragmentInteractionListener mListener;
+    private ArrayList<Card> cards;
+    private ArrayList<JournalEntry> journalEntries;
 
+    public JournalCards() {
+        // Required empty public constructor
+    }
 
     // TODO: Rename and change types and number of parameters
     public static JournalCards newInstance(int viewType, String contentFilter) {
@@ -64,10 +135,6 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
         fragment.CARD_VIEW_TYPE = viewType;
         fragment.contentFilter = contentFilter;
         return fragment;
-    }
-
-    public JournalCards() {
-        // Required empty public constructor
     }
 
     @Override
@@ -97,7 +164,7 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
         View view = inflater.inflate(R.layout.fragment_journal_cards, container, false);
 
         cardArrayAdapter = new CardArrayAdapter(context, cards);
-        cardListView = (CardListView)view.findViewById(R.id.cardList);
+        cardListView = (CardListView) view.findViewById(R.id.cardList);
 
         if (cardListView != null) {
             cardListView.setAdapter(cardArrayAdapter);
@@ -132,21 +199,6 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
-    }
-
     @Override
     public Loader<List<EntryCard>> onCreateLoader(int id, Bundle args) {
         cardLoader = new JournalEntryLoader(getActivity(), cardClickListener, CARD_VIEW_TYPE, contentFilter);
@@ -154,7 +206,6 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
         cardLoader.setSwipeListener(swipeListener);
         return cardLoader;
     }
-
 
     @Override
     public void onLoadFinished(Loader<List<EntryCard>> loader, List<EntryCard> data) {
@@ -186,84 +237,20 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-
-    Card.OnCardClickListener cardClickListener = new Card.OnCardClickListener() {
-        @Override
-        public void onClick(Card card, View view) {
-            Intent intent = new Intent(context, Composer_alternate.class);
-            intent.putExtra("JournalID", ((EntryCard)card).getJournalID());
-            startActivity(intent);
-        }
-    };
-
-    Card.OnSwipeListener swipeListener = new Card.OnSwipeListener() {
-        @Override
-        public void onSwipe(Card card) {
-            EntryCard eCard = (EntryCard) card;
-            JournalEntry entryForCard = JournalEntry.findById(JournalEntry.class, eCard.getJournalID());
-
-            switch (CARD_VIEW_TYPE) {
-                case EntryCard.VIEW_ALL:
-                    entryForCard.setArchived(true);
-                    break;
-                case EntryCard.VIEW_ARCHIVE:
-                    entryForCard.setArchived(false);
-                    break;
-            }
-
-            entryForCard.save();
-            Log.i("journalcard", "swipe:" + eCard.getJournalID());
-        }
-    };
-
-    Card.OnUndoSwipeListListener undoSwipeListListener = new Card.OnUndoSwipeListListener() {
-        @Override
-        public void onUndoSwipe(Card card) {
-            EntryCard eCard = (EntryCard) card;
-            JournalEntry entryForCard = JournalEntry.findById(JournalEntry.class, eCard.getJournalID());
-            switch (CARD_VIEW_TYPE) {
-                case EntryCard.VIEW_ALL:
-                    entryForCard.setArchived(false);
-                    break;
-                case EntryCard.VIEW_ARCHIVE:
-                    entryForCard.setArchived(true);
-                    break;
-            }
-            entryForCard.save();
-            Log.i("journalcard", "Undo: " + eCard.getJournalID());
-        }
-    };
-
-    UndoBarController.UndoBarUIElements undoController = new UndoBarController.DefaultUndoBarUIElements() {
-        @Override
-        public int getUndoBarId() {
-            return R.id.my_undobar;
-        }
-
-        @Override
-        public int getUndoBarMessageId() {
-            return R.id.my_undobar_message;
-        }
-
-        @Override
-        public int getUndoBarButtonId() {
-            return R.id.my_undobar_button;
-        }
-
-        @Override
-        public String getMessageUndo(CardArrayAdapter cardArrayAdapter, String[] itemIds, int[] itemPositions) {
-            String returns = "";
-            switch (CARD_VIEW_TYPE) {
-                case EntryCard.VIEW_ALL:
-                    returns = "Moved card to Read Later";
-                    break;
-                case EntryCard.VIEW_ARCHIVE:
-                    returns = "Moved card to Feed";
-                    break;
-            }
-            return returns;
-        }
-    };
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p/>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        public void onFragmentInteraction(Uri uri);
+    }
 
 
 }

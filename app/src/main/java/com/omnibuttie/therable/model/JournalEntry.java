@@ -19,6 +19,8 @@ public class JournalEntry extends SugarRecord<JournalEntry> {
     String mood;
     int intensity;
 
+    int moodIndex;
+
     int cause;
 
     public JournalEntry() {
@@ -28,12 +30,13 @@ public class JournalEntry extends SugarRecord<JournalEntry> {
         this.simpledate = new SimpleDateFormat("yyyy-MM-dd").format(this.dateModified);
     }
 
-    public JournalEntry(Date dateCreated, Date dateModified, String content, String mood, int intensity) {
+    public JournalEntry(Date dateCreated, Date dateModified, String content, String mood, int moodIndex, int intensity) {
         super();
         this.dateCreated = dateCreated;
         this.dateModified = dateModified;
         this.content = content;
         this.mood = mood;
+        this.moodIndex = moodIndex;
         this.isArchived = false;
         this.intensity = intensity;
         this.simpledate = new SimpleDateFormat("yyyy-MM-dd").format(this.dateModified);
@@ -76,16 +79,16 @@ public class JournalEntry extends SugarRecord<JournalEntry> {
         return mood;
     }
 
+    public void setMood(String mood) {
+        this.mood = mood;
+    }
+
     public boolean isArchived() {
         return isArchived;
     }
 
     public void setArchived(boolean isArchived) {
         this.isArchived = isArchived;
-    }
-
-    public void setMood(String mood) {
-        this.mood = mood;
     }
 
     public int getIntensity() {
@@ -96,6 +99,13 @@ public class JournalEntry extends SugarRecord<JournalEntry> {
         this.intensity = intensity;
     }
 
+    public int getMoodIndex() {
+        return moodIndex;
+    }
+
+    public void setMoodIndex(int moodIndex) {
+        this.moodIndex = moodIndex;
+    }
 
     @Override
     public String toString() {
@@ -103,9 +113,12 @@ public class JournalEntry extends SugarRecord<JournalEntry> {
                 "dateCreated=" + dateCreated +
                 ", dateModified=" + dateModified +
                 ", content='" + content + '\'' +
-                ", mood=" + mood +
-                ", intensity=" + intensity +
                 ", isArchived=" + isArchived +
+                ", simpledate='" + simpledate + '\'' +
+                ", mood='" + mood + '\'' +
+                ", intensity=" + intensity +
+                ", moodIndex=" + moodIndex +
+                ", cause=" + cause +
                 '}';
     }
 }

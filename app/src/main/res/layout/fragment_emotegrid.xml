@@ -1,63 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
 
     <RadioGroup
+        android:id="@+id/toolRadio"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/toolRadio"
-
         android:layout_alignParentBottom="true"
-        >
-        <RadioButton android:id="@+id/button_one"
-            android:minWidth="30dip"
-            android:minHeight="33dip"
+
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/button_one"
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:background="@drawable/radio_selector_darkgreen"
+            android:button="@null"
+            android:gravity="center"
+            android:minHeight="33dip"
+            android:minWidth="30dip"
             android:text="mildly"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:button="@null"
-            android:gravity="center"
-            android:textColor="@color/radio_colors"
-            android:background="@drawable/radio_selector_darkgreen"/>
-        <RadioButton android:id="@+id/button_two"
-            android:minWidth="30dip"
-            android:minHeight="33dip"
+            android:textColor="@color/radio_colors" />
+
+        <RadioButton
+            android:id="@+id/button_two"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="strongly"
-            android:button="@null"
-            android:gravity="center"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/radio_colors"
             android:background="@drawable/radio_selector_orange"
-            />
-        <RadioButton android:id="@+id/button_five"
-            android:minWidth="30dip"
+            android:button="@null"
+            android:gravity="center"
             android:minHeight="33dip"
+            android:minWidth="30dip"
+            android:text="strongly"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/radio_colors" />
+
+        <RadioButton
+            android:id="@+id/button_five"
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:background="@drawable/radio_selector_red"
+            android:button="@null"
+            android:gravity="center"
+            android:minHeight="33dip"
+            android:minWidth="30dip"
             android:text="extremely"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:button="@null"
-            android:gravity="center"
-            android:textColor="@color/radio_colors"
-            android:background="@drawable/radio_selector_red"/>
+            android:textColor="@color/radio_colors" />
     </RadioGroup>
 
 
-    <GridView
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/asset_grid"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clipToPadding="false"
-    android:numColumns="2"
-    android:padding="16dp"
-    tools:context=".EmoteGridFragment" />
+    <ListView xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/asset_grid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:numColumns="2"
+        tools:context=".EmoteGridFragment" />
 
 </LinearLayout>

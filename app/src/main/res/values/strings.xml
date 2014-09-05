@@ -48,17 +48,6 @@
         <item>@drawable/emoticons08</item>
         <item>@drawable/emoticons09</item>
     </array>
-    <array name="emotiveColors">
-        <item>@color/LimeGreen</item>
-        <item>@color/Gold</item>
-        <item>@color/DarkOrange</item>
-        <item>@color/DarkOliveGreen</item>
-        <item>@color/DodgerBlue</item>
-        <item>@color/DarkBlue</item>
-        <item>@color/MediumVioletRed</item>
-        <item>@color/Red</item>
-        <item>@color/DimGray</item>
-    </array>
 
     <string-array name="emotionLabels">
         <item>admiration</item>
@@ -83,11 +72,6 @@
         <item>@color/Orange</item>
         <item>@color/Red</item>
     </array>
-    <array name="intensitySpineDrawables">
-        <item>@drawable/card_green_spine</item>
-        <item>@drawable/card_yellow_spine</item>
-        <item>@drawable/card_red_spine</item>
-    </array>
     <array name="intensityModifiers">
         <item>Mildly</item>
         <item>Very</item>
@@ -96,5 +80,6 @@
 
     <string name="title_activity_composer_alternate">AltComposer</string>
     <string name="title_activity_sample_times_square">SampleTimesSquareActivity</string>
+    <string name="title_activity_composer_nexus">ComposerNexus</string>
 
 </resources>

@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="moodQuestion">
+        <item>…like I\'d like to punch something or someone</item>
+        <item>…I\'m happy!</item>
+        <item>…too overwhelmed by something</item>
+        <item>…I\'m pumped to do something!</item>
+        <item>…I feel sad, almost on the verge of crying</item>
+        <item>…something scared the pants off me!</item>
+        <item>…nothing.  I don\'t really care about it</item>
+        <item>…sick.  My body doesn\'t feel good</item>
+        <item>…LEAVE ME ALONE!</item>
+        <item>…relaxed.  It\'s a good day</item>
+    </string-array>
+
     <string-array name="moodSubStrings">
         <item>Angry</item>
         <item>Happy</item>
@@ -13,4 +26,37 @@
         <item>Relaxed</item>
     </string-array>
 
+    <array name="emotiveColors">
+        <item>@color/Red</item>
+        <item>@color/Gold</item>
+        <item>@color/OliveDrab</item>
+        <item>@color/DarkOrange</item>
+        <item>@color/DarkBlue</item>
+        <item>@color/DarkOliveGreen</item>
+        <item>@color/DimGray</item>
+        <item>@color/DarkViolet</item>
+        <item>@color/PaleVioletRed</item>
+        <item>@color/Goldenrod</item>
+    </array>
+
+    <array name="lightEmotiveColors">
+        <item>@color/XLightRed</item>
+        <item>@color/XLightGold</item>
+        <item>@color/XLightOliveDrab</item>
+        <item>@color/XLightDarkOrange</item>
+        <item>@color/XLightDarkBlue</item>
+        <item>@color/XLightDarkOliveGreen</item>
+        <item>@color/LightGrey</item>
+        <item>@color/XLightDarkViolet</item>
+        <item>@color/XLightMediumPurple</item>
+        <item>@color/XLightGoldenrod</item>
+    </array>
+
+    <array name="emotiveSpineDrawables">
+        <item>@drawable/card_green_spine</item>
+        <item>@drawable/card_yellow_spine</item>
+        <item>@drawable/card_red_spine</item>
+    </array>
+
+    <string name="questionsample">...like I\'d like to punch something or someone</string>
 </resources>

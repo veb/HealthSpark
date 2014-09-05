@@ -2,6 +2,7 @@ package com.omnibuttie.therable.views.cards;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.text.util.Linkify;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.omnibuttie.therable.R;
+import com.omnibuttie.therable.views.drawables.LeftBorderDrawable;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -24,6 +26,7 @@ public class EntryCard extends Card {
     final public static int VIEW_ARCHIVE = 101;
     final public static int VIEW_ALL = 102;
     final public static int VIEW_BY_DATE = 103;
+    final public static int VIEW_TAGGED = 104;
 
 
     protected TextView cardTitle;
@@ -34,7 +37,7 @@ public class EntryCard extends Card {
     protected String title;
     protected int emoteResource;
     protected int intensity;
-
+    protected int moodIndex;
 
     protected long journalID;
 
@@ -48,7 +51,8 @@ public class EntryCard extends Card {
     TextView tvTime;
     TextView tvWeek;
 
-    TypedArray cardSpineDrawables;
+    TypedArray cardBorderColors;
+    TypedArray cardBackgroundColors;
 
 
     public EntryCard(Context context) {
@@ -65,7 +69,8 @@ public class EntryCard extends Card {
     private void init() {
         emoteResource = -1;
         this.setSwipeable(true);
-        cardSpineDrawables = getContext().getResources().obtainTypedArray(R.array.intensitySpineDrawables);
+        cardBorderColors = getContext().getResources().obtainTypedArray(R.array.emotiveColors);
+        cardBackgroundColors = getContext().getResources().obtainTypedArray(R.array.lightEmotiveColors);
     }
 
     @Override
@@ -103,9 +108,17 @@ public class EntryCard extends Card {
 //            cardEmote.setImageResource(emoteResource);
         }
 
-        view.setBackground(cardSpineDrawables.getDrawable(intensity));
+//        view.setBackground(cardSpineDrawables.getDrawable(intensity));
+        view.setBackground(new LeftBorderDrawable(cardBorderColors.getColor(moodIndex, Color.WHITE), cardBackgroundColors.getColor(moodIndex, Color.WHITE)));
 
+    }
 
+    public int getMoodIndex() {
+        return moodIndex;
+    }
+
+    public void setMoodIndex(int moodIndex) {
+        this.moodIndex = moodIndex;
     }
 
     public void setEntryDate(Date entryDate) {

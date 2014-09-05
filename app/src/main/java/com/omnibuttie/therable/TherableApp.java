@@ -21,12 +21,12 @@ public class TherableApp extends SugarApp {
     public void onCreate() {
         super.onCreate();
 
-        TypedArray emoticonIcons = getResources().obtainTypedArray(R.array.emoticonthumbs);
+        TypedArray emoticonIndexes = getResources().obtainTypedArray(R.array.emoticonthumbs);
         String[] moodSubStrings = getResources().getStringArray(R.array.moodSubStrings);
 
         List list = JournalEntry.listAll(JournalEntry.class);
         if (list.size() <= 0) {
-            for (int i=0; i < 1000; i++) {
+            for (int i = 0; i < 1000; i++) {
                 Random r = new Random();
                 long t1 = System.currentTimeMillis() - (Math.abs(r.nextInt()));
                 Date d1 = new Date(t1);
@@ -35,19 +35,18 @@ public class TherableApp extends SugarApp {
                 long rangebegin = Timestamp.valueOf("2013-01-01 00:00:00").getTime();
                 long rangeend = new Date().getTime();
                 long diff = rangeend - rangebegin + 1;
-                Timestamp randTS = new Timestamp(rangebegin + (long)(Math.random() * diff));
+                Timestamp randTS = new Timestamp(rangebegin + (long) (Math.random() * diff));
                 Date rand = new DateTime(randTS).toDate();
 
-                int randEmo = r.nextInt(emoticonIcons.length());
+                int randEmo = r.nextInt(emoticonIndexes.length());
 
                 Log.i("DATETH", "emote: " + randEmo + " t1: " + rand.toString());
 
                 JournalEntry journalEntry = new JournalEntry();
                 journalEntry.setDateModified(rand);
                 journalEntry.setDateCreated(rand);
-
-
-                journalEntry.setMood(moodSubStrings[r.nextInt(moodSubStrings.length)]);
+                journalEntry.setMoodIndex(randEmo);
+                journalEntry.setMood(moodSubStrings[randEmo]);
                 journalEntry.setContent("Sample content " + i);
                 journalEntry.setIntensity(r.nextInt(2));
                 journalEntry.setCause(r.nextInt(5));
