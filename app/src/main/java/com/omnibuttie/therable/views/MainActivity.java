@@ -23,13 +23,13 @@ import com.omnibuttie.therable.adapters.DrawerAdapter;
 import com.omnibuttie.therable.adapters.RowItem;
 import com.omnibuttie.therable.views.cards.EntryCard;
 import com.omnibuttie.therable.views.fragments.CalendarFragment;
-import com.omnibuttie.therable.views.fragments.HashtagFragment;
 import com.omnibuttie.therable.views.fragments.JournalCards;
+import com.omnibuttie.therable.views.fragments.WeeklyChartFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends FragmentActivity implements CalendarFragment.OnFragmentInteractionListener, HashtagFragment.OnFragmentInteractionListener, JournalCards.OnFragmentInteractionListener {
+public class MainActivity extends FragmentActivity implements CalendarFragment.OnFragmentInteractionListener, WeeklyChartFragment.OnFragmentInteractionListener, JournalCards.OnFragmentInteractionListener {
     final int WRITEREQUESTCODE = 101;
     String[] menuTitles;
     TypedArray menuIcons;
@@ -57,7 +57,7 @@ public class MainActivity extends FragmentActivity implements CalendarFragment.O
         drawerList = (ListView) findViewById(R.id.slider_list);
 
         rowItems = new ArrayList<RowItem>();
-        for(int i=0; i<menuTitles.length; i++) {
+        for (int i = 0; i < menuTitles.length; i++) {
             RowItem item = new RowItem(menuTitles[i], menuIcons.getResourceId(i, -1));
             rowItems.add(item);
         }
@@ -164,7 +164,7 @@ public class MainActivity extends FragmentActivity implements CalendarFragment.O
                 fragment = JournalCards.newInstance(EntryCard.VIEW_ARCHIVE, null);
                 break;
             case 2:
-                fragment = HashtagFragment.newInstance();
+                fragment = WeeklyChartFragment.newInstance();
                 break;
             case 3:
                 fragment = CalendarFragment.newInstance();
