@@ -27,8 +27,25 @@ public class ChartLoader {
                 "group by WEEKNUMBER\n" +
                 "order by date_modified desc\n";
 
-        List<JournalChartData> journalChartList = JournalChartData.findWithQuery(JournalChartData.class, sql);
-        return journalChartList;
+        return JournalChartData.findWithQuery(JournalChartData.class, sql);
+    }
+
+    public static List<JournalChartData> getMonths() {
+        String sql = "select \n" +
+                "strftime('%m', simpledate) WeekNumber,\n" +
+                "strftime('%Y-%m-01', simpledate) WEEKSTART,\n" +
+                "strftime('%Y-%m-01', date(simpledate, '+1 month', '-1 day')) WEEKEND,\n" +
+                "1 as ID,\n" +
+                "1 as _ID,\n" +
+                "1 as MOODCOUNT,\n" +
+                "1 as MOODINDEX\n" +
+                "\n" +
+                "from JOURNAL_ENTRY\n" +
+                "group by WeekNumber\n" +
+                "order by date_modified desc";
+
+        return JournalChartData.findWithQuery(JournalChartData.class, sql);
+
     }
 
     public static List<JournalChartData> getPeriodData(Date startDate, Date endDate) {

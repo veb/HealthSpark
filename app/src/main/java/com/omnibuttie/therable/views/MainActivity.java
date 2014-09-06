@@ -24,12 +24,13 @@ import com.omnibuttie.therable.adapters.RowItem;
 import com.omnibuttie.therable.views.cards.EntryCard;
 import com.omnibuttie.therable.views.fragments.CalendarFragment;
 import com.omnibuttie.therable.views.fragments.JournalCards;
+import com.omnibuttie.therable.views.fragments.PerEmotionTrackFragment;
 import com.omnibuttie.therable.views.fragments.WeeklyChartFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends FragmentActivity implements CalendarFragment.OnFragmentInteractionListener, WeeklyChartFragment.OnFragmentInteractionListener, JournalCards.OnFragmentInteractionListener {
+public class MainActivity extends FragmentActivity implements CalendarFragment.OnFragmentInteractionListener, WeeklyChartFragment.OnFragmentInteractionListener, PerEmotionTrackFragment.OnFragmentInteractionListener, JournalCards.OnFragmentInteractionListener {
     final int WRITEREQUESTCODE = 101;
     String[] menuTitles;
     TypedArray menuIcons;
