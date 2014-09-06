@@ -3,6 +3,7 @@ package com.omnibuttie.therable;
 import android.content.res.TypedArray;
 import android.util.Log;
 
+import com.omnibuttie.therable.model.JournalChartData;
 import com.omnibuttie.therable.model.JournalEntry;
 import com.orm.SugarApp;
 
@@ -26,6 +27,9 @@ public class TherableApp extends SugarApp {
 
         List list = JournalEntry.listAll(JournalEntry.class);
         if (list.size() <= 0) {
+            JournalChartData jchartinit = new JournalChartData(0, new Date(), new Date(), 0, 0);
+
+            jchartinit.save();
             for (int i = 0; i < 1000; i++) {
                 Random r = new Random();
                 long t1 = System.currentTimeMillis() - (Math.abs(r.nextInt()));

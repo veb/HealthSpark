@@ -10,6 +10,10 @@
         jar="/Users/rayarvin/repos/Therable/app/build/intermediates/exploded-aar/com.github.gabrielemariotti.cards/library/1.9.0/classes.jar"
         jumboMode="false" revision="20.0.0" sha1="81bd93a92a115746312a8f583fbd057137cb2ce7" />
     <item
+        dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/library-2.4.0-8273c2f629d854112498cf4ec8680c75d24e5386.jar"
+        jar="/Users/rayarvin/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar"
+        jumboMode="false" revision="20.0.0" sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb" />
+    <item
         dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/classes-4a44b752c19a74365327e8a3730ed0a81d63d853.jar"
         jar="/Users/rayarvin/repos/Therable/app/build/intermediates/exploded-aar/com.rockerhieu.emojicon/library/1.0/classes.jar"
         jumboMode="false" revision="20.0.0" sha1="a1549c8a93586b5977dcd4e1103e2fd08893c31c" />
@@ -41,6 +45,10 @@
         dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/classes-1e09ff6a1431dc917dda49930710a8c671e7b960.jar"
         jar="/Users/rayarvin/repos/Therable/app/build/intermediates/exploded-aar/com.github.dkharrat.nexusdialog/nexusdialog/0.1.1/classes.jar"
         jumboMode="false" revision="20.0.0" sha1="055831d90221fe1642a6c5d7481bd0108a12594b" />
+    <item
+        dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/commons-lang3-3.3.2-52c808fbce9e66ac2bd8b026e2e5d70c50ac99b3.jar"
+        jar="/Users/rayarvin/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.3.2/90a3822c38ec8c996e84c16a3477ef632cbc87a3/commons-lang3-3.3.2.jar"
+        jumboMode="false" revision="20.0.0" sha1="90a3822c38ec8c996e84c16a3477ef632cbc87a3" />
     <item
         dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/release/classes-1943b595915613c59925242a6a8fe09604fcd7a7.jar"
         jar="/Users/rayarvin/repos/Therable/app/build/intermediates/exploded-aar/Therable/extendedCalendarView/unspecified/classes.jar"
