@@ -46,8 +46,4 @@ proguard/
 
 *.dex
 /build
-
-app/build/
-caldroid_library/build/
-ColorCalendar/build/
-looperPager/build/
+build/
