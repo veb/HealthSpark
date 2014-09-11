@@ -6,20 +6,18 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.github.mikephil.charting.utils.XLabels;
-import com.github.mikephil.charting.utils.YLabels;
+import com.github.mikephil.charting.utils.Legend;
 import com.omnibuttie.therable.R;
 import com.omnibuttie.therable.dataLoaders.ChartLoader;
 import com.omnibuttie.therable.model.JournalChartData;
@@ -71,12 +69,12 @@ public class PerEmotionTrackFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list_chart, container, false);
         listView = (ListView) view.findViewById(R.id.listView1);
 
-        List<JournalChartData> weeks = ChartLoader.getWeeks();
+        List<JournalChartData> periods = ChartLoader.getMonths();
 
-        ArrayList<BarData> bars = new ArrayList<BarData>();
+        ArrayList<PieData> bars = new ArrayList<PieData>();
 
-        for (JournalChartData week : weeks) {
-            bars.add(processDataFromWeek(week.getWeekstart(), week.getWeekend()));
+        for (JournalChartData period : periods) {
+            bars.add(processDataIntoPie(period.getWeekstart(), period.getWeekend()));
         }
 
         ChartDataAdapter adapter = new ChartDataAdapter(getActivity().getApplicationContext(), bars);
@@ -85,37 +83,30 @@ public class PerEmotionTrackFragment extends Fragment {
         return view;
     }
 
-    private BarData processDataFromWeek(Date start, Date end) {
+    private PieData processDataIntoPie(Date start, Date end) {
         DateTime simpleStart = new DateTime(start);
-        DateTime simpleEnd = new DateTime(end);
-        DateTimeFormatter fmt = DateTimeFormat.forPattern("MMM dd, YYYY");
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("MMM YYYY");
 
-        Log.e("BARCHART", "processing week " + fmt.print(simpleStart));
 
-        ArrayList<BarEntry> barEntries = new ArrayList<BarEntry>();
+        ArrayList<Entry> entries = new ArrayList<Entry>();
         for (int i = 0; i < emotionSubStrings.length; i++) {
-            barEntries.add(new BarEntry(0, i));
+            entries.add(new Entry(0, i));
         }
 
         List<JournalChartData> chartDatas = ChartLoader.getPeriodData(start, end);
 
         for (int i = 0; i < chartDatas.size(); i++) {
             JournalChartData chartData = chartDatas.get(i);
-            barEntries.set(chartData.getMood_index(), new BarEntry(chartData.getMoodcount(), chartData.getMood_index()));
+            entries.set(chartData.getMood_index(), new Entry(chartData.getMoodcount(), chartData.getMood_index()));
         }
 
-        BarDataSet dataSet = new BarDataSet(barEntries, fmt.print(simpleStart) + " to " + fmt.print(simpleEnd));
-        dataSet.setBarSpacePercent(15f);
-        dataSet.setColors(ColorTemplate.createColors(parsedColors));
-//        dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS, getActivity().getApplicationContext());
-        dataSet.setBarShadowColor(Color.rgb(203, 203, 203));
-        ArrayList<BarDataSet> sets = new ArrayList<BarDataSet>();
-        sets.add(dataSet);
+        PieDataSet pieDataSet = new PieDataSet(entries, "Mood Ratio:\n" + fmt.print(simpleStart));
+        pieDataSet.setSliceSpace(5f);
+        pieDataSet.setColors(ColorTemplate.createColors(parsedColors));
 
-        BarData cd = new BarData(emotionSubStrings, sets);
+        PieData pieData = new PieData(emotionSubStrings, pieDataSet);
+        return pieData;
 
-        Log.e("BARCHART", "end processing week " + fmt.print(simpleStart));
-        return cd;
     }
 
     @Override
@@ -140,19 +131,20 @@ public class PerEmotionTrackFragment extends Fragment {
         public void onFragmentInteraction(String id);
     }
 
-    private class ChartDataAdapter extends ArrayAdapter<BarData> {
-        private ChartDataAdapter(Context context, List<BarData> objects) {
+    private class ChartDataAdapter extends ArrayAdapter<PieData> {
+        private ChartDataAdapter(Context context, List<PieData> objects) {
             super(context, 0, objects);
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            BarData c = getItem(position);
+            PieData c = getItem(position);
+
             ViewHolder holder = null;
             if (convertView == null) {
                 holder = new ViewHolder();
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_barchart, null);
-                holder.chart = (BarChart) convertView.findViewById(R.id.chart);
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_piechart, null);
+                holder.chart = (PieChart) convertView.findViewById(R.id.chart);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -161,30 +153,27 @@ public class PerEmotionTrackFragment extends Fragment {
 
             holder.chart.setDrawLegend(true);
             holder.chart.setDescription("");
-            holder.chart.setDrawVerticalGrid(false);
-            holder.chart.setDrawGridBackground(false);
             holder.chart.setValueTextColor(Color.WHITE);
 
-            XLabels xl = holder.chart.getXLabels();
-            xl.setCenterXLabelText(true);
-            xl.setTextSize(5.0f);
-            xl.setAdjustXLabels(false);
-            xl.setPosition(XLabels.XLabelPosition.BOTTOM);
-            xl.setAvoidFirstLastClipping(false);
-
-            YLabels yl = holder.chart.getYLabels();
-
-
             holder.chart.setData(c);
+            holder.chart.setCenterText(c.getDataSet().getLabel());
+            holder.chart.setHoleRadius(60f);
+            holder.chart.setDrawHoleEnabled(true);
 
             holder.chart.invalidate();
-            holder.chart.animateY(700);
+            holder.chart.animateXY(700, 300);
+            holder.chart.setDrawYValues(false);
+            holder.chart.setDrawXValues(false);
+
+
+            Legend l = holder.chart.getLegend();
+            l.setPosition(Legend.LegendPosition.RIGHT_OF_CHART);
 
             return convertView;
         }
 
         private class ViewHolder {
-            BarChart chart;
+            PieChart chart;
         }
     }
 

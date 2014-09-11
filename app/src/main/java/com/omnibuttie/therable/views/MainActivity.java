@@ -165,7 +165,7 @@ public class MainActivity extends FragmentActivity implements CalendarFragment.O
                 fragment = JournalCards.newInstance(EntryCard.VIEW_ARCHIVE, null);
                 break;
             case 2:
-                fragment = WeeklyChartFragment.newInstance();
+                fragment = PerEmotionTrackFragment.newInstance();
                 break;
             case 3:
                 fragment = CalendarFragment.newInstance();

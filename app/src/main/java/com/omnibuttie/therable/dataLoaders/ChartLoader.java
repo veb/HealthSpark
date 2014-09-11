@@ -33,8 +33,8 @@ public class ChartLoader {
     public static List<JournalChartData> getMonths() {
         String sql = "select \n" +
                 "strftime('%m', simpledate) WeekNumber,\n" +
-                "strftime('%Y-%m-01', simpledate) WEEKSTART,\n" +
-                "strftime('%Y-%m-01', date(simpledate, '+1 month', '-1 day')) WEEKEND,\n" +
+                "strftime('%s', simpledate)*1000 WEEKSTART,\n" +
+                "strftime('%s', date(simpledate, '+1 month', '-1 day'))*1000 WEEKEND,\n" +
                 "1 as ID,\n" +
                 "1 as _ID,\n" +
                 "1 as MOODCOUNT,\n" +
