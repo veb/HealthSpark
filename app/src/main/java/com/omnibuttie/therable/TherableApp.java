@@ -1,6 +1,5 @@
 package com.omnibuttie.therable;
 
-import android.content.res.TypedArray;
 import android.util.Log;
 
 import com.omnibuttie.therable.model.JournalChartData;
@@ -26,7 +25,6 @@ public class TherableApp extends SugarApp {
 
         CalligraphyConfig.initDefault("fonts/Lato-Regular.ttf", R.attr.fontPath);
 
-        TypedArray emoticonIndexes = getResources().obtainTypedArray(R.array.emoticonthumbs);
         String[] moodSubStrings = getResources().getStringArray(R.array.moodSubStrings);
 
         List list = JournalEntry.listAll(JournalEntry.class);
@@ -46,7 +44,7 @@ public class TherableApp extends SugarApp {
                 Timestamp randTS = new Timestamp(rangebegin + (long) (Math.random() * diff));
                 Date rand = new DateTime(randTS).toDate();
 
-                int randEmo = r.nextInt(emoticonIndexes.length());
+                int randEmo = r.nextInt(moodSubStrings.length);
 
                 Log.i("DATETH", "emote: " + randEmo + " t1: " + rand.toString());
 

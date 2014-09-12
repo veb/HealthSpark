@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
 import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.data.Entry;
@@ -18,7 +19,7 @@ import com.github.mikephil.charting.utils.YLabels;
 import com.omnibuttie.therable.R;
 import com.omnibuttie.therable.dataLoaders.ChartLoader;
 import com.omnibuttie.therable.model.JournalChartData;
-import com.omnibuttie.therable.views.drawables.MyMarkerView;
+import com.omnibuttie.therable.views.controls.MultiSpinner;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.joda.time.DateTime;
@@ -31,9 +32,12 @@ import java.util.List;
  */
 public class RadarChartFragment extends Fragment {
 
+    MultiSpinner spinner;
     String[] emotionSubStrings;
     TypedArray emotionColors;
     int[] parsedColors;
+    ArrayList<RadarDataSet> allMoodDataSets;
+    ArrayList<String> existingMoods;
     private OnFragmentInteractionListener mListener;
     private RadarChart mChart;
     private String[] mMonths = new String[]{
@@ -67,6 +71,9 @@ public class RadarChartFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragmen_journal_radar_chart, container, false);
+        spinner = (MultiSpinner) view.findViewById(R.id.spinner);
+
+
         mChart = (RadarChart) view.findViewById(R.id.chart1);
 
         mChart.setWebLineWidth(1.5f);
@@ -74,11 +81,12 @@ public class RadarChartFragment extends Fragment {
         mChart.setWebAlpha(100);
 
         mChart.setDrawYValues(false);
+        mChart.setHighlightEnabled(false);
 
-        MyMarkerView mv = new MyMarkerView(getActivity(), R.layout.chart_marker_view);
-        mv.setOffsets(-mv.getMeasuredWidth() / 2, -mv.getMeasuredHeight());
-
-        mChart.setMarkerView(mv);
+//        MyMarkerView mv = new MyMarkerView(getActivity(), R.layout.chart_marker_view);
+//        mv.setOffsets(-mv.getMeasuredWidth() / 2, -mv.getMeasuredHeight());
+//
+//        mChart.setMarkerView(mv);
 
         XLabels xl = mChart.getXLabels();
         xl.setTextSize(9f);
@@ -100,8 +108,7 @@ public class RadarChartFragment extends Fragment {
     }
 
     private void createRadarChartData() {
-        List<JournalChartData> aggregateData = ChartLoader.getAggregateForYear(new DateTime().getYear());
-
+        List<JournalChartData> aggregateData = ChartLoader.getAggregateForYear(new DateTime().getYear() - 1);
 
         ArrayList<Entry> entries = new ArrayList<Entry>(12);
         for (int i = 0; i < 12; i++) {
@@ -109,32 +116,56 @@ public class RadarChartFragment extends Fragment {
         }
         ArrayList<Entry> baseEntries = entries;
 
-        ArrayList<RadarDataSet> sets = new ArrayList<RadarDataSet>();
+        allMoodDataSets = new ArrayList<RadarDataSet>();
 
-        int currentDataGroupID = -1;
+        int currentMoodIndex = -1;
         if (aggregateData.size() > 1) {
-            currentDataGroupID = aggregateData.get(0).getWeeknumber();
+            currentMoodIndex = aggregateData.get(0).getMood_index();
         }
+
+        existingMoods = new ArrayList<String>();
         for (JournalChartData chartData1 : aggregateData) {
-            if (currentDataGroupID != chartData1.getWeeknumber()) {
-                RadarDataSet set = new RadarDataSet(entries, emotionSubStrings[currentDataGroupID]);
-                set.setColor(emotionColors.getColor(currentDataGroupID, Color.DKGRAY));
+            if (currentMoodIndex != chartData1.getMood_index()) {
+                existingMoods.add(emotionSubStrings[currentMoodIndex]);
+                RadarDataSet set = new RadarDataSet(entries, emotionSubStrings[currentMoodIndex]);
+                set.setColor(emotionColors.getColor(currentMoodIndex, Color.DKGRAY));
                 set.setDrawFilled(true);
                 set.setLineWidth(2f);
-                sets.add(set);
-                currentDataGroupID = chartData1.getWeeknumber();
+                allMoodDataSets.add(set);
+                currentMoodIndex = chartData1.getMood_index();
                 entries = new ArrayList<Entry>(12);
                 for (int i = 0; i < 12; i++) {
                     entries.add(new Entry(0, i));
                 }
             }
-//             entries.set(chartData1.getWeeknumber() - 1, new Entry(chartData1.getMoodcount(), chartData1.getWeeknumber() - 1));
-//            entries.set(chartData1.getWeeknumber() - 1, new Entry(chartData1.getMoodcount(), chartData1.getMood_index()));
-            entries.set(chartData1.getMood_index(), new Entry(chartData1.getMoodcount(), chartData1.getMood_index()));
-
+            entries.set(chartData1.getWeeknumber() - 1, new Entry(chartData1.getMoodcount(), chartData1.getMood_index()));
         }
 
-        RadarData data = new RadarData(mMonths, sets);
+        RadarData data = new RadarData(mMonths, allMoodDataSets);
+        mChart.setData(data);
+        mChart.highlightValues(null);
+        mChart.invalidate();
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, existingMoods);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        spinner.setItems(existingMoods, "All Moods", new MultiSpinner.MultiSpinnerListener() {
+            @Override
+            public void onItemsSelected(boolean[] selected) {
+                displayDataSet(selected);
+            }
+        });
+    }
+
+    public void displayDataSet(boolean[] displayArray) {
+        ArrayList<RadarDataSet> displayDataSets = new ArrayList<RadarDataSet>();
+        for (int i = 0; i < displayArray.length; i++) {
+            if (displayArray[i]) {
+                displayDataSets.add(allMoodDataSets.get(i));
+            }
+        }
+        RadarData data = new RadarData(mMonths, displayDataSets);
         mChart.setData(data);
         mChart.highlightValues(null);
         mChart.invalidate();

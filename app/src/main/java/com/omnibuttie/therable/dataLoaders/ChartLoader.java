@@ -81,7 +81,7 @@ public class ChartLoader {
                 "strftime('%Y',simpledate) AS year\n" +
                 "from JOURNAL_ENTRY\n" +
                 "where SIMPLEDATE between '" + year + "-01-01' and '" + year + "-12-31'\n" +
-                "GROUP BY year, month, moodindex";
+                "GROUP BY moodindex, year, month";
         List<JournalChartData> journalChartList = JournalChartData.findWithQuery(JournalChartData.class, sql);
         return journalChartList;
     }
