@@ -5,24 +5,25 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/emoteQuestion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:text="@string/questionsample"
-        android:textSize="15sp" />
+    <!--<TextView-->
+    <!--android:id="@+id/emoteQuestion"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:paddingLeft="5dp"-->
+    <!--android:paddingRight="5dp"-->
+    <!--android:text="@string/questionsample"-->
+    <!--android:textSize="15sp"-->
+    <!--/>-->
 
     <TextView
         android:id="@+id/emoteSubText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="15dp"
-        android:paddingRight="5dp"
-        android:paddingTop="5dp"
+        android:gravity="center"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
         android:text="Angry"
-        android:textSize="12sp" />
+        android:textSize="20sp" />
 
 
 </LinearLayout>

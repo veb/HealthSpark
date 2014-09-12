@@ -16,14 +16,16 @@
     <string-array name="menuTitles">
         <item>Feed</item>
         <item>For later viewing</item>
-        <item>Weekly Mood Track</item>
+        <item>Weekly Mood Graph</item>
+        <item>Monthly Mood Graph</item>
         <item>Calendar</item>
     </string-array>
 
     <array name="menuIcons">
         <item>@drawable/ic_list</item>
         <item>@drawable/ic_bookmark</item>
-        <item>@drawable/ic_info</item>
+        <item>@drawable/ic_barchart</item>
+        <item>@drawable/ic_piechart</item>
         <item>@drawable/ic_calendar</item>
     </array>
     <array name="emoticonthumbs">
@@ -68,9 +70,9 @@
     <string name="taglistTitle">List of tags</string>
 
     <array name="intensityColors">
-        <item>@color/ForestGreen</item>
-        <item>@color/Orange</item>
-        <item>@color/Red</item>
+        <item>@color/green_A700</item>
+        <item>@color/orange_A700</item>
+        <item>@color/red_A700</item>
     </array>
     <array name="intensityModifiers">
         <item>Mildly</item>

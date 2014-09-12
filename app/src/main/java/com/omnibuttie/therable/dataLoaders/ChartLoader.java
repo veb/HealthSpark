@@ -32,7 +32,7 @@ public class ChartLoader {
 
     public static List<JournalChartData> getMonths() {
         String sql = "select \n" +
-                "strftime('%m', simpledate) WeekNumber,\n" +
+                "strftime('%m', simpledate) WEEKNUMBER,\n" +
                 "strftime('%s', simpledate)*1000 WEEKSTART,\n" +
                 "strftime('%s', date(simpledate, '+1 month', '-1 day'))*1000 WEEKEND,\n" +
                 "1 as ID,\n" +
@@ -64,6 +64,24 @@ public class ChartLoader {
                 "where SIMPLEDATE between '" + fmt.print(simpleStart) + "' and '" + fmt.print(simpleEnd) + "'\n" +
                 "group by MOOD_INDEX\n" +
                 "order by MOOD_INDEX asc, SIMPLEDATE desc";
+        List<JournalChartData> journalChartList = JournalChartData.findWithQuery(JournalChartData.class, sql);
+        return journalChartList;
+    }
+
+    public static List<JournalChartData> getAggregateForYear(int year) {
+        String sql = "SELECT \n" +
+                "cast(strftime('%m', simpledate) as INTEGER) WEEKNUMBER,\n" +
+                "date_modified WEEKSTART,\n" +
+                "date_modified WEEKEND,\n" +
+                "MOOD_INDEX as MOODINDEX,\n" +
+                "count(MOOD_INDEX) as MOODCOUNT,\n" +
+                "ID as ID,\n" +
+                "ID as _ID,\n" +
+                "strftime('%m',simpledate) AS month,\n" +
+                "strftime('%Y',simpledate) AS year\n" +
+                "from JOURNAL_ENTRY\n" +
+                "where SIMPLEDATE between '" + year + "-01-01' and '" + year + "-12-31'\n" +
+                "GROUP BY year, month, moodindex";
         List<JournalChartData> journalChartList = JournalChartData.findWithQuery(JournalChartData.class, sql);
         return journalChartList;
     }

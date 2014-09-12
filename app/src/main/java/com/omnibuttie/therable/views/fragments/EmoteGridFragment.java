@@ -10,11 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.omnibuttie.therable.R;
@@ -28,8 +26,7 @@ public class EmoteGridFragment extends DialogFragment implements AdapterView.OnI
     private static final String DEF_INTENSITY_PARAM = "param1";
     View superView;
     int defaultIntensity;
-    private ListView listView;
-    private RadioGroup radioGroup;
+    private AbsListView listView;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -50,11 +47,8 @@ public class EmoteGridFragment extends DialogFragment implements AdapterView.OnI
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Composer_alternate activity = (Composer_alternate) getActivity();
-        int radioID = radioGroup.getCheckedRadioButtonId();
-        RadioButton butt = (RadioButton) superView.findViewById(radioID);
-
-        int idx = radioGroup.indexOfChild(butt);
-        activity.appendMood(parent.getItemAtPosition(position).toString(), idx, position);
+        //TODO: intensity set to zero for now
+        activity.appendMood(parent.getItemAtPosition(position).toString(), 0, position);
 
         this.dismiss();
     }
@@ -79,10 +73,7 @@ public class EmoteGridFragment extends DialogFragment implements AdapterView.OnI
 
         superView = view;
 
-        radioGroup = (RadioGroup) view.findViewById(R.id.toolRadio);
-        ((RadioButton) radioGroup.getChildAt(defaultIntensity)).setChecked(true);
-
-        listView = (ListView) view.findViewById(R.id.asset_grid);
+        listView = (AbsListView) view.findViewById(R.id.asset_grid);
         listView.setOnItemClickListener(this);
 
         listView.setAdapter(new EmoteSelectAdapter(getActivity(), getResources().getStringArray(R.array.moodQuestion), getResources().getStringArray(R.array.moodSubStrings)));
@@ -116,7 +107,7 @@ class EmoteSelectAdapter extends ArrayAdapter<String> {
             convertView = inflater.inflate(R.layout.emote_select_row, parent, false);
 
             viewHolder = new ViewHolderItem();
-            viewHolder.tvQuestion = (TextView) convertView.findViewById(R.id.emoteQuestion);
+//            viewHolder.tvQuestion = (TextView) convertView.findViewById(R.id.emoteQuestion);
             viewHolder.tvMoodText = (TextView) convertView.findViewById(R.id.emoteSubText);
 
             convertView.setTag(viewHolder);
@@ -125,7 +116,7 @@ class EmoteSelectAdapter extends ArrayAdapter<String> {
             viewHolder = (ViewHolderItem) convertView.getTag();
         }
 
-        viewHolder.tvQuestion.setText(questions[position]);
+//        viewHolder.tvQuestion.setText(questions[position]);
         viewHolder.tvMoodText.setText(values[position]);
 
         convertView.setBackground(new LeftBorderDrawable(cardBorderColors.getColor(position, Color.WHITE), cardBackgroundColors.getColor(position, Color.WHITE)));

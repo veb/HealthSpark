@@ -27,36 +27,31 @@
     </string-array>
 
     <array name="emotiveColors">
-        <item>@color/Red</item>
-        <item>@color/Gold</item>
-        <item>@color/OliveDrab</item>
-        <item>@color/DarkOrange</item>
-        <item>@color/DarkBlue</item>
-        <item>@color/DarkOliveGreen</item>
-        <item>@color/DimGray</item>
-        <item>@color/DarkViolet</item>
-        <item>@color/PaleVioletRed</item>
-        <item>@color/Goldenrod</item>
+        <item>@color/red_700</item>
+        <item>@color/amber_700</item>
+        <item>@color/lime_700</item>
+        <item>@color/orange_700</item>
+        <item>@color/indigo_700</item>
+        <item>@color/green_700</item>
+        <item>@color/blue_grey_700</item>
+        <item>@color/purple_700</item>
+        <item>@color/pink_700</item>
+        <item>@color/light_blue_700</item>
     </array>
 
     <array name="lightEmotiveColors">
-        <item>@color/XLightRed</item>
-        <item>@color/XLightGold</item>
-        <item>@color/XLightOliveDrab</item>
-        <item>@color/XLightDarkOrange</item>
-        <item>@color/XLightDarkBlue</item>
-        <item>@color/XLightDarkOliveGreen</item>
-        <item>@color/LightGrey</item>
-        <item>@color/XLightDarkViolet</item>
-        <item>@color/XLightMediumPurple</item>
-        <item>@color/XLightGoldenrod</item>
+        <item>@color/red_200</item>
+        <item>@color/amber_200</item>
+        <item>@color/lime_200</item>
+        <item>@color/orange_200</item>
+        <item>@color/indigo_200</item>
+        <item>@color/green_200</item>
+        <item>@color/blue_grey_200</item>
+        <item>@color/purple_200</item>
+        <item>@color/pink_200</item>
+        <item>@color/light_blue_200</item>
     </array>
 
-    <array name="emotiveSpineDrawables">
-        <item>@drawable/card_green_spine</item>
-        <item>@drawable/card_yellow_spine</item>
-        <item>@drawable/card_red_spine</item>
-    </array>
 
     <string name="questionsample">...like I\'d like to punch something or someone</string>
 </resources>

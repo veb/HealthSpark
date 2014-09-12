@@ -25,12 +25,18 @@ import com.omnibuttie.therable.views.cards.EntryCard;
 import com.omnibuttie.therable.views.fragments.CalendarFragment;
 import com.omnibuttie.therable.views.fragments.JournalCards;
 import com.omnibuttie.therable.views.fragments.PerEmotionTrackFragment;
+import com.omnibuttie.therable.views.fragments.RadarChartFragment;
 import com.omnibuttie.therable.views.fragments.WeeklyChartFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends FragmentActivity implements CalendarFragment.OnFragmentInteractionListener, WeeklyChartFragment.OnFragmentInteractionListener, PerEmotionTrackFragment.OnFragmentInteractionListener, JournalCards.OnFragmentInteractionListener {
+public class MainActivity extends FragmentActivity implements
+        CalendarFragment.OnFragmentInteractionListener,
+        WeeklyChartFragment.OnFragmentInteractionListener,
+        RadarChartFragment.OnFragmentInteractionListener,
+        PerEmotionTrackFragment.OnFragmentInteractionListener,
+        JournalCards.OnFragmentInteractionListener {
     final int WRITEREQUESTCODE = 101;
     String[] menuTitles;
     TypedArray menuIcons;
@@ -165,9 +171,12 @@ public class MainActivity extends FragmentActivity implements CalendarFragment.O
                 fragment = JournalCards.newInstance(EntryCard.VIEW_ARCHIVE, null);
                 break;
             case 2:
-                fragment = PerEmotionTrackFragment.newInstance();
+                fragment = WeeklyChartFragment.newInstance();
                 break;
             case 3:
+                fragment = RadarChartFragment.newInstance();
+                break;
+            case 4:
                 fragment = CalendarFragment.newInstance();
             default:
                 break;

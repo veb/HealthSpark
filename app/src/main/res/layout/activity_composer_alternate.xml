@@ -4,7 +4,7 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/White"
+    android:background="@color/white"
     android:orientation="vertical"
     android:padding="5dp">
 
@@ -16,8 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="com.rockerhieu.emojicon.example.MainActivity$PlaceholderFragment"
-        >
+        tools:context="com.rockerhieu.emojicon.example.MainActivity$PlaceholderFragment">
 
         <LinearLayout
             android:id="@+id/imfeelingbutton"
@@ -26,7 +25,16 @@
             android:paddingBottom="5dp"
             android:paddingTop="5dp">
 
-            <include layout="@layout/emote_select_row" />
+            <TextView
+                android:id="@+id/emoteSubText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:text="Angry"
+                android:textSize="20sp" />
+
         </LinearLayout>
 
         <com.marvinlabs.widget.floatinglabel.edittext.FloatingLabelEditText

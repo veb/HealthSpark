@@ -1,7 +1,9 @@
 package com.omnibuttie.therable.views;
 
+import android.app.ActionBar;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -49,7 +51,7 @@ public class Composer_alternate extends FragmentActivity implements ItemPickerLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        cardBackgroundColors = getResources().obtainTypedArray(R.array.lightEmotiveColors);
+        cardBackgroundColors = getResources().obtainTypedArray(R.array.emotiveColors);
 
         setContentView(R.layout.activity_composer_alternate);
 
@@ -121,8 +123,6 @@ public class Composer_alternate extends FragmentActivity implements ItemPickerLi
         appendMood(entry.getMood(), entry.getIntensity(), entry.getMoodIndex());
         editEmojicon.setInputWidgetText(entry.getContent());
         picker.setSelectedIndices(new int[]{entry.getCause()});
-
-        root.setBackgroundColor(cardBackgroundColors.getColor(entry.getMoodIndex(), Color.WHITE));
     }
 
     @Override
@@ -181,15 +181,19 @@ public class Composer_alternate extends FragmentActivity implements ItemPickerLi
     }
 
     public void appendMood(String mood, int intensityValue, int moodID) {
-//        imFeelingButton.setText("I'm feeling " + intensityModifiers[intensityValue].toLowerCase() + " " + mood.toLowerCase());
-        TextView tvEmoteQuestion = (TextView) imFeelingButton.findViewById(R.id.emoteQuestion);
         TextView tvEmoteText = (TextView) imFeelingButton.findViewById(R.id.emoteSubText);
-        tvEmoteText.setText(mood);
-        tvEmoteQuestion.setText(moodQuestions[moodID]);
-        root.setBackgroundColor(cardBackgroundColors.getColor(moodID, Color.WHITE));
         selectedPrimaryMood = mood;
         selectedIntensity = intensityValue;
         selectedMoodIndex = moodID;
+
+        tvEmoteText.setText(selectedPrimaryMood);
+
+        ColorDrawable colorDraw = new ColorDrawable(cardBackgroundColors.getColor(selectedMoodIndex, Color.RED));
+        ActionBar bar = getActionBar();
+        bar.setBackgroundDrawable(colorDraw);
+
+        bar.setDisplayShowTitleEnabled(false);
+        bar.setDisplayShowTitleEnabled(true);
     }
 
 
@@ -197,5 +201,25 @@ public class Composer_alternate extends FragmentActivity implements ItemPickerLi
     public void onBackPressed() {
 //        super.onBackPressed();
         finish();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putString("mood", selectedPrimaryMood);
+        savedInstanceState.putInt("intensityValue", selectedIntensity);
+        savedInstanceState.putInt("moodID", selectedMoodIndex);
+
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    //onRestoreInstanceState
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        String mood = savedInstanceState.getString("mood");
+        int intensityValue = savedInstanceState.getInt("intensityValue");
+        int moodID = savedInstanceState.getInt("moodID");
+
+        appendMood(mood, intensityValue, moodID);
     }
 }
