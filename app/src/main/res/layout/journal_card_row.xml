@@ -8,6 +8,7 @@
 
     <TextView
         android:id="@+id/card_title"
+        style="@style/AppTheme.BoldText"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -19,8 +20,7 @@
         android:gravity="left"
         android:text="Status"
         android:textColor="#000000"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/card_status"
@@ -54,13 +54,13 @@
 
         <TextView
             android:id="@+id/tvMonth"
+            style="@style/AppTheme.BoldText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingTop="5dp"
             android:text="JAN"
-            android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tvDay"
@@ -73,12 +73,12 @@
 
         <TextView
             android:id="@+id/tvWeek"
+            style="@style/AppTheme.BoldText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Wednesday"
-            android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tvTime"

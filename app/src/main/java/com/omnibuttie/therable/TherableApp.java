@@ -14,6 +14,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+
 /**
  * Created by rayarvin on 6/18/14.
  */
@@ -21,6 +23,8 @@ public class TherableApp extends SugarApp {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        CalligraphyConfig.initDefault("fonts/Lato-Regular.ttf", R.attr.fontPath);
 
         TypedArray emoticonIndexes = getResources().obtainTypedArray(R.array.emoticonthumbs);
         String[] moodSubStrings = getResources().getStringArray(R.array.moodSubStrings);

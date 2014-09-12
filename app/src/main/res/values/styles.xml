@@ -5,4 +5,8 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="AppTheme.BoldText">
+        <item name="fontPath">fonts/Lato-Bold.ttf</item>
+    </style>
+
 </resources>

@@ -60,7 +60,6 @@ public class EntryCard extends Card {
     }
 
 
-
     public EntryCard(Context context, int innerLayout) {
         super(context, innerLayout);
         init();
@@ -84,7 +83,7 @@ public class EntryCard extends Card {
         tvTime = (TextView) parent.findViewById(R.id.tvTime);
         tvWeek = (TextView) parent.findViewById(R.id.tvWeek);
 
-        Typeface font = Typeface.createFromAsset(getContext().getAssets(), "Roboto-Black.ttf");
+        Typeface font = Typeface.createFromAsset(getContext().getAssets(), "fonts/Lato-Black.ttf");
         tvDay.setTypeface(font);
 
 

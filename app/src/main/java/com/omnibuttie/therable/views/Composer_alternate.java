@@ -1,6 +1,7 @@
 package com.omnibuttie.therable.views;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -29,6 +30,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class Composer_alternate extends FragmentActivity implements ItemPickerListener<String> {
     FloatingLabelEditText editEmojicon;
     FloatingLabelItemPicker<String> picker;
@@ -47,7 +50,9 @@ public class Composer_alternate extends FragmentActivity implements ItemPickerLi
 
     JournalEntry entry;
 
-    /** Called when the activity is first created. */
+    /**
+     * Called when the activity is first created.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,7 +101,7 @@ public class Composer_alternate extends FragmentActivity implements ItemPickerLi
             @Override
             public void onClick(View v) {
                 FragmentManager fm = getSupportFragmentManager();
-                EmoteGridFragment editEmoteGrid= EmoteGridFragment.newInstance(entry!=null?entry.getIntensity():0);
+                EmoteGridFragment editEmoteGrid = EmoteGridFragment.newInstance(entry != null ? entry.getIntensity() : 0);
                 editEmoteGrid.show(fm, null);
             }
         });
@@ -154,7 +159,7 @@ public class Composer_alternate extends FragmentActivity implements ItemPickerLi
         Pattern tagMatcher = Pattern.compile("[#]+[A-Za-z0-9-_]+\\b");
         Matcher m = tagMatcher.matcher(editEmojicon.getInputWidgetText().toString());
         List<String> tokens = new ArrayList<String>();
-        while(m.find()) {
+        while (m.find()) {
             String token = m.group();
             tokens.add(token);
         }
@@ -221,5 +226,10 @@ public class Composer_alternate extends FragmentActivity implements ItemPickerLi
         int moodID = savedInstanceState.getInt("moodID");
 
         appendMood(mood, intensityValue, moodID);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(new CalligraphyContextWrapper(newBase));
     }
 }

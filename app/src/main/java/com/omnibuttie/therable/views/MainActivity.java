@@ -1,5 +1,6 @@
 package com.omnibuttie.therable.views;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -30,6 +31,8 @@ import com.omnibuttie.therable.views.fragments.WeeklyChartFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends FragmentActivity implements
         CalendarFragment.OnFragmentInteractionListener,
@@ -192,10 +195,16 @@ public class MainActivity extends FragmentActivity implements
         }
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(new CalligraphyContextWrapper(newBase));
+    }
+
     class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             updateDisplay(position);
         }
     }
+
 }
