@@ -39,6 +39,8 @@ import it.gmariotti.cardslib.library.view.listener.UndoBarController;
  * create an instance of this fragment.
  */
 public class JournalCards extends Fragment implements LoaderManager.LoaderCallbacks<List<EntryCard>> {
+    private static final String CARDVIEWPARAM = "cardview";
+    private static final String CONTENTFILTERPARAM = "filterparam";
     int CARD_VIEW_TYPE;
     Card.OnSwipeListener swipeListener = new Card.OnSwipeListener() {
         @Override
@@ -132,8 +134,12 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
     // TODO: Rename and change types and number of parameters
     public static JournalCards newInstance(int viewType, String contentFilter) {
         JournalCards fragment = new JournalCards();
-        fragment.CARD_VIEW_TYPE = viewType;
-        fragment.contentFilter = contentFilter;
+
+        Bundle args = new Bundle();
+        args.putString(CONTENTFILTERPARAM, contentFilter);
+        args.putInt(CARDVIEWPARAM, viewType);
+        fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -141,6 +147,10 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (getArguments() != null) {
+            contentFilter = getArguments().getString(CONTENTFILTERPARAM);
+            CARD_VIEW_TYPE = getArguments().getInt(CARDVIEWPARAM);
+        }
         cardLoader = new JournalEntryLoader(getActivity(), cardClickListener, CARD_VIEW_TYPE, null);
 
     }
@@ -237,6 +247,14 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putInt(CARDVIEWPARAM, CARD_VIEW_TYPE);
+        savedInstanceState.putString(CONTENTFILTERPARAM, contentFilter);
+
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -251,6 +269,4 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
     }
-
-
 }

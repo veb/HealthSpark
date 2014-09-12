@@ -79,4 +79,6 @@ dependencies {
     compile name: 'MPChartLib', ext: 'aar'
     compile 'com.nineoldandroids:library:2.4.+'
     compile 'org.apache.commons:commons-lang3:3.3.2'
+
+    compile 'uk.co.chrisjenx:calligraphy:1.1.+'
 }
