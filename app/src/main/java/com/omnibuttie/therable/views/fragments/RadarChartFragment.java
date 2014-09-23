@@ -108,7 +108,7 @@ public class RadarChartFragment extends Fragment {
     }
 
     private void createRadarChartData() {
-        List<JournalChartData> aggregateData = ChartLoader.getAggregateForYear(new DateTime().getYear() - 1);
+        List<JournalChartData> aggregateData = ChartLoader.getAggregateForYear(new DateTime().getYear());
 
         ArrayList<Entry> entries = new ArrayList<Entry>(12);
         for (int i = 0; i < 12; i++) {
@@ -139,6 +139,18 @@ public class RadarChartFragment extends Fragment {
                 }
             }
             entries.set(chartData1.getWeeknumber() - 1, new Entry(chartData1.getMoodcount(), chartData1.getMood_index()));
+        }
+
+        // quickhack
+        existingMoods.add(emotionSubStrings[currentMoodIndex]);
+        RadarDataSet set = new RadarDataSet(entries, emotionSubStrings[currentMoodIndex]);
+        set.setColor(emotionColors.getColor(currentMoodIndex, Color.DKGRAY));
+        set.setDrawFilled(true);
+        set.setLineWidth(2f);
+        allMoodDataSets.add(set);
+        entries = new ArrayList<Entry>(12);
+        for (int i = 0; i < 12; i++) {
+            entries.add(new Entry(0, i));
         }
 
         RadarData data = new RadarData(mMonths, allMoodDataSets);

@@ -32,13 +32,13 @@ public class TherableApp extends SugarApp {
             JournalChartData jchartinit = new JournalChartData(0, new Date(), new Date(), 0, 0);
 
             jchartinit.save();
-            for (int i = 0; i < 500; i++) {
+            for (int i = 0; i < 1500; i++) {
                 Random r = new Random();
                 long t1 = System.currentTimeMillis() - (Math.abs(r.nextInt()));
                 Date d1 = new Date(t1);
 
 
-                long rangebegin = Timestamp.valueOf("2013-01-01 00:00:00").getTime();
+                long rangebegin = Timestamp.valueOf("2013-09-01 00:00:00").getTime();
                 long rangeend = new Date().getTime();
                 long diff = rangeend - rangebegin + 1;
                 Timestamp randTS = new Timestamp(rangebegin + (long) (Math.random() * diff));
