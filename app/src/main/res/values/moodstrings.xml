@@ -52,6 +52,41 @@
         <item>@color/light_blue_200</item>
     </array>
 
+    <array name="painStrings">
+        <item>None</item>
+        <item>Very mild</item>
+        <item>Discomforting</item>
+        <item>Tolerable</item>
+        <item>Distressing</item>
+        <item>Very Distressing</item>
+        <item>Intense</item>
+        <item>Very intense</item>
+        <item>Horrible</item>
+        <item>Excruciating</item>
+        <item>Unspeakable</item>
+    </array>
+
+    <array name="effectivenessString">
+        <item>MADE IT WORSE</item>
+        <item>Very Discomforting</item>
+        <item>Mild discomfort</item>
+        <item>No effect</item>
+        <item>Sort of works</item>
+        <item>Mildly effective</item>
+        <item>Effective</item>
+        <item>Super Effective</item>
+
+    </array>
+
 
     <string name="questionsample">...like I\'d like to punch something or someone</string>
+
+    <string-array name="fitnessActivityStrings">
+        <item>Walk</item>
+        <item>Run</item>
+        <item>Weights</item>
+        <item>Cardio</item>
+        <item>Legday</item>
+    </string-array>
+
 </resources>

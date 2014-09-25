@@ -28,40 +28,6 @@
         <item>@drawable/ic_piechart</item>
         <item>@drawable/ic_calendar</item>
     </array>
-    <array name="emoticonthumbs">
-        <item>@drawable/ic_emoticons_01</item>
-        <item>@drawable/ic_emoticons_02</item>
-        <item>@drawable/ic_emoticons_03</item>
-        <item>@drawable/ic_emoticons_04</item>
-        <item>@drawable/ic_emoticons_05</item>
-        <item>@drawable/ic_emoticons_06</item>
-        <item>@drawable/ic_emoticons_07</item>
-        <item>@drawable/ic_emoticons_08</item>
-        <item>@drawable/ic_emoticons_09</item>
-    </array>
-    <array name="emoticons">
-        <item>@drawable/emoticons01</item>
-        <item>@drawable/emoticons02</item>
-        <item>@drawable/emoticons03</item>
-        <item>@drawable/emoticons04</item>
-        <item>@drawable/emoticons05</item>
-        <item>@drawable/emoticons06</item>
-        <item>@drawable/emoticons07</item>
-        <item>@drawable/emoticons08</item>
-        <item>@drawable/emoticons09</item>
-    </array>
-
-    <string-array name="emotionLabels">
-        <item>admiration</item>
-        <item>ecstacy</item>
-        <item>vigilance</item>
-        <item>terror</item>
-        <item>amazement</item>
-        <item>grief</item>
-        <item>loathing</item>
-        <item>rage</item>
-        <item>apathy</item>
-    </string-array>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_composer">Composer</string>
@@ -83,5 +49,6 @@
     <string name="title_activity_composer_alternate">AltComposer</string>
     <string name="title_activity_sample_times_square">SampleTimesSquareActivity</string>
     <string name="title_activity_composer_nexus">ComposerNexus</string>
+    <string name="title_activity_mode_select">ModeSelectActivity</string>
 
 </resources>

@@ -2,7 +2,6 @@ package com.omnibuttie.therable.dataLoaders;
 
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.support.v4.content.AsyncTaskLoader;
 
 import com.omnibuttie.therable.R;
@@ -48,11 +47,10 @@ public class JournalEntryLoader extends AsyncTaskLoader<List<EntryCard>> {
 
     @Override
     public List<EntryCard> loadInBackground() {
-        String[] emoticonString = getContext().getResources().getStringArray(R.array.emotionLabels);
-        TypedArray emoticonIcons = getContext().getResources().obtainTypedArray(R.array.emoticons);
         List<EntryCard> cards = new ArrayList<EntryCard>();
 
         List<JournalEntry> journalList = null;
+
 
         switch (CardViewType) {
             case EntryCard.VIEW_ALL:
@@ -70,12 +68,25 @@ public class JournalEntryLoader extends AsyncTaskLoader<List<EntryCard>> {
                 } else {
                     journalList = Select.from(JournalEntry.class).orderBy("date_modified desc").list();
                 }
-
-
         }
 
         for (JournalEntry entry : journalList) {
-            EntryCard card = new EntryCard(getContext());
+            EntryCard card;
+
+            switch (entry.getEntryType()) {
+                case MOOD:
+                    card = new EntryCard(getContext(), R.layout.journal_card_row_cbt);
+                    break;
+                case FITNESS:
+                    card = new EntryCard(getContext(), R.layout.journal_card_row_fitness);
+                    break;
+                case HEALTH:
+                    card = new EntryCard(getContext(), R.layout.journal_card_row_health);
+                    break;
+                default:
+                    card = new EntryCard(getContext(), R.layout.journal_card_row);
+            }
+
             card.setJournalID(entry.getId());
             card.setEntryDate(entry.getDateModified());
             card.setContent(entry.getContent());

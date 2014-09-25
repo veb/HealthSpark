@@ -1,0 +1,89 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.omnibuttie.therable.views.ModeSelectActivity">
+
+    <View
+        android:id="@+id/horizontalStrut"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerHorizontal="true" />
+
+    <View
+        android:id="@+id/verticalStrut"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerVertical="true" />
+
+    <TextView
+        android:id="@+id/tv_a"
+        fontPath="therable.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/verticalStrut"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/horizontalStrut"
+        android:layout_toStartOf="@+id/horizontalStrut"
+        android:gravity="center"
+        android:text="a"
+        android:textColor="@color/orange_700"
+        android:textSize="120sp" />
+
+    <TextView
+        android:id="@+id/tv_b"
+        fontPath="therable.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/verticalStrut"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/horizontalStrut"
+        android:layout_toRightOf="@+id/horizontalStrut"
+        android:gravity="center"
+        android:text="b"
+        android:textColor="@color/purple_700"
+        android:textSize="120sp" />
+
+    <TextView
+        android:id="@+id/tv_c"
+        fontPath="therable.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/verticalStrut"
+        android:layout_toLeftOf="@+id/horizontalStrut"
+        android:layout_toStartOf="@+id/horizontalStrut"
+        android:gravity="center"
+        android:text="c"
+        android:textColor="@color/red_700"
+        android:textSize="120sp" />
+
+    <TextView
+        android:id="@+id/tv_d"
+        fontPath="therable.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/verticalStrut"
+        android:layout_toEndOf="@+id/horizontalStrut"
+        android:layout_toRightOf="@+id/horizontalStrut"
+        android:gravity="center"
+        android:text="d"
+        android:textColor="@color/blue_700"
+        android:textSize="120sp" />
+
+
+</RelativeLayout>

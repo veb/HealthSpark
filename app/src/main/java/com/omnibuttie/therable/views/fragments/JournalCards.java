@@ -167,8 +167,6 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
         // Inflate the layout for this fragment
 
         context = this.getActivity();
-        emoticonString = context.getResources().getStringArray(R.array.emotionLabels);
-        emoticonIcons = context.getResources().obtainTypedArray(R.array.emoticonthumbs);
 
         cards = new ArrayList<Card>();
         View view = inflater.inflate(R.layout.fragment_journal_cards, container, false);

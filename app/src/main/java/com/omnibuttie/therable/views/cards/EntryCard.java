@@ -10,11 +10,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.omnibuttie.therable.R;
+import com.omnibuttie.therable.views.controls.CircularCounter;
 import com.omnibuttie.therable.views.drawables.LeftBorderDrawable;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 import java.util.regex.Pattern;
 
 import it.gmariotti.cardslib.library.internal.Card;
@@ -50,6 +52,7 @@ public class EntryCard extends Card {
     TextView tvDay;
     TextView tvTime;
     TextView tvWeek;
+    CircularCounter counter;
 
     TypedArray cardBorderColors;
     TypedArray cardBackgroundColors;
@@ -109,6 +112,21 @@ public class EntryCard extends Card {
 
 //        view.setBackground(cardSpineDrawables.getDrawable(intensity));
         view.setBackground(new LeftBorderDrawable(cardBorderColors.getColor(moodIndex, Color.WHITE), cardBackgroundColors.getColor(moodIndex, Color.WHITE)));
+
+        counter = (CircularCounter) view.findViewById(R.id.counter);
+        if (counter != null) {
+            counter.setFirstWidth(20);
+            counter.setFirstColor(getContext().getResources().getColor(R.color.blue_700));
+
+            counter.setSecondWidth(20);
+            counter.setSecondColor(getContext().getResources().getColor(R.color.indigo_700));
+
+            counter.setThirdWidth(20);
+            counter.setThirdWidth(getContext().getResources().getColor(R.color.purple_700));
+
+            Random r = new Random();
+            counter.setValues(r.nextInt(100), 60, 40);
+        }
 
     }
 

@@ -13,15 +13,12 @@ public class JournalEntry extends SugarRecord<JournalEntry> {
     Date dateModified;
     String content;
     boolean isArchived;
-
     String simpledate;
-
     String mood;
     int intensity;
-
     int moodIndex;
-
     int cause;
+    int entryType;
 
     public JournalEntry() {
         this.dateCreated = new Date();
@@ -30,16 +27,12 @@ public class JournalEntry extends SugarRecord<JournalEntry> {
         this.simpledate = new SimpleDateFormat("yyyy-MM-dd").format(this.dateModified);
     }
 
-    public JournalEntry(Date dateCreated, Date dateModified, String content, String mood, int moodIndex, int intensity) {
-        super();
-        this.dateCreated = dateCreated;
-        this.dateModified = dateModified;
-        this.content = content;
-        this.mood = mood;
-        this.moodIndex = moodIndex;
-        this.isArchived = false;
-        this.intensity = intensity;
-        this.simpledate = new SimpleDateFormat("yyyy-MM-dd").format(this.dateModified);
+    public EntryType getEntryType() {
+        return EntryType.values()[this.entryType];
+    }
+
+    public void setEntryType(int entryType) {
+        this.entryType = entryType;
     }
 
     public int getCause() {
@@ -119,6 +112,14 @@ public class JournalEntry extends SugarRecord<JournalEntry> {
                 ", intensity=" + intensity +
                 ", moodIndex=" + moodIndex +
                 ", cause=" + cause +
+                ", entryType=" + entryType +
                 '}';
+    }
+
+    public static enum EntryType {
+        MOOD,
+        FITNESS,
+        HEALTH,
+        PAIN
     }
 }

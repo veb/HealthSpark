@@ -2,9 +2,9 @@
 <pre-dex-items>
 
     <item
-        dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/classes-3e0929d38f20137ff7258311c332d7ea0052809b.jar"
-        jar="/Users/rayarvin/repos/Therable/app/build/intermediates/exploded-aar/com.github.gabrielemariotti.cards/library/1.9.0/classes.jar"
-        jumboMode="false" revision="20.0.0" sha1="81bd93a92a115746312a8f583fbd057137cb2ce7" />
+        dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/classes-d44316161fa6bae0aec8ccfddb0f88f7b49317e0.jar"
+        jar="/Users/rayarvin/repos/Therable/app/build/intermediates/exploded-aar/com.cesarferreira.androidbootstrap/library/1.1.0/classes.jar"
+        jumboMode="false" revision="20.0.0" sha1="dd7cdd00e15c319e883902480836770c7e26f325" />
     <item
         dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/library-2.4.0-8273c2f629d854112498cf4ec8680c75d24e5386.jar"
         jar="/Users/rayarvin/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar"
@@ -21,6 +21,10 @@
         dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/calligraphy-1.1.0-403cb3e2ed7977ee34dafa9e95e9203eef75c32f.jar"
         jar="/Users/rayarvin/.gradle/caches/modules-2/files-2.1/uk.co.chrisjenx/calligraphy/1.1.0/1069a9bca1cb0162881179a799d273d45e9aee14/calligraphy-1.1.0.jar"
         jumboMode="false" revision="20.0.0" sha1="1069a9bca1cb0162881179a799d273d45e9aee14" />
+    <item
+        dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/classes-e607551a2b15bb95889e4c88b238d209dcaee3a1.jar"
+        jar="/Users/rayarvin/repos/Therable/app/build/intermediates/exploded-aar/com.github.gabrielemariotti.cards/library/1.9.1/classes.jar"
+        jumboMode="false" revision="20.0.0" sha1="a64671bd87b29748d87865871cc95147b89a2192" />
     <item
         dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/support-v4-19.1.0-cc0dee6c96ed53def403971e3605145f1569b242.jar"
         jar="/Users/rayarvin/adt-android/sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
@@ -41,10 +45,6 @@
         dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/classes-7d5605dcfb3cd01b743b6919607a5166c43cde9b.jar"
         jar="/Users/rayarvin/repos/Therable/app/build/intermediates/exploded-aar/com.marvinlabs/android-floatinglabel-widgets/1.2.4/classes.jar"
         jumboMode="false" revision="20.0.0" sha1="67aa847d7c3e3969a938b565a62c917abe2c6c36" />
-    <item
-        dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/classes-1e09ff6a1431dc917dda49930710a8c671e7b960.jar"
-        jar="/Users/rayarvin/repos/Therable/app/build/intermediates/exploded-aar/com.github.dkharrat.nexusdialog/nexusdialog/0.1.1/classes.jar"
-        jumboMode="false" revision="20.0.0" sha1="055831d90221fe1642a6c5d7481bd0108a12594b" />
     <item
         dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/commons-lang3-3.3.2-52c808fbce9e66ac2bd8b026e2e5d70c50ac99b3.jar"
         jar="/Users/rayarvin/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.3.2/90a3822c38ec8c996e84c16a3477ef632cbc87a3/commons-lang3-3.3.2.jar"
