@@ -18,6 +18,7 @@
         <item>For later viewing</item>
         <item>Weekly Mood Graph</item>
         <item>Monthly Mood Graph</item>
+        <item>Progress Graph</item>
         <item>Calendar</item>
     </string-array>
 
@@ -26,6 +27,7 @@
         <item>@drawable/ic_bookmark</item>
         <item>@drawable/ic_barchart</item>
         <item>@drawable/ic_piechart</item>
+        <item>@drawable/ic_linegraph</item>
         <item>@drawable/ic_calendar</item>
     </array>
 

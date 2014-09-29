@@ -40,7 +40,7 @@ public class Composer_alternate extends FragmentActivity implements ItemPickerLi
 
     View imFeelingButton;
     String selectedPrimaryMood;
-    int selectedIntensity;
+    float selectedIntensity;
     int selectedMoodIndex;
     int selectedCause;
     String[] intensityModifiers;
@@ -185,7 +185,7 @@ public class Composer_alternate extends FragmentActivity implements ItemPickerLi
 
     }
 
-    public void appendMood(String mood, int intensityValue, int moodID) {
+    public void appendMood(String mood, float intensityValue, int moodID) {
         TextView tvEmoteText = (TextView) imFeelingButton.findViewById(R.id.emoteSubText);
         selectedPrimaryMood = mood;
         selectedIntensity = intensityValue;
@@ -211,7 +211,7 @@ public class Composer_alternate extends FragmentActivity implements ItemPickerLi
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putString("mood", selectedPrimaryMood);
-        savedInstanceState.putInt("intensityValue", selectedIntensity);
+        savedInstanceState.putFloat("intensityValue", selectedIntensity);
         savedInstanceState.putInt("moodID", selectedMoodIndex);
 
         super.onSaveInstanceState(savedInstanceState);

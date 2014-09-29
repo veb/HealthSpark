@@ -21,8 +21,10 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.XLabels;
 import com.github.mikephil.charting.utils.YLabels;
 import com.omnibuttie.therable.R;
+import com.omnibuttie.therable.TherableApp;
 import com.omnibuttie.therable.dataLoaders.ChartLoader;
 import com.omnibuttie.therable.model.JournalChartData;
+import com.omnibuttie.therable.model.JournalEntry;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.joda.time.DateTime;
@@ -39,6 +41,7 @@ public class WeeklyChartFragment extends Fragment {
     String[] emotionSubStrings;
     TypedArray emotionColors;
     int[] parsedColors;
+    JournalEntry.EntryType appMode;
     private OnFragmentInteractionListener mListener;
     private ListView listView;
 
@@ -54,8 +57,28 @@ public class WeeklyChartFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        emotionSubStrings = getResources().getStringArray(R.array.moodSubStrings);
-        emotionColors = getResources().obtainTypedArray(R.array.emotiveColors);
+
+        appMode = ((TherableApp) getActivity().getApplication()).getAppMode();
+
+        switch (appMode) {
+            case MOOD:
+                emotionSubStrings = getResources().getStringArray(R.array.moodSubStrings);
+                emotionColors = getResources().obtainTypedArray(R.array.emotiveColors);
+                break;
+            case FITNESS:
+                emotionSubStrings = getResources().getStringArray(R.array.fitnessActivityStrings);
+                emotionColors = getResources().obtainTypedArray(R.array.emotiveColors);
+                break;
+            case HEALTH:
+                emotionSubStrings = getResources().getStringArray(R.array.effectivenessString);
+                emotionColors = getResources().obtainTypedArray(R.array.emotiveColors);
+                break;
+            case PAIN:
+                emotionSubStrings = getResources().getStringArray(R.array.painStrings);
+                emotionColors = getResources().obtainTypedArray(R.array.emotiveColors);
+                break;
+        }
+
 
         List<Integer> emColors = new ArrayList<Integer>();
         for (int i = 0; i < emotionColors.length(); i++) {
@@ -71,7 +94,7 @@ public class WeeklyChartFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list_chart, container, false);
         listView = (ListView) view.findViewById(R.id.listView1);
 
-        List<JournalChartData> weeks = ChartLoader.getWeeks();
+        List<JournalChartData> weeks = ChartLoader.getWeeks(appMode);
 
         ArrayList<BarData> bars = new ArrayList<BarData>();
 
@@ -97,7 +120,7 @@ public class WeeklyChartFragment extends Fragment {
             barEntries.add(new BarEntry(0, i));
         }
 
-        List<JournalChartData> chartDatas = ChartLoader.getPeriodData(start, end);
+        List<JournalChartData> chartDatas = ChartLoader.getPeriodData(start, end, appMode);
 
         for (int i = 0; i < chartDatas.size(); i++) {
             JournalChartData chartData = chartDatas.get(i);
@@ -106,8 +129,18 @@ public class WeeklyChartFragment extends Fragment {
 
         BarDataSet dataSet = new BarDataSet(barEntries, fmt.print(simpleStart) + " to " + fmt.print(simpleEnd));
         dataSet.setBarSpacePercent(15f);
-        dataSet.setColors(ColorTemplate.createColors(parsedColors));
-//        dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS, getActivity().getApplicationContext());
+
+        switch (((TherableApp) getActivity().getApplication()).getAppMode()) {
+            case MOOD:
+                dataSet.setColors(ColorTemplate.createColors(parsedColors));
+                break;
+            case FITNESS:
+            case HEALTH:
+            case PAIN:
+                dataSet.setColors(ColorTemplate.JOYFUL_COLORS, getActivity().getApplicationContext());
+                break;
+        }
+
         dataSet.setBarShadowColor(Color.rgb(203, 203, 203));
         ArrayList<BarDataSet> sets = new ArrayList<BarDataSet>();
         sets.add(dataSet);

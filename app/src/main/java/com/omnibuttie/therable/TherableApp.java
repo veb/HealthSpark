@@ -33,8 +33,9 @@ public class TherableApp extends SugarApp {
     public void onCreate() {
         super.onCreate();
 
-        CalligraphyConfig.initDefault("fonts/Lato-Regular.ttf", R.attr.fontPath);
+        this.setAppMode(EntryType.FITNESS);
 
+        CalligraphyConfig.initDefault("fonts/Lato-Regular.ttf", R.attr.fontPath);
 
         List list = JournalEntry.listAll(JournalEntry.class);
         if (list.size() <= 0) {
@@ -52,7 +53,6 @@ public class TherableApp extends SugarApp {
                 long diff = rangeend - rangebegin + 1;
                 Timestamp randTS = new Timestamp(rangebegin + (long) (Math.random() * diff));
                 Date rand = new DateTime(randTS).toDate();
-
 
 
                 JournalEntry journalEntry = new JournalEntry();

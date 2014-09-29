@@ -17,8 +17,10 @@ import com.github.mikephil.charting.data.RadarDataSet;
 import com.github.mikephil.charting.utils.XLabels;
 import com.github.mikephil.charting.utils.YLabels;
 import com.omnibuttie.therable.R;
+import com.omnibuttie.therable.TherableApp;
 import com.omnibuttie.therable.dataLoaders.ChartLoader;
 import com.omnibuttie.therable.model.JournalChartData;
+import com.omnibuttie.therable.model.JournalEntry;
 import com.omnibuttie.therable.views.controls.MultiSpinner;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -31,6 +33,8 @@ import java.util.List;
  * Created by rayarvin on 9/12/14.
  */
 public class RadarChartFragment extends Fragment {
+
+    JournalEntry.EntryType appMode;
 
     MultiSpinner spinner;
     String[] emotionSubStrings;
@@ -56,15 +60,33 @@ public class RadarChartFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        emotionSubStrings = getResources().getStringArray(R.array.moodSubStrings);
-        emotionColors = getResources().obtainTypedArray(R.array.emotiveColors);
+
+        appMode = ((TherableApp) getActivity().getApplication()).getAppMode();
+
+        switch (appMode) {
+            case MOOD:
+                emotionSubStrings = getResources().getStringArray(R.array.moodSubStrings);
+                emotionColors = getResources().obtainTypedArray(R.array.emotiveColors);
+                break;
+            case FITNESS:
+                emotionSubStrings = getResources().getStringArray(R.array.fitnessActivityStrings);
+                emotionColors = getResources().obtainTypedArray(R.array.emotiveColors);
+                break;
+            case HEALTH:
+                emotionSubStrings = getResources().getStringArray(R.array.effectivenessString);
+                emotionColors = getResources().obtainTypedArray(R.array.emotiveColors);
+                break;
+            case PAIN:
+                emotionSubStrings = getResources().getStringArray(R.array.painStrings);
+                emotionColors = getResources().obtainTypedArray(R.array.emotiveColors);
+                break;
+        }
 
         List<Integer> emColors = new ArrayList<Integer>();
         for (int i = 0; i < emotionColors.length(); i++) {
             emColors.add(emotionColors.getColor(i, Color.WHITE));
         }
         parsedColors = ArrayUtils.toPrimitive(emColors.toArray(new Integer[0]));
-
     }
 
     @Override
@@ -108,7 +130,7 @@ public class RadarChartFragment extends Fragment {
     }
 
     private void createRadarChartData() {
-        List<JournalChartData> aggregateData = ChartLoader.getAggregateForYear(new DateTime().getYear());
+        List<JournalChartData> aggregateData = ChartLoader.getAggregateForYear(new DateTime().getYear(), appMode);
 
         ArrayList<Entry> entries = new ArrayList<Entry>(12);
         for (int i = 0; i < 12; i++) {
@@ -140,6 +162,7 @@ public class RadarChartFragment extends Fragment {
             }
             entries.set(chartData1.getWeeknumber() - 1, new Entry(chartData1.getMoodcount(), chartData1.getMood_index()));
         }
+
 
         // quickhack
         existingMoods.add(emotionSubStrings[currentMoodIndex]);

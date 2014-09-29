@@ -19,8 +19,10 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.Legend;
 import com.omnibuttie.therable.R;
+import com.omnibuttie.therable.TherableApp;
 import com.omnibuttie.therable.dataLoaders.ChartLoader;
 import com.omnibuttie.therable.model.JournalChartData;
+import com.omnibuttie.therable.model.JournalEntry;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.joda.time.DateTime;
@@ -33,6 +35,8 @@ import java.util.List;
 
 
 public class PerEmotionTrackFragment extends Fragment {
+
+    JournalEntry.EntryType appMode;
 
     String[] emotionSubStrings;
     TypedArray emotionColors;
@@ -61,6 +65,7 @@ public class PerEmotionTrackFragment extends Fragment {
         }
         parsedColors = ArrayUtils.toPrimitive(emColors.toArray(new Integer[0]));
 
+        appMode = ((TherableApp) getActivity().getApplication()).getAppMode();
     }
 
     @Override
@@ -69,7 +74,7 @@ public class PerEmotionTrackFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list_chart, container, false);
         listView = (ListView) view.findViewById(R.id.listView1);
 
-        List<JournalChartData> periods = ChartLoader.getMonths();
+        List<JournalChartData> periods = ChartLoader.getMonths(appMode);
 
         ArrayList<PieData> bars = new ArrayList<PieData>();
 
@@ -93,7 +98,7 @@ public class PerEmotionTrackFragment extends Fragment {
             entries.add(new Entry(0, i));
         }
 
-        List<JournalChartData> chartDatas = ChartLoader.getPeriodData(start, end);
+        List<JournalChartData> chartDatas = ChartLoader.getPeriodData(start, end, appMode);
 
         for (int i = 0; i < chartDatas.size(); i++) {
             JournalChartData chartData = chartDatas.get(i);

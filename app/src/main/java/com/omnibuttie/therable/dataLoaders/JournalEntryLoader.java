@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 
 import com.omnibuttie.therable.R;
+import com.omnibuttie.therable.TherableApp;
 import com.omnibuttie.therable.model.JournalEntry;
 import com.omnibuttie.therable.views.cards.EntryCard;
 import com.orm.query.Condition;
@@ -51,22 +52,37 @@ public class JournalEntryLoader extends AsyncTaskLoader<List<EntryCard>> {
 
         List<JournalEntry> journalList = null;
 
+        Condition modes = null;
+        switch (((TherableApp) getContext().getApplicationContext()).getAppMode()) {
+            case MOOD:
+                modes = Condition.prop("entry_type").eq(0);
+                break;
+            case FITNESS:
+                modes = Condition.prop("entry_type").eq(1);
+                break;
+            case HEALTH:
+                modes = Condition.prop("entry_type").eq(2);
+                break;
+            case PAIN:
+                modes = Condition.prop("entry_type").eq(3);
+                break;
+        }
 
         switch (CardViewType) {
             case EntryCard.VIEW_ALL:
-                journalList = Select.from(JournalEntry.class).where(Condition.prop("is_archived").eq(0)).orderBy("date_modified desc").list();
+                journalList = Select.from(JournalEntry.class).where(Condition.prop("is_archived").eq(0), modes).orderBy("date_modified desc").list();
                 break;
             case EntryCard.VIEW_ARCHIVE:
-                journalList = Select.from(JournalEntry.class).where(Condition.prop("is_archived").eq(1)).orderBy("date_modified desc").list();
+                journalList = Select.from(JournalEntry.class).where(Condition.prop("is_archived").eq(1), modes).orderBy("date_modified desc").list();
                 break;
             case EntryCard.VIEW_BY_DATE:
-                journalList = Select.from(JournalEntry.class).where(Condition.prop("simpledate").eq(contentFilter)).orderBy("date_modified desc").list();
+                journalList = Select.from(JournalEntry.class).where(Condition.prop("simpledate").eq(contentFilter), modes).orderBy("date_modified desc").list();
                 break;
             default:
                 if (contentFilter != null) {
-                    journalList = Select.from(JournalEntry.class).where(Condition.prop("content").like("%" + contentFilter + "%")).orderBy("date_modified desc").list();
+                    journalList = Select.from(JournalEntry.class).where(Condition.prop("content").like("%" + contentFilter + "%"), modes).orderBy("date_modified desc").list();
                 } else {
-                    journalList = Select.from(JournalEntry.class).orderBy("date_modified desc").list();
+                    journalList = Select.from(JournalEntry.class).where(modes).orderBy("date_modified desc").list();
                 }
         }
 

@@ -25,7 +25,7 @@ import com.omnibuttie.therable.views.drawables.LeftBorderDrawable;
 public class EmoteGridFragment extends DialogFragment implements AdapterView.OnItemClickListener {
     private static final String DEF_INTENSITY_PARAM = "param1";
     View superView;
-    int defaultIntensity;
+    float defaultIntensity;
     private AbsListView listView;
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -36,10 +36,10 @@ public class EmoteGridFragment extends DialogFragment implements AdapterView.OnI
         // Required empty public constructor
     }
 
-    public static EmoteGridFragment newInstance(int param1) {
+    public static EmoteGridFragment newInstance(float param1) {
         EmoteGridFragment fragment = new EmoteGridFragment();
         Bundle args = new Bundle();
-        args.putInt(DEF_INTENSITY_PARAM, param1);
+        args.putFloat(DEF_INTENSITY_PARAM, param1);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,7 +57,7 @@ public class EmoteGridFragment extends DialogFragment implements AdapterView.OnI
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            defaultIntensity = getArguments().getInt(DEF_INTENSITY_PARAM);
+            defaultIntensity = getArguments().getFloat(DEF_INTENSITY_PARAM);
         }
     }
 

@@ -38,7 +38,7 @@ public class EntryCard extends Card {
     protected String content;
     protected String title;
     protected int emoteResource;
-    protected int intensity;
+    protected float intensity;
     protected int moodIndex;
 
     protected long journalID;
@@ -160,11 +160,11 @@ public class EntryCard extends Card {
         this.journalID = journalID;
     }
 
-    public int getIntensity() {
+    public float getIntensity() {
         return intensity;
     }
 
-    public void setIntensity(int intensity) {
+    public void setIntensity(float intensity) {
         this.intensity = intensity;
     }
 

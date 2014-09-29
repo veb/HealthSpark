@@ -15,7 +15,7 @@ public class JournalEntry extends SugarRecord<JournalEntry> {
     boolean isArchived;
     String simpledate;
     String mood;
-    int intensity;
+    float intensity;
     int moodIndex;
     int cause;
     int entryType;
@@ -84,11 +84,11 @@ public class JournalEntry extends SugarRecord<JournalEntry> {
         this.isArchived = isArchived;
     }
 
-    public int getIntensity() {
+    public float getIntensity() {
         return intensity;
     }
 
-    public void setIntensity(int intensity) {
+    public void setIntensity(float intensity) {
         this.intensity = intensity;
     }
 

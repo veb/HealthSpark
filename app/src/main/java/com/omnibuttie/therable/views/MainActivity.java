@@ -18,11 +18,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.crashlytics.android.Crashlytics;
 import com.omnibuttie.therable.R;
 import com.omnibuttie.therable.adapters.DrawerAdapter;
 import com.omnibuttie.therable.adapters.RowItem;
 import com.omnibuttie.therable.views.cards.EntryCard;
+import com.omnibuttie.therable.views.fragments.AllDataSetFragment;
 import com.omnibuttie.therable.views.fragments.CalendarFragment;
 import com.omnibuttie.therable.views.fragments.JournalCards;
 import com.omnibuttie.therable.views.fragments.PerEmotionTrackFragment;
@@ -39,6 +39,7 @@ public class MainActivity extends FragmentActivity implements
         WeeklyChartFragment.OnFragmentInteractionListener,
         RadarChartFragment.OnFragmentInteractionListener,
         PerEmotionTrackFragment.OnFragmentInteractionListener,
+        AllDataSetFragment.OnFragmentInteractionListener,
         JournalCards.OnFragmentInteractionListener {
     final int WRITEREQUESTCODE = 101;
     String[] menuTitles;
@@ -54,7 +55,7 @@ public class MainActivity extends FragmentActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Crashlytics.start(this);
+//        Crashlytics.start(this);
 
         setContentView(R.layout.activity_main);
 
@@ -180,6 +181,9 @@ public class MainActivity extends FragmentActivity implements
                 fragment = RadarChartFragment.newInstance();
                 break;
             case 4:
+                fragment = AllDataSetFragment.newInstance();
+                break;
+            case 5:
                 fragment = CalendarFragment.newInstance();
             default:
                 break;
