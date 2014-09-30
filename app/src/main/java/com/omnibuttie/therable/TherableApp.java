@@ -1,24 +1,23 @@
 package com.omnibuttie.therable;
 
-import com.omnibuttie.therable.model.JournalChartData;
-import com.omnibuttie.therable.model.JournalEntry;
-import com.orm.SugarApp;
+import android.app.Application;
+
+import com.omnibuttie.therable.provider.journalentry.EntryType;
+import com.omnibuttie.therable.provider.journalentry.JournalentryContentValues;
 
 import org.joda.time.DateTime;
 
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.List;
 import java.util.Random;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
-import static com.omnibuttie.therable.model.JournalEntry.EntryType;
 
 /**
  * Created by rayarvin on 6/18/14.
  */
-public class TherableApp extends SugarApp {
+public class TherableApp extends Application {
     private EntryType appMode;
 
     public EntryType getAppMode() {
@@ -37,16 +36,11 @@ public class TherableApp extends SugarApp {
 
         CalligraphyConfig.initDefault("fonts/Lato-Regular.ttf", R.attr.fontPath);
 
-        List list = JournalEntry.listAll(JournalEntry.class);
-        if (list.size() <= 0) {
-            JournalChartData jchartinit = new JournalChartData(0, new Date(), new Date(), 0, 0);
 
-            jchartinit.save();
             for (int i = 0; i < 1500; i++) {
                 Random r = new Random();
                 long t1 = System.currentTimeMillis() - (Math.abs(r.nextInt()));
                 Date d1 = new Date(t1);
-
 
                 long rangebegin = Timestamp.valueOf("2013-09-01 00:00:00").getTime();
                 long rangeend = new Date().getTime();
@@ -54,51 +48,52 @@ public class TherableApp extends SugarApp {
                 Timestamp randTS = new Timestamp(rangebegin + (long) (Math.random() * diff));
                 Date rand = new DateTime(randTS).toDate();
 
+                JournalentryContentValues values = new JournalentryContentValues();
+                values.putDateCreated(rand);
+                values.putDateModified(rand);
+                values.putContent("SampleContent: " + i);
+                values.putIsArchived(r.nextBoolean());
 
-                JournalEntry journalEntry = new JournalEntry();
-                journalEntry.setDateModified(rand);
-                journalEntry.setDateCreated(rand);
+                EntryType entryType = EntryType.values()[r.nextInt(EntryType.values().length)];
+                values.putEntryType(entryType);
+                values.putCause("default");
 
-
-                journalEntry.setContent("Sample content " + i);
-
-                journalEntry.setCause(r.nextInt(5));
-                journalEntry.setArchived(r.nextBoolean());
-
-                journalEntry.setEntryType(r.nextInt(EntryType.values().length));
-
-                EntryType type = journalEntry.getEntryType();
                 String[] moodSubStrings = null;
-                switch (type) {
-                    case MOOD:
-                        moodSubStrings = getResources().getStringArray(R.array.moodSubStrings);
-                        journalEntry.setIntensity(r.nextInt(3));
+
+                int statusCode = r.nextInt(35);
+                values.putStatusId(statusCode);
+
+                if (statusCode > 34) {
+                    values.putEntryType(EntryType.OTHER);
+                    values.putIntensity((float) r.nextInt());
+                } else if (statusCode > 22) {
+                    values.putEntryType(EntryType.PAIN);
+                    values.putIntensity(0f);
+                } else if (statusCode > 14) {
+                    values.putEntryType(EntryType.MEDICAL);
+                    values.putIntensity(r.nextFloat());
+                } else if (statusCode > 9) {
+                    values.putEntryType(EntryType.FITNESS);
+                    values.putIntensity((float) r.nextInt(1000));
+                } else {
+                    values.putEntryType(EntryType.CBT);
+                    values.putIntensity((float) r.nextInt(3));
+                }
+                switch (entryType) {
+                    case CBT:
                         break;
                     case FITNESS:
-                        moodSubStrings = getResources().getStringArray(R.array.fitnessActivityStrings);
-                        journalEntry.setIntensity(r.nextInt(720));
                         break;
-                    case HEALTH:
-                        moodSubStrings = getResources().getStringArray(R.array.effectivenessString);
-                        journalEntry.setIntensity(r.nextInt(10));
+                    case MEDICAL:
                         break;
                     case PAIN:
-                        moodSubStrings = getResources().getStringArray(R.array.painStrings);
-                        journalEntry.setIntensity(r.nextInt(10));
                         break;
-                    default:
-                        moodSubStrings = getResources().getStringArray(R.array.moodSubStrings);
-                        journalEntry.setIntensity(r.nextInt());
+                    case OTHER:
                         break;
                 }
 
-                int randEmo = r.nextInt(moodSubStrings.length);
-                journalEntry.setMoodIndex(randEmo);
-                journalEntry.setMood(moodSubStrings[randEmo]);
-                journalEntry.save();
+                values.insert(getContentResolver());
             }
-        }
-
 
     }
 }

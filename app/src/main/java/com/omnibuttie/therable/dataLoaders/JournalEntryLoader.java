@@ -2,11 +2,16 @@ package com.omnibuttie.therable.dataLoaders;
 
 
 import android.content.Context;
+import android.database.Cursor;
 import android.support.v4.content.AsyncTaskLoader;
 
 import com.omnibuttie.therable.R;
 import com.omnibuttie.therable.TherableApp;
 import com.omnibuttie.therable.model.JournalEntry;
+import com.omnibuttie.therable.provider.journalentry.EntryType;
+import com.omnibuttie.therable.provider.journalentry.JournalentryColumns;
+import com.omnibuttie.therable.provider.journalentry.JournalentryCursor;
+import com.omnibuttie.therable.provider.journalentry.JournalentrySelection;
 import com.omnibuttie.therable.views.cards.EntryCard;
 import com.orm.query.Condition;
 import com.orm.query.Select;
@@ -47,56 +52,70 @@ public class JournalEntryLoader extends AsyncTaskLoader<List<EntryCard>> {
     }
 
     @Override
-    public List<EntryCard> loadInBackground() {
+    public JournalentryCursor loadInBackground() {
         List<EntryCard> cards = new ArrayList<EntryCard>();
 
         List<JournalEntry> journalList = null;
 
-        Condition modes = null;
+        Cursor cursor;
+
+        JournalentrySelection where_modes = new JournalentrySelection();
         switch (((TherableApp) getContext().getApplicationContext()).getAppMode()) {
-            case MOOD:
-                modes = Condition.prop("entry_type").eq(0);
+            case CBT:
+                where_modes.entryType(EntryType.CBT);
                 break;
             case FITNESS:
-                modes = Condition.prop("entry_type").eq(1);
+                where_modes.entryType(EntryType.FITNESS);
                 break;
-            case HEALTH:
-                modes = Condition.prop("entry_type").eq(2);
+            case MEDICAL:
+                where_modes.entryType(EntryType.MEDICAL);
                 break;
             case PAIN:
-                modes = Condition.prop("entry_type").eq(3);
+                where_modes.entryType(EntryType.PAIN);
+                break;
+            default:
+                where_modes.entryType(EntryType.OTHER);
                 break;
         }
 
         switch (CardViewType) {
             case EntryCard.VIEW_ALL:
-                journalList = Select.from(JournalEntry.class).where(Condition.prop("is_archived").eq(0), modes).orderBy("date_modified desc").list();
+                where_modes.or().isArchived(false);
+                journalList = Select.from(JournalEntry.class).where(Condition.prop("is_archived").eq(0), where_modes).orderBy("date_modified desc").list();
                 break;
             case EntryCard.VIEW_ARCHIVE:
-                journalList = Select.from(JournalEntry.class).where(Condition.prop("is_archived").eq(1), modes).orderBy("date_modified desc").list();
+                where_modes.or().isArchived(true);
+                journalList = Select.from(JournalEntry.class).where(Condition.prop("is_archived").eq(1), where_modes).orderBy("date_modified desc").list();
                 break;
             case EntryCard.VIEW_BY_DATE:
-                journalList = Select.from(JournalEntry.class).where(Condition.prop("simpledate").eq(contentFilter), modes).orderBy("date_modified desc").list();
+                where_modes.or().simpledate(contentFilter);
+                journalList = Select.from(JournalEntry.class).where(Condition.prop("simpledate").eq(contentFilter), where_modes).orderBy("date_modified desc").list();
                 break;
             default:
                 if (contentFilter != null) {
-                    journalList = Select.from(JournalEntry.class).where(Condition.prop("content").like("%" + contentFilter + "%"), modes).orderBy("date_modified desc").list();
+                    where_modes.or().contentLike("%" + contentFilter + "%");
+                    journalList = Select.from(JournalEntry.class).where(Condition.prop("content").like("%" + contentFilter + "%"), where_modes).orderBy("date_modified desc").list();
                 } else {
-                    journalList = Select.from(JournalEntry.class).where(modes).orderBy("date_modified desc").list();
+                    journalList = Select.from(JournalEntry.class).where(where_modes).orderBy("date_modified desc").list();
                 }
         }
+
+        Cursor c = getContext().getContentResolver().query(JournalentryColumns.CONTENT_URI, null, where_modes.sel(), where_modes.args(), null);
+        JournalentryCursor jCursor = new JournalentryCursor(c);
+
+        return jCursor;
 
         for (JournalEntry entry : journalList) {
             EntryCard card;
 
             switch (entry.getEntryType()) {
-                case MOOD:
+                case CBT:
                     card = new EntryCard(getContext(), R.layout.journal_card_row_cbt);
                     break;
                 case FITNESS:
                     card = new EntryCard(getContext(), R.layout.journal_card_row_fitness);
                     break;
-                case HEALTH:
+                case MEDICAL:
                     card = new EntryCard(getContext(), R.layout.journal_card_row_health);
                     break;
                 default:

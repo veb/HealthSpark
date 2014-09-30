@@ -20,7 +20,7 @@ import com.omnibuttie.therable.R;
 import com.omnibuttie.therable.TherableApp;
 import com.omnibuttie.therable.dataLoaders.ChartLoader;
 import com.omnibuttie.therable.model.JournalChartData;
-import com.omnibuttie.therable.model.JournalEntry;
+import com.omnibuttie.therable.provider.journalentry.EntryType;
 import com.omnibuttie.therable.views.controls.MultiSpinner;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -34,7 +34,7 @@ import java.util.List;
  */
 public class RadarChartFragment extends Fragment {
 
-    JournalEntry.EntryType appMode;
+    EntryType appMode;
 
     MultiSpinner spinner;
     String[] emotionSubStrings;
@@ -64,7 +64,7 @@ public class RadarChartFragment extends Fragment {
         appMode = ((TherableApp) getActivity().getApplication()).getAppMode();
 
         switch (appMode) {
-            case MOOD:
+            case CBT:
                 emotionSubStrings = getResources().getStringArray(R.array.moodSubStrings);
                 emotionColors = getResources().obtainTypedArray(R.array.emotiveColors);
                 break;
@@ -72,7 +72,7 @@ public class RadarChartFragment extends Fragment {
                 emotionSubStrings = getResources().getStringArray(R.array.fitnessActivityStrings);
                 emotionColors = getResources().obtainTypedArray(R.array.emotiveColors);
                 break;
-            case HEALTH:
+            case MEDICAL:
                 emotionSubStrings = getResources().getStringArray(R.array.effectivenessString);
                 emotionColors = getResources().obtainTypedArray(R.array.emotiveColors);
                 break;

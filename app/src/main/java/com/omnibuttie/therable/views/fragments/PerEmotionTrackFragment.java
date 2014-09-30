@@ -22,7 +22,7 @@ import com.omnibuttie.therable.R;
 import com.omnibuttie.therable.TherableApp;
 import com.omnibuttie.therable.dataLoaders.ChartLoader;
 import com.omnibuttie.therable.model.JournalChartData;
-import com.omnibuttie.therable.model.JournalEntry;
+import com.omnibuttie.therable.provider.journalentry.EntryType;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.joda.time.DateTime;
@@ -36,7 +36,7 @@ import java.util.List;
 
 public class PerEmotionTrackFragment extends Fragment {
 
-    JournalEntry.EntryType appMode;
+    EntryType appMode;
 
     String[] emotionSubStrings;
     TypedArray emotionColors;

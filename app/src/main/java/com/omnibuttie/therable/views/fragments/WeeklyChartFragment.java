@@ -24,7 +24,7 @@ import com.omnibuttie.therable.R;
 import com.omnibuttie.therable.TherableApp;
 import com.omnibuttie.therable.dataLoaders.ChartLoader;
 import com.omnibuttie.therable.model.JournalChartData;
-import com.omnibuttie.therable.model.JournalEntry;
+import com.omnibuttie.therable.provider.journalentry.EntryType;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.joda.time.DateTime;
@@ -41,7 +41,7 @@ public class WeeklyChartFragment extends Fragment {
     String[] emotionSubStrings;
     TypedArray emotionColors;
     int[] parsedColors;
-    JournalEntry.EntryType appMode;
+    EntryType appMode;
     private OnFragmentInteractionListener mListener;
     private ListView listView;
 
@@ -61,7 +61,7 @@ public class WeeklyChartFragment extends Fragment {
         appMode = ((TherableApp) getActivity().getApplication()).getAppMode();
 
         switch (appMode) {
-            case MOOD:
+            case CBT:
                 emotionSubStrings = getResources().getStringArray(R.array.moodSubStrings);
                 emotionColors = getResources().obtainTypedArray(R.array.emotiveColors);
                 break;
@@ -69,7 +69,7 @@ public class WeeklyChartFragment extends Fragment {
                 emotionSubStrings = getResources().getStringArray(R.array.fitnessActivityStrings);
                 emotionColors = getResources().obtainTypedArray(R.array.emotiveColors);
                 break;
-            case HEALTH:
+            case MEDICAL:
                 emotionSubStrings = getResources().getStringArray(R.array.effectivenessString);
                 emotionColors = getResources().obtainTypedArray(R.array.emotiveColors);
                 break;
@@ -131,11 +131,11 @@ public class WeeklyChartFragment extends Fragment {
         dataSet.setBarSpacePercent(15f);
 
         switch (((TherableApp) getActivity().getApplication()).getAppMode()) {
-            case MOOD:
+            case CBT:
                 dataSet.setColors(ColorTemplate.createColors(parsedColors));
                 break;
             case FITNESS:
-            case HEALTH:
+            case MEDICAL:
             case PAIN:
                 dataSet.setColors(ColorTemplate.JOYFUL_COLORS, getActivity().getApplicationContext());
                 break;

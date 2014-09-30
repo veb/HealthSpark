@@ -1,7 +1,7 @@
 package com.omnibuttie.therable.dataLoaders;
 
 import com.omnibuttie.therable.model.JournalChartData;
-import com.omnibuttie.therable.model.JournalEntry;
+import com.omnibuttie.therable.provider.journalentry.EntryType;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -14,16 +14,16 @@ import java.util.List;
  * Created by rayarvin on 9/6/14.
  */
 public class ChartLoader {
-    private static String appModeFilter(JournalEntry.EntryType appMode) {
+    private static String appModeFilter(EntryType appMode) {
         String filterString = "";
         switch (appMode) {
-            case MOOD:
+            case CBT:
                 filterString = " AND entry_type = 0 ";
                 break;
             case FITNESS:
                 filterString = " AND entry_type = 1 ";
                 break;
-            case HEALTH:
+            case MEDICAL:
                 filterString = " AND entry_type = 2 ";
                 break;
             case PAIN:
@@ -33,7 +33,7 @@ public class ChartLoader {
         return filterString;
     }
 
-    public static List<JournalChartData> getWeeks(JournalEntry.EntryType appMode) {
+    public static List<JournalChartData> getWeeks(EntryType appMode) {
         String sql = "select \n" +
                 "    1 as ID,\n" +
                 "    strftime('%W', simpledate) WEEKNUMBER,\n" +
@@ -50,7 +50,7 @@ public class ChartLoader {
         return JournalChartData.findWithQuery(JournalChartData.class, sql);
     }
 
-    public static List<JournalChartData> getMonths(JournalEntry.EntryType appMode) {
+    public static List<JournalChartData> getMonths(EntryType appMode) {
         String sql = "select \n" +
                 "strftime('%m', simpledate) WEEKNUMBER,\n" +
                 "strftime('%s', simpledate)*1000 WEEKSTART,\n" +
@@ -69,7 +69,7 @@ public class ChartLoader {
 
     }
 
-    public static List<JournalChartData> getPeriodData(Date startDate, Date endDate, JournalEntry.EntryType appMode) {
+    public static List<JournalChartData> getPeriodData(Date startDate, Date endDate, EntryType appMode) {
         DateTime simpleStart = new DateTime(startDate);
         DateTime simpleEnd = new DateTime(endDate);
         DateTimeFormatter fmt = DateTimeFormat.forPattern("YYYY-MM-dd");
@@ -90,7 +90,7 @@ public class ChartLoader {
         return journalChartList;
     }
 
-    public static List<JournalChartData> getAggregateForYear(int year, JournalEntry.EntryType appMode) {
+    public static List<JournalChartData> getAggregateForYear(int year, EntryType appMode) {
         String sql = "SELECT \n" +
                 "cast(strftime('%m', simpledate) as INTEGER) WEEKNUMBER,\n" +
                 "date_modified WEEKSTART,\n" +
@@ -109,7 +109,7 @@ public class ChartLoader {
         return journalChartList;
     }
 
-    public static List<JournalChartData> getEntireDataset(JournalEntry.EntryType appMode) {
+    public static List<JournalChartData> getEntireDataset(EntryType appMode) {
         String sql = "SELECT \n" +
                 "cast(strftime('%Y%m%d', simpledate) as INTEGER) WEEKNUMBER,\n" +
                 "date_modified WEEKSTART,\n" +

@@ -1,5 +1,6 @@
 package com.omnibuttie.therable.model;
 
+import com.omnibuttie.therable.provider.journalentry.EntryType;
 import com.orm.SugarRecord;
 
 import java.text.SimpleDateFormat;
@@ -116,10 +117,4 @@ public class JournalEntry extends SugarRecord<JournalEntry> {
                 '}';
     }
 
-    public static enum EntryType {
-        MOOD,
-        FITNESS,
-        HEALTH,
-        PAIN
-    }
 }

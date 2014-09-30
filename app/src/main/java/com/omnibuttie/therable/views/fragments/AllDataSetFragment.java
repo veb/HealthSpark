@@ -18,7 +18,7 @@ import com.omnibuttie.therable.R;
 import com.omnibuttie.therable.TherableApp;
 import com.omnibuttie.therable.dataLoaders.ChartLoader;
 import com.omnibuttie.therable.model.JournalChartData;
-import com.omnibuttie.therable.model.JournalEntry;
+import com.omnibuttie.therable.provider.journalentry.EntryType;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Random;
 
 public class AllDataSetFragment extends Fragment {
-    JournalEntry.EntryType appMode;
+    EntryType appMode;
     String[] emotionSubStrings;
     TypedArray emotionColors;
     private LineChart lineChart;
@@ -57,7 +57,7 @@ public class AllDataSetFragment extends Fragment {
         appMode = ((TherableApp) getActivity().getApplication()).getAppMode();
 
         switch (appMode) {
-            case MOOD:
+            case CBT:
                 emotionSubStrings = getResources().getStringArray(R.array.moodSubStrings);
                 emotionColors = getResources().obtainTypedArray(R.array.emotiveColors);
                 break;
@@ -65,7 +65,7 @@ public class AllDataSetFragment extends Fragment {
                 emotionSubStrings = getResources().getStringArray(R.array.fitnessActivityStrings);
                 emotionColors = getResources().obtainTypedArray(R.array.emotiveColors);
                 break;
-            case HEALTH:
+            case MEDICAL:
                 emotionSubStrings = getResources().getStringArray(R.array.effectivenessString);
                 emotionColors = getResources().obtainTypedArray(R.array.emotiveColors);
                 break;

@@ -9,7 +9,7 @@ import android.view.View;
 
 import com.omnibuttie.therable.R;
 import com.omnibuttie.therable.TherableApp;
-import com.omnibuttie.therable.model.JournalEntry;
+import com.omnibuttie.therable.provider.journalentry.EntryType;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -49,16 +49,16 @@ public class ModeSelectActivity extends Activity {
     public void appModeButtonClick(View v) {
         switch (v.getId()) {
             case R.id.tv_a:
-                ((TherableApp) getApplication()).setAppMode(JournalEntry.EntryType.FITNESS);
+                ((TherableApp) getApplication()).setAppMode(EntryType.FITNESS);
                 break;
             case R.id.tv_b:
-                ((TherableApp) getApplication()).setAppMode(JournalEntry.EntryType.PAIN);
+                ((TherableApp) getApplication()).setAppMode(EntryType.PAIN);
                 break;
             case R.id.tv_c:
-                ((TherableApp) getApplication()).setAppMode(JournalEntry.EntryType.HEALTH);
+                ((TherableApp) getApplication()).setAppMode(EntryType.MEDICAL);
                 break;
             case R.id.tv_d:
-                ((TherableApp) getApplication()).setAppMode(JournalEntry.EntryType.MOOD);
+                ((TherableApp) getApplication()).setAppMode(EntryType.CBT);
                 break;
         }
 
