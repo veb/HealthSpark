@@ -1,4 +1,4 @@
-package com.omnibuttie.therable.views;
+package com.omnibuttie.therable.views.composers;
 
 import android.app.ActionBar;
 import android.content.Context;
@@ -11,30 +11,32 @@ import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.marvinlabs.widget.floatinglabel.edittext.FloatingLabelEditText;
-import com.marvinlabs.widget.floatinglabel.itempicker.FloatingLabelItemPicker;
-import com.marvinlabs.widget.floatinglabel.itempicker.ItemPickerListener;
-import com.marvinlabs.widget.floatinglabel.itempicker.StringPickerDialogFragment;
+import com.marvinlabs.widget.floatinglabel.itemchooser.FloatingLabelItemChooser;
 import com.omnibuttie.therable.R;
+import com.omnibuttie.therable.dataLoaders.JournalEntryLoader;
 import com.omnibuttie.therable.model.HashTagEntry;
 import com.omnibuttie.therable.model.JournalEntry;
+import com.omnibuttie.therable.provider.journalentry.JournalentryCursor;
 import com.omnibuttie.therable.views.fragments.EmoteGridFragment;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class Composer_alternate extends FragmentActivity implements ItemPickerListener<String> {
-    FloatingLabelEditText editEmojicon;
-    FloatingLabelItemPicker<String> picker;
+public class Composer_alternate extends FragmentActivity implements FloatingLabelItemChooser.OnItemChooserEventListener<CauseParcel> {
+    EditText editEmojicon;
+    AutoCompleteTextView picker;
+    List<String> causes = new ArrayList<String>();
+
     Toast mToast;
     View root;
 
@@ -48,7 +50,9 @@ public class Composer_alternate extends FragmentActivity implements ItemPickerLi
     String[] moodQuestions;
     TypedArray cardBackgroundColors;
 
-    JournalEntry entry;
+    JournalentryCursor entryCursor;
+    JournalEntryLoader loader;
+
 
     /**
      * Called when the activity is first created.
@@ -56,6 +60,8 @@ public class Composer_alternate extends FragmentActivity implements ItemPickerLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loader = new JournalEntryLoader(this, "");
+
         cardBackgroundColors = getResources().obtainTypedArray(R.array.emotiveColors);
 
         setContentView(R.layout.activity_composer_alternate);
@@ -65,35 +71,29 @@ public class Composer_alternate extends FragmentActivity implements ItemPickerLi
 
         long journalID = getIntent().getLongExtra("JournalID", -1);
         if (journalID != -1) {
-            entry = JournalEntry.findById(JournalEntry.class, journalID);
+            entryCursor = loader.entryWithID(journalID);
+            fillCard();
         }
 
-        editEmojicon = (FloatingLabelEditText) findViewById(R.id.editEmojicon);
+        editEmojicon = (EditText) findViewById(R.id.editEmojicon);
         mToast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
 
 
         root = findViewById(R.id.root);
 
-        picker = (FloatingLabelItemPicker<String>) findViewById(R.id.spinner);
-        picker.setAvailableItems(new ArrayList<String>(Arrays.asList("nothing", "work", "family", "friends", "other people")));
+        picker = (AutoCompleteTextView) findViewById(R.id.causeAutocomplete);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.list_item_plain, causes);
+        picker.setAdapter(adapter);
+        picker.setThreshold(Integer.MAX_VALUE);
 
-        // We listen to our pickerWidget events to show the dialog
-
-        picker.setWidgetListener(new FloatingLabelItemPicker.OnWidgetEventListener<String>() {
+        picker.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onShowItemPickerDialog(FloatingLabelItemPicker<String> source) {
-                StringPickerDialogFragment itemPicker = StringPickerDialogFragment.newInstance(
-                        source.getId(),
-                        "caused by",
-                        "OK", null,
-                        false,
-                        source.getSelectedIndices(),
-                        new ArrayList<String>((Collection<String>) source.getAvailableItems()));
-
-                itemPicker.show(getSupportFragmentManager(), "ItemPicker");
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    picker.showDropDown();
+                }
             }
         });
-
 
         imFeelingButton = findViewById(R.id.imfeelingbutton);
 
@@ -101,33 +101,28 @@ public class Composer_alternate extends FragmentActivity implements ItemPickerLi
             @Override
             public void onClick(View v) {
                 FragmentManager fm = getSupportFragmentManager();
-                EmoteGridFragment editEmoteGrid = EmoteGridFragment.newInstance(entry != null ? entry.getIntensity() : 0);
+                EmoteGridFragment editEmoteGrid = EmoteGridFragment.newInstance(entryCursor != null ? entryCursor.getIntensity() : 0);
                 editEmoteGrid.show(fm, null);
             }
         });
 
-        fillCard();
-    }
-
-    //itempicker
-
-    @Override
-    public void onCancelled(int i) {
 
     }
 
     @Override
-    public void onItemsSelected(int i, int[] ints) {
-        picker.setSelectedIndices(ints);
+    public void onSelectionChanged(FloatingLabelItemChooser<CauseParcel> causeParcelFloatingLabelItemChooser, CauseParcel causeParcel) {
+
     }
 
     private void fillCard() {
-        if (entry == null) {
+        if (entryCursor == null) {
             return;
         }
-        appendMood(entry.getMood(), entry.getIntensity(), entry.getMoodIndex());
-        editEmojicon.setInputWidgetText(entry.getContent());
-        picker.setSelectedIndices(new int[]{entry.getCause()});
+
+        entryCursor.moveToFirst();
+        causes = (loader.getCauses(entryCursor.getEntryType()));
+
+
     }
 
     @Override
@@ -157,7 +152,7 @@ public class Composer_alternate extends FragmentActivity implements ItemPickerLi
 
     public void doPost() {
         Pattern tagMatcher = Pattern.compile("[#]+[A-Za-z0-9-_]+\\b");
-        Matcher m = tagMatcher.matcher(editEmojicon.getInputWidgetText().toString());
+        Matcher m = tagMatcher.matcher(editEmojicon.getText().toString());
         List<String> tokens = new ArrayList<String>();
         while (m.find()) {
             String token = m.group();
@@ -167,7 +162,7 @@ public class Composer_alternate extends FragmentActivity implements ItemPickerLi
         JournalEntry journalEntry = new JournalEntry();
         journalEntry.setMood(selectedPrimaryMood);
         journalEntry.setMoodIndex(selectedMoodIndex);
-        journalEntry.setContent(editEmojicon.getInputWidgetText().toString());
+        journalEntry.setContent(editEmojicon.getText().toString());
         journalEntry.setIntensity(selectedIntensity);
         journalEntry.setArchived(false);
         journalEntry.setCause(selectedCause);

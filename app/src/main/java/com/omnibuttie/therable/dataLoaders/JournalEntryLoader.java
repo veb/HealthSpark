@@ -2,19 +2,16 @@ package com.omnibuttie.therable.dataLoaders;
 
 
 import android.content.Context;
-import android.database.Cursor;
-import android.support.v4.content.AsyncTaskLoader;
 
-import com.omnibuttie.therable.R;
 import com.omnibuttie.therable.TherableApp;
-import com.omnibuttie.therable.model.JournalEntry;
 import com.omnibuttie.therable.provider.journalentry.EntryType;
 import com.omnibuttie.therable.provider.journalentry.JournalentryColumns;
 import com.omnibuttie.therable.provider.journalentry.JournalentryCursor;
 import com.omnibuttie.therable.provider.journalentry.JournalentrySelection;
+import com.omnibuttie.therable.provider.status.StatusColumns;
 import com.omnibuttie.therable.views.cards.EntryCard;
-import com.orm.query.Condition;
-import com.orm.query.Select;
+
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,122 +23,101 @@ import it.gmariotti.cardslib.library.internal.Card;
  * Created by rayarvin on 6/18/14.
  */
 
-public class JournalEntryLoader extends AsyncTaskLoader<List<EntryCard>> {
+public class JournalEntryLoader {
     protected Card.OnCardClickListener cardClickListener;
     protected Card.OnSwipeListener swipeListener;
     protected Card.OnUndoSwipeListListener undoSwipeListListener;
 
+    protected Context context;
     protected int CardViewType;
     protected String contentFilter;
+    protected boolean showAllCards;
 
-
+    public JournalEntryLoader(Context context, String contentFilter) {
+        this.contentFilter = contentFilter;
+        this.context = context;
+        this.CardViewType = EntryCard.VIEW_ALL;
+        this.showAllCards = true;
+    }
 
     public JournalEntryLoader(Context context) {
-        super(context);
+        this(context, EntryCard.VIEW_ALL, null, false);
     }
 
-    public JournalEntryLoader(Context context, Card.OnCardClickListener cardClickListener) {
-        this(context, cardClickListener, EntryCard.VIEW_ALL, null);
-    }
-
-    public JournalEntryLoader(Context context, Card.OnCardClickListener cardClickListener, int cardViewType, String contentFilter) {
-        super(context);
-        this.cardClickListener = cardClickListener;
+    public JournalEntryLoader(Context context, int cardViewType, String contentFilter, boolean showAllCards) {
+        this.context = context;
         CardViewType = cardViewType;
         this.contentFilter = contentFilter;
+        this.showAllCards = showAllCards;
     }
 
-    @Override
-    public JournalentryCursor loadInBackground() {
-        List<EntryCard> cards = new ArrayList<EntryCard>();
+    public JournalentryCursor entryWithID(long entryID) {
+        JournalentrySelection selection = new JournalentrySelection();
+        selection.id(entryID);
+        String[] joinedProjection = ArrayUtils.addAll(JournalentryColumns.FULL_PROJECTION, StatusColumns.JOIN_PROJECTION);
 
-        List<JournalEntry> journalList = null;
+        JournalentryCursor jcur = selection.query(this.context.getContentResolver(), joinedProjection, null);
+        return jcur;
 
-        Cursor cursor;
+    }
 
-        JournalentrySelection where_modes = new JournalentrySelection();
-        switch (((TherableApp) getContext().getApplicationContext()).getAppMode()) {
-            case CBT:
-                where_modes.entryType(EntryType.CBT);
-                break;
-            case FITNESS:
-                where_modes.entryType(EntryType.FITNESS);
-                break;
-            case MEDICAL:
-                where_modes.entryType(EntryType.MEDICAL);
-                break;
-            case PAIN:
-                where_modes.entryType(EntryType.PAIN);
-                break;
-            default:
-                where_modes.entryType(EntryType.OTHER);
-                break;
+    public List<String> getCauses(EntryType entryType) {
+        JournalentrySelection selection = new JournalentrySelection();
+        selection.entryType(entryType);
+
+        String[] joinedProjection = {"DISTINCT " + JournalentryColumns.CAUSE};
+        JournalentryCursor jcur = selection.query(this.context.getContentResolver(), joinedProjection, null);
+
+        ArrayList<String> causes = new ArrayList<String>();
+        while (jcur.moveToNext()) {
+            causes.add(jcur.getCause());
         }
 
+        return causes;
+    }
+
+    public JournalentryCursor getListLoader() {
+        JournalentrySelection where_modes = new JournalentrySelection();
         switch (CardViewType) {
             case EntryCard.VIEW_ALL:
-                where_modes.or().isArchived(false);
-                journalList = Select.from(JournalEntry.class).where(Condition.prop("is_archived").eq(0), where_modes).orderBy("date_modified desc").list();
+                where_modes.isArchived(false);
                 break;
             case EntryCard.VIEW_ARCHIVE:
-                where_modes.or().isArchived(true);
-                journalList = Select.from(JournalEntry.class).where(Condition.prop("is_archived").eq(1), where_modes).orderBy("date_modified desc").list();
+                where_modes.isArchived(true);
                 break;
             case EntryCard.VIEW_BY_DATE:
-                where_modes.or().simpledate(contentFilter);
-                journalList = Select.from(JournalEntry.class).where(Condition.prop("simpledate").eq(contentFilter), where_modes).orderBy("date_modified desc").list();
+                where_modes.simpledate(contentFilter);
                 break;
             default:
                 if (contentFilter != null) {
-                    where_modes.or().contentLike("%" + contentFilter + "%");
-                    journalList = Select.from(JournalEntry.class).where(Condition.prop("content").like("%" + contentFilter + "%"), where_modes).orderBy("date_modified desc").list();
-                } else {
-                    journalList = Select.from(JournalEntry.class).where(where_modes).orderBy("date_modified desc").list();
+                    where_modes.contentLike("%" + contentFilter + "%");
                 }
         }
 
-        Cursor c = getContext().getContentResolver().query(JournalentryColumns.CONTENT_URI, null, where_modes.sel(), where_modes.args(), null);
-        JournalentryCursor jCursor = new JournalentryCursor(c);
-
-        return jCursor;
-
-        for (JournalEntry entry : journalList) {
-            EntryCard card;
-
-            switch (entry.getEntryType()) {
+        if (!this.showAllCards) {
+            switch (((TherableApp) this.context.getApplicationContext()).getAppMode()) {
                 case CBT:
-                    card = new EntryCard(getContext(), R.layout.journal_card_row_cbt);
+                    where_modes.and().entryType(EntryType.CBT);
                     break;
                 case FITNESS:
-                    card = new EntryCard(getContext(), R.layout.journal_card_row_fitness);
+                    where_modes.and().entryType(EntryType.FITNESS);
                     break;
                 case MEDICAL:
-                    card = new EntryCard(getContext(), R.layout.journal_card_row_health);
+                    where_modes.and().entryType(EntryType.MEDICAL);
+                    break;
+                case PAIN:
+                    where_modes.and().entryType(EntryType.PAIN);
                     break;
                 default:
-                    card = new EntryCard(getContext(), R.layout.journal_card_row);
+                    where_modes.entryType(EntryType.OTHER);
+                    break;
             }
-
-            card.setJournalID(entry.getId());
-            card.setEntryDate(entry.getDateModified());
-            card.setContent(entry.getContent());
-            card.setTitle(entry.getMood());
-            card.setIntensity(entry.getIntensity());
-            card.setMoodIndex(entry.getMoodIndex());
-//            card.setEmoteResource(emoticonIcons.getResourceId(entry.getMood(), -1));
-            card.setCardClickListener(cardClickListener);
-
-            if (swipeListener != null) {
-                card.setSwipeListener(swipeListener);
-            }
-            if (undoSwipeListListener != null) {
-                card.setUndoSwipeListListener(undoSwipeListListener);
-            }
-            cards.add(card);
-
         }
 
-        return cards;
+        String[] joinedProjection = ArrayUtils.addAll(JournalentryColumns.FULL_PROJECTION, StatusColumns.JOIN_PROJECTION);
+
+        JournalentryCursor jcur = where_modes.query(this.context.getContentResolver(), joinedProjection, "date_modified desc");
+        return jcur;
     }
 
     public Card.OnCardClickListener getCardClickListener() {

@@ -2,40 +2,64 @@ package com.omnibuttie.therable.views.fragments;
 
 import android.app.Activity;
 import android.content.res.TypedArray;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.utils.Legend;
 import com.omnibuttie.therable.R;
 import com.omnibuttie.therable.TherableApp;
 import com.omnibuttie.therable.dataLoaders.ChartLoader;
-import com.omnibuttie.therable.model.JournalChartData;
+import com.omnibuttie.therable.dataLoaders.StatusLoader;
 import com.omnibuttie.therable.provider.journalentry.EntryType;
+import com.omnibuttie.therable.views.controls.MultiSpinner;
 
 import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.DurationFieldType;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class AllDataSetFragment extends Fragment {
+    public static final String MULTI_SPINNER_SELECTED = "multiSpinnerSelected";
+    public static final String RANGE_SPINNER_SELECTED = "rangeSpinnerSelected";
     EntryType appMode;
     String[] emotionSubStrings;
     TypedArray emotionColors;
+
+    MultiSpinner multiSpinner;
+    Spinner rangeSpinner;
+
+    List<String> statusnames;
+
+
+    boolean[] multiSpinnerSelected = new boolean[]{};
+    int rangeSpinnerSelected;
+
     private LineChart lineChart;
     private OnFragmentInteractionListener mListener;
-    private int[] mColors = new int[]{R.color.vordiplom_1, R.color.vordiplom_2, R.color.vordiplom_3, R.color.vordiplom_4, R.color.vordiplom_5};
+    private int[] mColors = new int[]{
+            R.color.colorful_1,
+            R.color.colorful_2,
+            R.color.colorful_3,
+            R.color.colorful_4,
+            R.color.colorful_5,
+    };
 
     public AllDataSetFragment() {
         // Required empty public constructor
@@ -51,8 +75,7 @@ public class AllDataSetFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
+
 
         appMode = ((TherableApp) getActivity().getApplication()).getAppMode();
 
@@ -80,123 +103,130 @@ public class AllDataSetFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_all_data_set, container, false);
         lineChart = (LineChart) view.findViewById(R.id.chart1);
-        lineChart.setDrawYValues(true);
+        lineChart.setDrawYValues(false);
         lineChart.setHighlightEnabled(true);
         lineChart.setTouchEnabled(true);
         lineChart.setDragScaleEnabled(true);
         lineChart.setPinchZoom(false);
 
-        stubGraph();
-
-        Legend l = lineChart.getLegend();
-        l.setPosition(Legend.LegendPosition.BELOW_CHART_RIGHT);
+        multiSpinner = (MultiSpinner) view.findViewById(R.id.entryTypeSpinner);
+        rangeSpinner = (Spinner) view.findViewById(R.id.rangeSpinner);
 
 
         appMode = ((TherableApp) getActivity().getApplication()).getAppMode();
 
+        setupFilterSpinners();
+
+        if (savedInstanceState != null) {
+            rangeSpinnerSelected = savedInstanceState.getInt(RANGE_SPINNER_SELECTED);
+            multiSpinnerSelected = savedInstanceState.getBooleanArray(MULTI_SPINNER_SELECTED);
+            setupGraph(multiSpinnerSelected, rangeSpinnerSelected);
+        }
+
         return view;
     }
 
-    void stubGraph() {
-        ArrayList<String> xVals = new ArrayList<String>();
-        for (int i = 0; i < 1000; i++) {
-            xVals.add((i) + "");
-        }
+    void setupFilterSpinners() {
+        statusnames = new StatusLoader(getActivity()).getStatusesForEntryType(null);
+        multiSpinner.setItems(statusnames, "All Moods", new MultiSpinner.MultiSpinnerListener() {
+            @Override
+            public void onItemsSelected(boolean[] selected) {
+                multiSpinnerSelected = selected;
+                setupGraph(multiSpinnerSelected, rangeSpinnerSelected);
+            }
+        });
 
-        ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.rangeFilters, android.R.layout.simple_spinner_item);
 
-        for (int z = 0; z < 3; z++) {
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-            ArrayList<Entry> values = new ArrayList<Entry>();
+        rangeSpinner.setAdapter(adapter);
 
-            for (int i = 0; i < 1000; i++) {
-                double val = (Math.random() * 100) + 3;
-                values.add(new Entry((float) val, i));
+        rangeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                rangeSpinnerSelected = rangeSpinner.getSelectedItemPosition();
+                setupGraph(multiSpinnerSelected, rangeSpinnerSelected);
             }
 
-            LineDataSet d = new LineDataSet(values, "DataSet " + (z + 1));
-            d.setLineWidth(2.5f);
-            d.setCircleSize(4f);
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
-            int color = getResources().getColor(mColors[z % mColors.length]);
-            d.setColor(color);
-            d.setCircleColor(color);
-            dataSets.add(d);
-        }
+            }
+        });
 
-        // make the first DataSet dashed
-        dataSets.get(0).enableDashedLine(10, 10, 0);
-
-        LineData data = new LineData(xVals, dataSets);
-        lineChart.setData(data);
-        lineChart.invalidate();
     }
 
-    void setupGraph() {
-        List<JournalChartData> aggregateData = ChartLoader.getEntireDataset(appMode);
+    void setupGraph(boolean[] selected, int rangeposition) {
+        ChartLoader chartLoader = new ChartLoader(this.getActivity().getApplicationContext());
 
-        int startdateAsInt = 0;
-        int endDateAsInt = 0;
 
-        ArrayList<Integer> datapointCountPerSet = new ArrayList<Integer>();
+        DateTimeFormatter dtfOut = DateTimeFormat.forPattern("MM-dd-YY");
+        DateTimeFormatter dtfIn = DateTimeFormat.forPattern("YYYY-MM-dd");
         ArrayList<String> xVals = new ArrayList<String>();
+        ArrayList<Entry> yVals = new ArrayList<Entry>();
+
+        List<LocalDate> lDateRange = chartLoader.getMaxMinDate(null, null);
+
+        List<LocalDate> dates = new ArrayList<LocalDate>();
+        int days = Days.daysBetween(lDateRange.get(0), lDateRange.get(1)).getDays();
+
+        for (int ds = 0; ds < days; ds++) {
+            LocalDate d = lDateRange.get(0).withFieldAdded(DurationFieldType.days(), ds);
+            dates.add(d);
+            xVals.add(dtfOut.print(d));
+        }
+
         ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
 
-        ArrayList<Entry> dataset = new ArrayList<Entry>();
+        int j = 0;
+        for (int i = 0; i < selected.length; i++) {
+            if (selected[i]) {
+                yVals = new ArrayList<Entry>(days);
 
-        int currentDataSet = -1;
-        if (aggregateData.size() > 1) {
-            currentDataSet = aggregateData.get(0).getMood_index();
-            endDateAsInt = aggregateData.get(0).getWeeknumber();
-            startdateAsInt = aggregateData.get(0).getWeeknumber();
+                Cursor c = chartLoader.getDatasetCursor((long) i, null, null, rangeposition);
+                if (rangeposition == 0) {
+                    for (int ds1 = 0; ds1 < days; ds1++) {
+                        yVals.add(new Entry(0f, ds1));
+                    }
+                }
+                while (c.moveToNext()) {
+                    int idx = dates.indexOf(new LocalDate(dtfIn.parseLocalDate(c.getString(4))));
+                    if (idx >= 0) {
+                        if (rangeposition == 0) {
+                            yVals.set(idx, new Entry(c.getInt(3), idx));
+                        } else {
+                            yVals.add(new Entry(c.getInt(3), idx));
+                        }
+                    }
+
+                }
+                LineDataSet dataSet = new LineDataSet(yVals, statusnames.get(i));
+
+
+                int incol = getResources().getColor(mColors[j % mColors.length]);
+
+                Log.e("idxs", String.valueOf(incol));
+                dataSet.setDrawFilled(true);
+                dataSet.setFillColor(incol);
+                dataSet.setFillAlpha(10);
+                dataSet.setColor(incol);
+                dataSet.setCircleColor(incol);
+
+                dataSets.add(dataSet);
+                j++;
+            }
         }
 
-        Random rand = new Random();
-        for (JournalChartData dataPoint : aggregateData) {
-            if (currentDataSet != dataPoint.getMood_index()) {
-                datapointCountPerSet.add(dataset.size());
-                LineDataSet d = new LineDataSet(dataset, emotionSubStrings[currentDataSet]);
-
-                int color = getResources().getColor(mColors[currentDataSet % mColors.length]);
-                d.setColor(color);
-                d.setCircleColor(color);
-                d.setDrawFilled(true);
-                d.setLineWidth(2.0f);
-                d.setCircleSize(3f);
-                dataSets.add(d);
-                dataset = new ArrayList<Entry>();
-                currentDataSet = dataPoint.getMood_index();
-
-            }
-
-            if (startdateAsInt > dataPoint.getWeeknumber()) {
-                startdateAsInt = dataPoint.getWeeknumber();
-            }
-            if (endDateAsInt < dataPoint.getWeeknumber()) {
-                endDateAsInt = dataPoint.getWeeknumber();
-            }
-//            dataset.add(new Entry(dataPoint.getMoodcount(), dataPoint.getWeeknumber()));
-            dataset.add(new Entry((float) rand.nextInt(10), dataPoint.getWeeknumber()));
+        if (dataSets.size() > 0) {
+            LineData data = new LineData(xVals, dataSets);
+            lineChart.setData(data);
+            lineChart.invalidate();
         }
-
-
-        LocalDate startDate = dateFromElements(startdateAsInt);
-        LocalDate endDate = dateFromElements(endDateAsInt);
-//        int days = Days.daysBetween(startDate, endDate).getDays();
-//        for (int i=0; i < days; i++) {
-//            LocalDate d = startDate.withFieldAdded(DurationFieldType.days(), i);
-//            xVals.add(d.toString());
-//        }
-
-        for (int i = startdateAsInt; i <= endDateAsInt; i++) {
-            xVals.add(String.valueOf(i));
-        }
-
-        LineData data = new LineData(xVals, dataSets);
-        lineChart.setData(data);
-        lineChart.invalidate();
 
 
     }
@@ -235,10 +265,20 @@ public class AllDataSetFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putBooleanArray(MULTI_SPINNER_SELECTED, multiSpinnerSelected);
+        outState.putInt(RANGE_SPINNER_SELECTED, rangeSpinnerSelected);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+    }
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
     }
-
 }

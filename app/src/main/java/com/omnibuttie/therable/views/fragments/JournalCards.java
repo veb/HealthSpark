@@ -19,8 +19,8 @@ import android.view.ViewGroup;
 import com.omnibuttie.therable.R;
 import com.omnibuttie.therable.dataLoaders.JournalEntryLoader;
 import com.omnibuttie.therable.model.JournalEntry;
-import com.omnibuttie.therable.views.Composer_alternate;
 import com.omnibuttie.therable.views.cards.EntryCard;
+import com.omnibuttie.therable.views.composers.Composer_alternate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -151,14 +151,14 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
             contentFilter = getArguments().getString(CONTENTFILTERPARAM);
             CARD_VIEW_TYPE = getArguments().getInt(CARDVIEWPARAM);
         }
-        cardLoader = new JournalEntryLoader(getActivity(), cardClickListener, CARD_VIEW_TYPE, null);
+        cardLoader = new JournalEntryLoader(getActivity(), CARD_VIEW_TYPE, null, false);
 
     }
 
     public void filterDateByDateString(String filterDateString) {
         contentFilter = filterDateString;
         getLoaderManager().restartLoader(0, null, this);
-        cardLoader.forceLoad();
+//        cardLoader.forceLoad();
     }
 
     @Override
@@ -209,10 +209,10 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
 
     @Override
     public Loader<List<EntryCard>> onCreateLoader(int id, Bundle args) {
-        cardLoader = new JournalEntryLoader(getActivity(), cardClickListener, CARD_VIEW_TYPE, contentFilter);
+        cardLoader = new JournalEntryLoader(getActivity(), CARD_VIEW_TYPE, contentFilter, false);
         cardLoader.setUndoSwipeListListener(undoSwipeListListener);
         cardLoader.setSwipeListener(swipeListener);
-        return cardLoader;
+        return null;
     }
 
     @Override
@@ -237,7 +237,7 @@ public class JournalCards extends Fragment implements LoaderManager.LoaderCallba
     public void onResume() {
         super.onResume();
         getLoaderManager().restartLoader(0, null, this);
-        cardLoader.forceLoad();
+//        cardLoader.forceLoad();
     }
 
     @Override

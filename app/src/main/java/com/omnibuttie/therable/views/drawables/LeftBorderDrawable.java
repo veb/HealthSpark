@@ -20,7 +20,7 @@ public class LeftBorderDrawable extends Drawable {
         int height = getBounds().height();
         int width = getBounds().width();
         RectF backRect = new RectF(0.0f, 0.0f, width, height);
-        RectF borderRect = new RectF(0.0f, 0.0f, 4.0f, height);
+        RectF borderRect = new RectF(0.0f, 0.0f, 6.0f, height);
 
         Paint backRectPaint = new Paint();
         backRectPaint.setColor(backgroundColorResource);

@@ -30,13 +30,16 @@ import java.util.Date;
  * to handle interaction events.
  * Use the {@link CalendarFragment#newInstance} factory method to
  * create an instance of this fragment.
- *
  */
-public class CalendarFragment extends Fragment implements ExtendedCalendarView.OnDayClickListener{
+public class CalendarFragment extends Fragment implements ExtendedCalendarView.OnDayClickListener {
     private OnFragmentInteractionListener mListener;
 
     private ExtendedCalendarView calendarView;
-    private JournalCards journalFragment;
+    private JournalCursorFragment journalFragment;
+
+    public CalendarFragment() {
+        // Required empty public constructor
+    }
 
     public static CalendarFragment newInstance() {
         CalendarFragment fragment = new CalendarFragment();
@@ -44,9 +47,6 @@ public class CalendarFragment extends Fragment implements ExtendedCalendarView.O
 
         fragment.setArguments(args);
         return fragment;
-    }
-    public CalendarFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -58,7 +58,7 @@ public class CalendarFragment extends Fragment implements ExtendedCalendarView.O
 
         DateTime simplifiedDate = new DateTime(new Date());
         DateTimeFormatter fmt = DateTimeFormat.forPattern("YYYY-MM-dd");
-        journalFragment = JournalCards.newInstance(EntryCard.VIEW_BY_DATE, fmt.print(simplifiedDate));
+        journalFragment = JournalCursorFragment.newInstance(EntryCard.VIEW_BY_DATE, fmt.print(simplifiedDate), true);
 
     }
 
@@ -68,7 +68,7 @@ public class CalendarFragment extends Fragment implements ExtendedCalendarView.O
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
 
-        calendarView  = (ExtendedCalendarView)view.findViewById(R.id.calendar);
+        calendarView = (ExtendedCalendarView) view.findViewById(R.id.calendar);
         calendarView.setGesture(ExtendedCalendarView.LEFT_RIGHT_GESTURE);
         calendarView.setOnDayClickListener(this);
 
@@ -106,7 +106,7 @@ public class CalendarFragment extends Fragment implements ExtendedCalendarView.O
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p>
+     * <p/>
      * See the Android Training lesson <a href=
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.

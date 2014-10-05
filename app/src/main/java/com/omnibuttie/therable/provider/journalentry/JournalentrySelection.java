@@ -48,198 +48,198 @@ public class JournalentrySelection extends AbstractSelection<JournalentrySelecti
 
 
     public JournalentrySelection id(long... value) {
-        addEquals(JournalentryColumns._ID, toObjectArray(value));
+        addEquals(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns._ID, toObjectArray(value));
         return this;
     }
 
 
     public JournalentrySelection dateCreated(Date... value) {
-        addEquals(JournalentryColumns.DATE_CREATED, value);
+        addEquals(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.DATE_CREATED, value);
         return this;
     }
 
     public JournalentrySelection dateCreatedNot(Date... value) {
-        addNotEquals(JournalentryColumns.DATE_CREATED, value);
+        addNotEquals(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.DATE_CREATED, value);
         return this;
     }
 
     public JournalentrySelection dateCreated(Long... value) {
-        addEquals(JournalentryColumns.DATE_CREATED, value);
+        addEquals(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.DATE_CREATED, value);
         return this;
     }
 
     public JournalentrySelection dateCreatedAfter(Date value) {
-        addGreaterThan(JournalentryColumns.DATE_CREATED, value);
+        addGreaterThan(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.DATE_CREATED, value);
         return this;
     }
 
     public JournalentrySelection dateCreatedAfterEq(Date value) {
-        addGreaterThanOrEquals(JournalentryColumns.DATE_CREATED, value);
+        addGreaterThanOrEquals(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.DATE_CREATED, value);
         return this;
     }
 
     public JournalentrySelection dateCreatedBefore(Date value) {
-        addLessThan(JournalentryColumns.DATE_CREATED, value);
+        addLessThan(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.DATE_CREATED, value);
         return this;
     }
 
     public JournalentrySelection dateCreatedBeforeEq(Date value) {
-        addLessThanOrEquals(JournalentryColumns.DATE_CREATED, value);
+        addLessThanOrEquals(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.DATE_CREATED, value);
         return this;
     }
 
     public JournalentrySelection dateModified(Date... value) {
-        addEquals(JournalentryColumns.DATE_MODIFIED, value);
+        addEquals(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.DATE_MODIFIED, value);
         return this;
     }
 
     public JournalentrySelection dateModifiedNot(Date... value) {
-        addNotEquals(JournalentryColumns.DATE_MODIFIED, value);
+        addNotEquals(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.DATE_MODIFIED, value);
         return this;
     }
 
     public JournalentrySelection dateModified(Long... value) {
-        addEquals(JournalentryColumns.DATE_MODIFIED, value);
+        addEquals(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.DATE_MODIFIED, value);
         return this;
     }
 
     public JournalentrySelection dateModifiedAfter(Date value) {
-        addGreaterThan(JournalentryColumns.DATE_MODIFIED, value);
+        addGreaterThan(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.DATE_MODIFIED, value);
         return this;
     }
 
     public JournalentrySelection dateModifiedAfterEq(Date value) {
-        addGreaterThanOrEquals(JournalentryColumns.DATE_MODIFIED, value);
+        addGreaterThanOrEquals(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.DATE_MODIFIED, value);
         return this;
     }
 
     public JournalentrySelection dateModifiedBefore(Date value) {
-        addLessThan(JournalentryColumns.DATE_MODIFIED, value);
+        addLessThan(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.DATE_MODIFIED, value);
         return this;
     }
 
     public JournalentrySelection dateModifiedBeforeEq(Date value) {
-        addLessThanOrEquals(JournalentryColumns.DATE_MODIFIED, value);
+        addLessThanOrEquals(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.DATE_MODIFIED, value);
         return this;
     }
 
     public JournalentrySelection content(String... value) {
-        addEquals(JournalentryColumns.CONTENT, value);
+        addEquals(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.CONTENT, value);
         return this;
     }
 
     public JournalentrySelection contentNot(String... value) {
-        addNotEquals(JournalentryColumns.CONTENT, value);
+        addNotEquals(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.CONTENT, value);
         return this;
     }
 
     public JournalentrySelection contentLike(String... value) {
-        addLike(JournalentryColumns.CONTENT, value);
+        addLike(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.CONTENT, value);
         return this;
     }
 
     public JournalentrySelection isArchived(Boolean value) {
-        addEquals(JournalentryColumns.IS_ARCHIVED, toObjectArray(value));
+        addEquals(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.IS_ARCHIVED, toObjectArray(value));
         return this;
     }
 
     public JournalentrySelection simpledate(String... value) {
-        addEquals(JournalentryColumns.SIMPLEDATE, value);
+        addEquals(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.SIMPLEDATE, value);
         return this;
     }
 
     public JournalentrySelection simpledateNot(String... value) {
-        addNotEquals(JournalentryColumns.SIMPLEDATE, value);
+        addNotEquals(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.SIMPLEDATE, value);
         return this;
     }
 
     public JournalentrySelection simpledateLike(String... value) {
-        addLike(JournalentryColumns.SIMPLEDATE, value);
+        addLike(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.SIMPLEDATE, value);
         return this;
     }
 
     public JournalentrySelection cause(String... value) {
-        addEquals(JournalentryColumns.CAUSE, value);
+        addEquals(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.CAUSE, value);
         return this;
     }
 
     public JournalentrySelection causeNot(String... value) {
-        addNotEquals(JournalentryColumns.CAUSE, value);
+        addNotEquals(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.CAUSE, value);
         return this;
     }
 
     public JournalentrySelection causeLike(String... value) {
-        addLike(JournalentryColumns.CAUSE, value);
+        addLike(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.CAUSE, value);
         return this;
     }
 
     public JournalentrySelection intensity(Float... value) {
-        addEquals(JournalentryColumns.INTENSITY, value);
+        addEquals(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.INTENSITY, value);
         return this;
     }
 
     public JournalentrySelection intensityNot(Float... value) {
-        addNotEquals(JournalentryColumns.INTENSITY, value);
+        addNotEquals(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.INTENSITY, value);
         return this;
     }
 
     public JournalentrySelection intensityGt(float value) {
-        addGreaterThan(JournalentryColumns.INTENSITY, value);
+        addGreaterThan(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.INTENSITY, value);
         return this;
     }
 
     public JournalentrySelection intensityGtEq(float value) {
-        addGreaterThanOrEquals(JournalentryColumns.INTENSITY, value);
+        addGreaterThanOrEquals(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.INTENSITY, value);
         return this;
     }
 
     public JournalentrySelection intensityLt(float value) {
-        addLessThan(JournalentryColumns.INTENSITY, value);
+        addLessThan(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.INTENSITY, value);
         return this;
     }
 
     public JournalentrySelection intensityLtEq(float value) {
-        addLessThanOrEquals(JournalentryColumns.INTENSITY, value);
+        addLessThanOrEquals(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.INTENSITY, value);
         return this;
     }
 
     public JournalentrySelection statusId(long... value) {
-        addEquals(JournalentryColumns.STATUS_ID, toObjectArray(value));
+        addEquals(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.STATUS_ID, toObjectArray(value));
         return this;
     }
 
     public JournalentrySelection statusIdNot(long... value) {
-        addNotEquals(JournalentryColumns.STATUS_ID, toObjectArray(value));
+        addNotEquals(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.STATUS_ID, toObjectArray(value));
         return this;
     }
 
     public JournalentrySelection statusIdGt(long value) {
-        addGreaterThan(JournalentryColumns.STATUS_ID, value);
+        addGreaterThan(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.STATUS_ID, value);
         return this;
     }
 
     public JournalentrySelection statusIdGtEq(long value) {
-        addGreaterThanOrEquals(JournalentryColumns.STATUS_ID, value);
+        addGreaterThanOrEquals(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.STATUS_ID, value);
         return this;
     }
 
     public JournalentrySelection statusIdLt(long value) {
-        addLessThan(JournalentryColumns.STATUS_ID, value);
+        addLessThan(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.STATUS_ID, value);
         return this;
     }
 
     public JournalentrySelection statusIdLtEq(long value) {
-        addLessThanOrEquals(JournalentryColumns.STATUS_ID, value);
+        addLessThanOrEquals(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.STATUS_ID, value);
         return this;
     }
 
     public JournalentrySelection entryType(EntryType... value) {
-        addEquals(JournalentryColumns.ENTRY_TYPE, value);
+        addEquals(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.ENTRY_TYPE, value);
         return this;
     }
 
     public JournalentrySelection entryTypeNot(EntryType... value) {
-        addNotEquals(JournalentryColumns.ENTRY_TYPE, value);
+        addNotEquals(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.ENTRY_TYPE, value);
         return this;
     }
 

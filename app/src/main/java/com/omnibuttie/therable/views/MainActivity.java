@@ -22,9 +22,11 @@ import com.omnibuttie.therable.R;
 import com.omnibuttie.therable.adapters.DrawerAdapter;
 import com.omnibuttie.therable.adapters.RowItem;
 import com.omnibuttie.therable.views.cards.EntryCard;
+import com.omnibuttie.therable.views.composers.Composer_alternate;
 import com.omnibuttie.therable.views.fragments.AllDataSetFragment;
 import com.omnibuttie.therable.views.fragments.CalendarFragment;
 import com.omnibuttie.therable.views.fragments.JournalCards;
+import com.omnibuttie.therable.views.fragments.JournalCursorFragment;
 import com.omnibuttie.therable.views.fragments.PerEmotionTrackFragment;
 import com.omnibuttie.therable.views.fragments.RadarChartFragment;
 import com.omnibuttie.therable.views.fragments.WeeklyChartFragment;
@@ -169,10 +171,10 @@ public class MainActivity extends FragmentActivity implements
         Fragment fragment = null;
         switch (position) {
             case 0:
-                fragment = JournalCards.newInstance(EntryCard.VIEW_ALL, null);
+                fragment = JournalCursorFragment.newInstance(EntryCard.VIEW_ALL, null, false);
                 break;
             case 1:
-                fragment = JournalCards.newInstance(EntryCard.VIEW_ARCHIVE, null);
+                fragment = JournalCursorFragment.newInstance(EntryCard.VIEW_ARCHIVE, null, false);
                 break;
             case 2:
                 fragment = WeeklyChartFragment.newInstance();
@@ -185,6 +187,8 @@ public class MainActivity extends FragmentActivity implements
                 break;
             case 5:
                 fragment = CalendarFragment.newInstance();
+            case 6:
+                finish();
             default:
                 break;
         }

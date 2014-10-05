@@ -9,6 +9,8 @@
     android:padding="5dp">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:emojicon="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/statusEditor"
         android:layout_width="match_parent"
@@ -35,26 +37,30 @@
 
         </LinearLayout>
 
-        <EditText
+        <com.marvinlabs.widget.floatinglabel.itempicker.FloatingLabelItemPicker
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            app:flw_labelText="What caused this?" />
+
+        <com.marvinlabs.widget.floatinglabel.edittext.FloatingLabelEditText
             android:id="@+id/editEmojicon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Why?"
+            android:hint="Notes"
             android:inputType="textMultiLine"
             android:lines="3"
             android:maxLines="3"
             android:paddingLeft="5dp"
-            android:paddingRight="5dp">
+            android:paddingRight="5dp"
+            app:flw_labelText="Notes"
+            emojicon:emojiconSize="20sp">
 
             <requestFocus />
-        </EditText>
+        </com.marvinlabs.widget.floatinglabel.edittext.FloatingLabelEditText>
 
-
-        <AutoCompleteTextView
-            android:id="@+id/causeAutocomplete"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="what caused this?" />
 
     </LinearLayout>
 </RelativeLayout>

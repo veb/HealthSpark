@@ -85,5 +85,57 @@
         android:textColor="@color/blue_700"
         android:textSize="120sp" />
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/tv_c"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/horizontalStrut"
+        android:layout_toStartOf="@+id/horizontalStrut"
+        android:gravity="center"
+        android:text="MEDICAL"
+        android:textColor="@color/red_700" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/tv_d"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_toEndOf="@+id/horizontalStrut"
+        android:layout_toRightOf="@+id/horizontalStrut"
+        android:gravity="center"
+        android:text="CBT"
+        android:textColor="@color/blue_700" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/tv_a"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/horizontalStrut"
+        android:layout_toStartOf="@+id/horizontalStrut"
+        android:gravity="center"
+        android:text="FITNESS"
+        android:textColor="@color/orange_700" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/tv_b"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_toEndOf="@+id/horizontalStrut"
+        android:layout_toRightOf="@+id/horizontalStrut"
+        android:gravity="center"
+        android:text="PAIN"
+        android:textColor="@color/purple_700" />
+
 
 </RelativeLayout>

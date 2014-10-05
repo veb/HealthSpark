@@ -16,7 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.omnibuttie.therable.R;
-import com.omnibuttie.therable.views.Composer_alternate;
+import com.omnibuttie.therable.views.composers.Composer_alternate;
 import com.omnibuttie.therable.views.drawables.LeftBorderDrawable;
 
 /**

@@ -22,6 +22,13 @@ public class StatusColumns implements BaseColumns {
     public static final String STATUS_SECONDARY_COLOR = "status_secondary_color";
     public static final String STATUS_TERTIARY_COLOR = "status_tertiary_color";
     public static final String STATUS_QUATERNARY_COLOR = "status_quaternary_color";
+    public static final String[] JOIN_PROJECTION = new String[]{
+            STATUS_NAME,
+            STATUS_PRIMARY_COLOR,
+            STATUS_SECONDARY_COLOR,
+            STATUS_TERTIARY_COLOR,
+            STATUS_QUATERNARY_COLOR,
+    };
     public static final String STATUS_TYPE = "status_type";
     // @formatter:off
     public static final String[] FULL_PROJECTION = new String[]{
@@ -34,7 +41,6 @@ public class StatusColumns implements BaseColumns {
             TABLE_NAME + "." + STATUS_TYPE
     };
     // @formatter:on
-
     private static final Set<String> ALL_COLUMNS = new HashSet<String>();
 
     static {

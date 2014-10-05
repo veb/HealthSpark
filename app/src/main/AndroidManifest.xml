@@ -26,20 +26,14 @@
         <provider
             android:name=".providers.TagProvider"
             android:authorities="com.omnibuttie.therable.views.tagdetailsactivity" />
-
         <provider
-            android:name="com.omnibuttie.therable.provider.TherableProvider"
+            android:name=".provider.TherableProvider"
             android:authorities="com.omnibuttie.therable.provider"
             android:exported="false" />
 
         <activity
             android:name=".views.MainActivity"
             android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
         </activity>
         <activity
@@ -54,7 +48,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".views.Composer_alternate"
+            android:name=".views.composers.Composer_alternate"
             android:label="How are you feeling?"
             android:parentActivityName=".views.MainActivity"
             android:windowSoftInputMode="adjustResize">
@@ -69,9 +63,16 @@
 
         <activity
             android:name=".views.ModeSelectActivity"
-            android:label="@string/title_activity_mode_select">
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+        <activity
+            android:name=".views.composers.Composer_pain_module"
+            android:label="@string/title_activity_composer_pain_module"></activity>
     </application>
 
 </manifest>

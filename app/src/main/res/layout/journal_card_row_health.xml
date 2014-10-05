@@ -11,11 +11,11 @@
         style="@style/AppTheme.BoldText"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/card_status"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/linearLayout2"
-        android:layout_toStartOf="@+id/linearLayout2"
+        android:layout_alignRight="@+id/card_status"
+        android:layout_toEndOf="@+id/tv_icon"
+        android:layout_toRightOf="@+id/tv_icon"
         android:background="@drawable/card_title_underline"
         android:gravity="left"
         android:text="Status"
@@ -28,7 +28,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/card_title"
+        android:layout_toEndOf="@+id/tv_icon"
         android:layout_toLeftOf="@+id/linearLayout2"
+        android:layout_toRightOf="@+id/tv_icon"
         android:layout_toStartOf="@+id/linearLayout2"
         android:layout_weight="1"
         android:gravity="left|top"
@@ -86,5 +88,18 @@
             android:text="88:88:88AA"
             android:textSize="12sp" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_icon"
+        fontPath="therable.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:gravity="center"
+        android:text="c"
+        android:textColor="@color/red_700"
+        android:textSize="20sp" />
 
 </RelativeLayout>

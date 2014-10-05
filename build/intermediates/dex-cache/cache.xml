@@ -10,13 +10,17 @@
         jar="/Users/rayarvin/repos/Therable/app/build/intermediates/exploded-aar/com.github.satyan/sugar/1.3/classes.jar"
         jumboMode="false" revision="20.0.0" sha1="07e07903922250dabf50c7d131d6fa069a050305" />
     <item
+        dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/classes-339309bff5b4cd6c1d4cab490e3851317ded5ced.jar"
+        jar="/Users/rayarvin/repos/Therable/app/build/intermediates/exploded-aar/com.marvinlabs/android-floatinglabel-widgets/1.4.0/classes.jar"
+        jumboMode="false" revision="20.0.0" sha1="c98c927af129c70485a63a0579c2f9950acc9290" />
+    <item
         dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/support-v13-19.1.0-10b7b6f64420c99c2df0d65339f69a134efbffc9.jar"
         jar="/Users/rayarvin/adt-android/sdk/extras/android/m2repository/com/android/support/support-v13/19.1.0/support-v13-19.1.0.jar"
         jumboMode="false" revision="19.1.0" sha1="6b852a232f642c75a7fdfc7212b841b8c8f8959c" />
     <item
-        dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/classes-7d5605dcfb3cd01b743b6919607a5166c43cde9b.jar"
-        jar="/Users/rayarvin/repos/Therable/app/build/intermediates/exploded-aar/com.marvinlabs/android-floatinglabel-widgets/1.2.4/classes.jar"
-        jumboMode="false" revision="20.0.0" sha1="67aa847d7c3e3969a938b565a62c917abe2c6c36" />
+        dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/classes-1a0bf036c8c09a381a03154c97e68c72de11edb1.jar"
+        jar="/Users/rayarvin/repos/Therable/app/build/intermediates/exploded-aar/androidplot-core-0.6.2-SNAPSHOT/classes.jar"
+        jumboMode="false" revision="20.0.0" sha1="e268d9630d9b7f9238995e21b88f1acf39eae5cc" />
     <item
         dex="/Users/rayarvin/repos/Therable/app/build/intermediates/pre-dexed/debug/commons-lang3-3.3.2-52c808fbce9e66ac2bd8b026e2e5d70c50ac99b3.jar"
         jar="/Users/rayarvin/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.3.2/90a3822c38ec8c996e84c16a3477ef632cbc87a3/commons-lang3-3.3.2.jar"

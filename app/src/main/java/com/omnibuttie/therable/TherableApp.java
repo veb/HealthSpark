@@ -4,10 +4,12 @@ import android.app.Application;
 
 import com.omnibuttie.therable.provider.journalentry.EntryType;
 import com.omnibuttie.therable.provider.journalentry.JournalentryContentValues;
+import com.omnibuttie.therable.provider.journalentry.JournalentrySelection;
 
 import org.joda.time.DateTime;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
@@ -32,11 +34,13 @@ public class TherableApp extends Application {
     public void onCreate() {
         super.onCreate();
 
-        this.setAppMode(EntryType.FITNESS);
+        this.setAppMode(EntryType.PAIN);
 
         CalligraphyConfig.initDefault("fonts/Lato-Regular.ttf", R.attr.fontPath);
 
-
+        JournalentrySelection sel = new JournalentrySelection();
+        if (sel.query(getContentResolver()).getCount() <= 0) {
+            String[] rCauses = {"Head", "Arm", "Leg", "Stomach", "All over"};
             for (int i = 0; i < 1500; i++) {
                 Random r = new Random();
                 long t1 = System.currentTimeMillis() - (Math.abs(r.nextInt()));
@@ -51,6 +55,7 @@ public class TherableApp extends Application {
                 JournalentryContentValues values = new JournalentryContentValues();
                 values.putDateCreated(rand);
                 values.putDateModified(rand);
+                values.putSimpledate(new SimpleDateFormat("yyyy-MM-dd").format(rand));
                 values.putContent("SampleContent: " + i);
                 values.putIsArchived(r.nextBoolean());
 
@@ -63,37 +68,27 @@ public class TherableApp extends Application {
                 int statusCode = r.nextInt(35);
                 values.putStatusId(statusCode);
 
-                if (statusCode > 34) {
+                if (statusCode > 33) {
                     values.putEntryType(EntryType.OTHER);
                     values.putIntensity((float) r.nextInt());
                 } else if (statusCode > 22) {
                     values.putEntryType(EntryType.PAIN);
+                    values.putCause(rCauses[r.nextInt(rCauses.length)]);
                     values.putIntensity(0f);
                 } else if (statusCode > 14) {
                     values.putEntryType(EntryType.MEDICAL);
                     values.putIntensity(r.nextFloat());
                 } else if (statusCode > 9) {
                     values.putEntryType(EntryType.FITNESS);
-                    values.putIntensity((float) r.nextInt(1000));
+                    values.putIntensity((float) r.nextInt(7000) + 3000);
                 } else {
                     values.putEntryType(EntryType.CBT);
                     values.putIntensity((float) r.nextInt(3));
                 }
-                switch (entryType) {
-                    case CBT:
-                        break;
-                    case FITNESS:
-                        break;
-                    case MEDICAL:
-                        break;
-                    case PAIN:
-                        break;
-                    case OTHER:
-                        break;
-                }
+
 
                 values.insert(getContentResolver());
             }
-
+        }
     }
 }

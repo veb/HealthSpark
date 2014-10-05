@@ -7,7 +7,7 @@ buildscript {
         classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:1.+'
     }
 }
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 apply plugin: 'crashlytics'
 
 repositories {
@@ -23,8 +23,8 @@ android {
         applicationId 'com.omnibuttie.therable'
         minSdkVersion 16
         targetSdkVersion 19
-        versionCode 2
-        versionName '1.3.5'
+        versionCode 3
+        versionName '1.4.1dev'
     }
     signingConfigs {
         debug {
@@ -43,8 +43,8 @@ android {
             signingConfig signingConfigs.release
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            ext.betaDistributionGroupAliases = "chaoseye"
-            ext.betaDistributionReleaseNotes = "fixed: wrong datasets on radar chart"
+            ext.betaDistributionGroupAliases = "alpha"
+            ext.betaDistributionReleaseNotes = "Uninstall previous builds first"
         }
     }
 
@@ -72,7 +72,7 @@ dependencies {
     compile 'com.crashlytics.android:crashlytics:1.+'
 
     compile 'joda-time:joda-time:2.4'
-    compile 'com.marvinlabs:android-floatinglabel-widgets:1.2.4@aar'
+    compile 'com.marvinlabs:android-floatinglabel-widgets:1.4.0@aar'
 
     compile name: 'MPChartLib', ext: 'aar'
     compile name: 'phased-seekbar', ext: 'aar'
@@ -81,4 +81,7 @@ dependencies {
 
     compile 'uk.co.chrisjenx:calligraphy:1.1.+'
     compile 'com.cesarferreira.androidbootstrap:library:1.1.0'
+
+
+    compile(name: 'androidplot-core-0.6.2-SNAPSHOT', ext: 'aar')
 }

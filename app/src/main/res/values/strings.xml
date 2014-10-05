@@ -20,6 +20,13 @@
         <item>Monthly Mood Graph</item>
         <item>Progress Graph</item>
         <item>Calendar</item>
+        <item>Change Active Module</item>
+    </string-array>
+
+    <string-array name="rangeFilters">
+        <item>Daily</item>
+        <item>Weekly</item>
+        <item>Monthly</item>
     </string-array>
 
     <array name="menuIcons">
@@ -29,6 +36,7 @@
         <item>@drawable/ic_piechart</item>
         <item>@drawable/ic_linegraph</item>
         <item>@drawable/ic_calendar</item>
+        <item>@drawable/ic_mode_switch</item>
     </array>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -52,5 +60,6 @@
     <string name="title_activity_sample_times_square">SampleTimesSquareActivity</string>
     <string name="title_activity_composer_nexus">ComposerNexus</string>
     <string name="title_activity_mode_select">ModeSelectActivity</string>
+    <string name="title_activity_composer_pain_module">How are you feeling?</string>
 
 </resources>

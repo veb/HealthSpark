@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.text.TextUtils;
 import android.text.util.Linkify;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,12 +35,17 @@ public class EntryCard extends Card {
     protected TextView cardTitle;
     protected TextView cardStatus;
 
+    protected String primaryColorString;
+    protected String secondaryColorString;
+    protected String tertiaryColorString;
+    protected String quaternaryColorString;
+
     protected Date entryDate;
     protected String content;
     protected String title;
     protected int emoteResource;
     protected float intensity;
-    protected int moodIndex;
+    protected long moodIndex;
 
     protected long journalID;
 
@@ -110,8 +116,8 @@ public class EntryCard extends Card {
 //            cardEmote.setImageResource(emoteResource);
         }
 
-//        view.setBackground(cardSpineDrawables.getDrawable(intensity));
-        view.setBackground(new LeftBorderDrawable(cardBorderColors.getColor(moodIndex, Color.WHITE), cardBackgroundColors.getColor(moodIndex, Color.WHITE)));
+
+        view.setBackground(new LeftBorderDrawable(Color.parseColor(this.primaryColorString), Color.parseColor(this.secondaryColorString)));
 
         counter = (CircularCounter) view.findViewById(R.id.counter);
         if (counter != null) {
@@ -125,16 +131,21 @@ public class EntryCard extends Card {
             counter.setThirdWidth(getContext().getResources().getColor(R.color.purple_700));
 
             Random r = new Random();
-            counter.setValues(r.nextInt(100), 60, 40);
+            counter.setValues((int) Math.floor(this.intensity), (int) Math.floor(this.intensity) + 60, (int) Math.floor(this.intensity) + 120);
+        }
+
+        TextView cbtico = (TextView) view.findViewById(R.id.cbt_icon);
+        if (cbtico != null) {
+            cbtico.setTextColor(Color.parseColor(this.primaryColorString));
         }
 
     }
 
-    public int getMoodIndex() {
+    public long getMoodIndex() {
         return moodIndex;
     }
 
-    public void setMoodIndex(int moodIndex) {
+    public void setMoodIndex(long moodIndex) {
         this.moodIndex = moodIndex;
     }
 
@@ -197,5 +208,49 @@ public class EntryCard extends Card {
     public void setUndoSwipeListListener(OnUndoSwipeListListener undoSwipeListListener) {
         this.undoSwipeListListener = undoSwipeListListener;
         setOnUndoSwipeListListener(undoSwipeListListener);
+    }
+
+    public String getPrimaryColorString() {
+        return primaryColorString;
+    }
+
+    public void setPrimaryColorString(String primaryColorString) {
+        if (TextUtils.getTrimmedLength(primaryColorString) <= 0) {
+            primaryColorString = "ffffff";
+        }
+        this.primaryColorString = "#" + primaryColorString;
+    }
+
+    public String getSecondaryColorString() {
+        return secondaryColorString;
+    }
+
+    public void setSecondaryColorString(String secondaryColorString) {
+        if (TextUtils.getTrimmedLength(secondaryColorString) <= 0) {
+            secondaryColorString = "ffffff";
+        }
+        this.secondaryColorString = "#" + secondaryColorString;
+    }
+
+    public String getTertiaryColorString() {
+        return tertiaryColorString;
+    }
+
+    public void setTertiaryColorString(String tertiaryColorString) {
+        if (TextUtils.getTrimmedLength(tertiaryColorString) <= 0) {
+            tertiaryColorString = "ffffff";
+        }
+        this.tertiaryColorString = "#" + tertiaryColorString;
+    }
+
+    public String getQuaternaryColorString() {
+        return quaternaryColorString;
+    }
+
+    public void setQuaternaryColorString(String quaternaryColorString) {
+        if (TextUtils.getTrimmedLength(quaternaryColorString) <= 0) {
+            quaternaryColorString = "ffffff";
+        }
+        this.quaternaryColorString = "#" + quaternaryColorString;
     }
 }

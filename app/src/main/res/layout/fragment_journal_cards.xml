@@ -1,6 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:card="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".views.fragments.JournalCards">
@@ -8,12 +8,13 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <it.gmariotti.cardslib.library.view.CardListView
+            android:id="@+id/cardList"
+            style="@style/list_card.thumbnail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/cardList"
-            card:list_card_layout_resourceID="@layout/list_card_thumbnail_layout"
-            style="@style/list_card.thumbnail"/>
+            card:list_card_layout_resourceID="@layout/list_card_thumbnail_layout" />
     </RelativeLayout>
 
     <!--<include layout="@layout/list_card_undo_message"/>-->
@@ -21,15 +22,16 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/my_undobar"
         style="@style/list_card_UndoBar"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/my_undobar_message"
-            style="@style/list_card_UndoBarMessage"/>
+            style="@style/list_card_UndoBarMessage" />
 
         <Button
             android:id="@+id/my_undobar_button"
-            style="@style/list_card_UndoBarButton"/>
+            style="@style/list_card_UndoBarButton" />
 
     </LinearLayout>
 
