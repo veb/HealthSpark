@@ -2,7 +2,7 @@
 <resources>
 
     <string name="status_cause_spinner">SPINNER!</string>
-    <string name="app_name">Therable</string>
+    <string name="app_name">HealthSpark</string>
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>

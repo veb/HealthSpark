@@ -45,7 +45,7 @@ public class AllDataSetFragment extends Fragment {
     MultiSpinner multiSpinner;
     Spinner rangeSpinner;
 
-    List<String> statusnames;
+    List<StatusLoader.StatusMap> statusnames;
 
 
     boolean[] multiSpinnerSelected = new boolean[]{};
@@ -75,29 +75,6 @@ public class AllDataSetFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-        appMode = ((TherableApp) getActivity().getApplication()).getAppMode();
-
-        switch (appMode) {
-            case CBT:
-                emotionSubStrings = getResources().getStringArray(R.array.moodSubStrings);
-                emotionColors = getResources().obtainTypedArray(R.array.emotiveColors);
-                break;
-            case FITNESS:
-                emotionSubStrings = getResources().getStringArray(R.array.fitnessActivityStrings);
-                emotionColors = getResources().obtainTypedArray(R.array.emotiveColors);
-                break;
-            case MEDICAL:
-                emotionSubStrings = getResources().getStringArray(R.array.effectivenessString);
-                emotionColors = getResources().obtainTypedArray(R.array.emotiveColors);
-                break;
-            case PAIN:
-                emotionSubStrings = getResources().getStringArray(R.array.painStrings);
-                emotionColors = getResources().obtainTypedArray(R.array.emotiveColors);
-                break;
-        }
-
     }
 
     @Override
@@ -131,7 +108,11 @@ public class AllDataSetFragment extends Fragment {
 
     void setupFilterSpinners() {
         statusnames = new StatusLoader(getActivity()).getStatusesForEntryType(null);
-        multiSpinner.setItems(statusnames, "All Moods", new MultiSpinner.MultiSpinnerListener() {
+        List<String> statusStrings = new ArrayList<String>();
+        for (StatusLoader.StatusMap statuses: statusnames) {
+            statusStrings.add(statuses.getStatusName());
+        }
+        multiSpinner.setItems(statusStrings, "Select...", new MultiSpinner.MultiSpinnerListener() {
             @Override
             public void onItemsSelected(boolean[] selected) {
                 multiSpinnerSelected = selected;
@@ -205,7 +186,8 @@ public class AllDataSetFragment extends Fragment {
                     }
 
                 }
-                LineDataSet dataSet = new LineDataSet(yVals, statusnames.get(i));
+
+                LineDataSet dataSet = new LineDataSet(yVals, statusnames.get(i).getStatusName());
 
 
                 int incol = getResources().getColor(mColors[j % mColors.length]);

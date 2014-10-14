@@ -4,7 +4,7 @@ import android.database.Cursor;
 
 import com.omnibuttie.therable.provider.base.AbstractCursor;
 import com.omnibuttie.therable.provider.status.StatusColumns;
-import com.omnibuttie.therable.provider.status.StatusType;
+
 
 import java.util.Date;
 
@@ -141,9 +141,9 @@ public class JournalentryCursor extends AbstractCursor {
      * Get the {@code status_type} value.
      * Cannot be {@code null}.
      */
-    public StatusType getStatusType() {
+    public EntryType getStatusType() {
         Integer intValue = getIntegerOrNull(StatusColumns.STATUS_TYPE);
         if (intValue == null) return null;
-        return StatusType.values()[intValue];
+        return EntryType.values()[intValue];
     }
 }

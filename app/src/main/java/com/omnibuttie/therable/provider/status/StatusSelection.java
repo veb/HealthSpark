@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.net.Uri;
 
 import com.omnibuttie.therable.provider.base.AbstractSelection;
+import com.omnibuttie.therable.provider.journalentry.EntryType;
 
 /**
  * Selection for the {@code status} table.
@@ -126,12 +127,12 @@ public class StatusSelection extends AbstractSelection<StatusSelection> {
         return this;
     }
 
-    public StatusSelection statusType(StatusType... value) {
+    public StatusSelection entryType(EntryType... value) {
         addEquals(StatusColumns.STATUS_TYPE, value);
         return this;
     }
 
-    public StatusSelection statusTypeNot(StatusType... value) {
+    public StatusSelection entryTypeNot(EntryType... value) {
         addNotEquals(StatusColumns.STATUS_TYPE, value);
         return this;
     }

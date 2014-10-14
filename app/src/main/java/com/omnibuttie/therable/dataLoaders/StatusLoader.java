@@ -3,10 +3,10 @@ package com.omnibuttie.therable.dataLoaders;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.omnibuttie.therable.provider.journalentry.EntryType;
 import com.omnibuttie.therable.provider.status.StatusColumns;
 import com.omnibuttie.therable.provider.status.StatusCursor;
 import com.omnibuttie.therable.provider.status.StatusSelection;
-import com.omnibuttie.therable.provider.status.StatusType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,23 +15,41 @@ import java.util.List;
  * Created by rayarvin on 10/3/14.
  */
 public class StatusLoader {
+   public class StatusMap {
+        long statusID;
+        String statusName;
+
+        public long getStatusID() {
+            return statusID;
+        }
+
+        public String getStatusName() {
+            return statusName;
+        }
+
+        StatusMap(long statusID, String statusName) {
+
+            this.statusID = statusID;
+            this.statusName = statusName;
+        }
+    }
     protected Context context;
 
     public StatusLoader(Context context) {
         this.context = context;
     }
 
-    public List<String> getStatusesForEntryType(StatusType entryType) {
+    public List<StatusMap> getStatusesForEntryType(EntryType entryType) {
         StatusSelection selection = new StatusSelection();
         if (entryType != null) {
-            selection.statusType(entryType);
+            selection.entryType(entryType);
         }
-        StatusCursor cursor = selection.query(context.getContentResolver(), null, null);
+        StatusCursor cursor = selection.query(context.getContentResolver(), null, StatusColumns._ID + " asc");
 
-        List<String> statuses = new ArrayList<String>();
+        List<StatusMap> statuses = new ArrayList<StatusMap>();
         while (cursor.moveToNext()) {
             String typeString = "";
-            switch (cursor.getStatusType()) {
+            switch (cursor.getEntryType()) {
                 case CBT:
                     typeString = "CBT:";
                     break;
@@ -48,16 +66,8 @@ public class StatusLoader {
                     typeString = "OTH:";
                     break;
             }
-            statuses.add((int) cursor.getId(), typeString + cursor.getStatusName());
+            statuses.add(new StatusMap(cursor.getId(), cursor.getStatusName()));
         }
-
         return statuses;
-    }
-
-    public Cursor getStatusTypes() {
-        StatusSelection selection = new StatusSelection();
-        selection.addRaw("GROUP BY " + StatusColumns.TABLE_NAME + "." + StatusColumns.STATUS_TYPE);
-        StatusCursor cursor = selection.query(context.getContentResolver(), null, null);
-        return cursor.getWrappedCursor();
     }
 }

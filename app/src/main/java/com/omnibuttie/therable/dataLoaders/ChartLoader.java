@@ -161,9 +161,23 @@ public class ChartLoader {
         }
 
         selection.addRaw("GROUP BY WEEKNUMBER");
-        Cursor jcur = selection.query(this.context.getContentResolver(), joinedProjection, "date_modified desc");
+        return selection.query(this.context.getContentResolver(), joinedProjection, "date_modified desc").getWrappedCursor();
+    }
 
-        return jcur;
+    public Cursor getYearsCursor(EntryType entryType) {
+        JournalentrySelection selection = new JournalentrySelection();
+
+        String[] joinedProjection = new String[]{
+                JournalentryColumns.TABLE_NAME + "." + JournalentryColumns._ID,
+                "strftime('%Y', " + JournalentryColumns.SIMPLEDATE + ") WEEKNUMBER",
+        };
+        selection.contentNot("");
+        if (entryType != null) {
+            selection.and().entryType(entryType);
+        }
+
+        selection.addRaw("GROUP BY WEEKNUMBER");
+        return selection.query(this.context.getContentResolver(), joinedProjection, "date_modified desc").getWrappedCursor();
     }
 
     public Cursor getMonthsCursor(EntryType entryType) {
@@ -184,6 +198,31 @@ public class ChartLoader {
         selection.addRaw("GROUP BY MONTHNUMBER");
         Cursor jcur = selection.query(this.context.getContentResolver(), joinedProjection, "date_modified desc");
         return jcur;
+    }
+
+    public Cursor getMonthliesForYear(int year, long statusID) {
+        JournalentrySelection selection = new JournalentrySelection();
+
+        String[] joinedProjection = ArrayUtils.addAll(JournalentryColumns.FULL_PROJECTION, StatusColumns.JOIN_PROJECTION);
+        joinedProjection = new String[]{
+                JournalentryColumns.TABLE_NAME + "." + JournalentryColumns._ID,
+                JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.DATE_MODIFIED,
+                JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.STATUS_ID,
+                "count(" + JournalentryColumns.STATUS_ID + ") MOODCOUNT",
+                "cast(strftime('%m'," + JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.SIMPLEDATE + ") as INTEGER) MONTHNUMBER",
+                "strftime('%m'," + JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.SIMPLEDATE + ") AS month",
+                "strftime('%Y'," + JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.SIMPLEDATE + ") AS year",
+                "strftime('%d'," + JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.SIMPLEDATE + ") AS day",
+        };
+
+        selection.addRaw(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.SIMPLEDATE + " between '" + year + "-01-01' and '" + year + "-12-31'");
+
+        selection.and().statusId(statusID);
+
+        selection.addRaw("GROUP BY " + JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.ENTRY_TYPE + ", " + JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.STATUS_ID + ", year, month");
+        Cursor jcur = selection.query(this.context.getContentResolver(), joinedProjection, "date_modified desc");
+        return jcur;
+
     }
 
     public Cursor getDatasetCursor(EntryType entryType) {
@@ -307,6 +346,34 @@ public class ChartLoader {
         }
         selection.addRaw("GROUP BY " + JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.ENTRY_TYPE + ", " + JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.STATUS_ID + filterString);
         JournalentryCursor jcur = selection.query(this.context.getContentResolver(), joinedProjection, "date_modified asc");
+        return jcur.getWrappedCursor();
+    }
+    public Cursor getPeriodDataCursor(LocalDate startDate, LocalDate endDate, EntryType appMode) {
+        DateTimeFormatter dtfOut = DateTimeFormat.forPattern("YYYY-MM-dd");
+
+        String[] joinedProjection = new String[]{
+                JournalentryColumns.TABLE_NAME + "." + JournalentryColumns._ID,
+                JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.STATUS_ID,
+                "count(" + JournalentryColumns.STATUS_ID + ") MOODCOUNT",
+        };
+
+        JournalentrySelection selection = new JournalentrySelection();
+
+
+        if (startDate == null && endDate == null) {
+
+        } else if (startDate == null) {
+            selection.addRaw(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.SIMPLEDATE + " <=  " + dtfOut.print(endDate));
+        } else if (endDate == null) {
+            selection.addRaw(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.SIMPLEDATE + " >= " + dtfOut.print(startDate));
+        } else {
+            selection.addRaw(JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.SIMPLEDATE + " between '" + dtfOut.print(startDate) + "' AND '" + dtfOut.print(endDate) + "'");
+        }
+
+        selection.and().entryType(appMode);
+        selection.addRaw("GROUP BY " + JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.STATUS_ID);
+        JournalentryCursor jcur = selection.query(this.context.getContentResolver(), joinedProjection, JournalentryColumns.TABLE_NAME + "." + JournalentryColumns.STATUS_ID + " asc, date_modified asc");
+
         return jcur.getWrappedCursor();
     }
 

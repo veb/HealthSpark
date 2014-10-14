@@ -3,6 +3,7 @@ package com.omnibuttie.therable.views.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,27 +24,29 @@ import com.github.mikephil.charting.utils.YLabels;
 import com.omnibuttie.therable.R;
 import com.omnibuttie.therable.TherableApp;
 import com.omnibuttie.therable.dataLoaders.ChartLoader;
+import com.omnibuttie.therable.dataLoaders.StatusLoader;
 import com.omnibuttie.therable.model.JournalChartData;
 import com.omnibuttie.therable.provider.journalentry.EntryType;
 
-import org.apache.commons.lang3.ArrayUtils;
-import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
 public class WeeklyChartFragment extends Fragment {
 
-    String[] emotionSubStrings;
+    List<StatusLoader.StatusMap> statusMaps;
+    ArrayList<Long> statusIDS;
+    ArrayList<String> statusNames;
     TypedArray emotionColors;
     int[] parsedColors;
     EntryType appMode;
     private OnFragmentInteractionListener mListener;
     private ListView listView;
+    ChartLoader loader;
 
     public WeeklyChartFragment() {
     }
@@ -60,31 +63,13 @@ public class WeeklyChartFragment extends Fragment {
 
         appMode = ((TherableApp) getActivity().getApplication()).getAppMode();
 
-        switch (appMode) {
-            case CBT:
-                emotionSubStrings = getResources().getStringArray(R.array.moodSubStrings);
-                emotionColors = getResources().obtainTypedArray(R.array.emotiveColors);
-                break;
-            case FITNESS:
-                emotionSubStrings = getResources().getStringArray(R.array.fitnessActivityStrings);
-                emotionColors = getResources().obtainTypedArray(R.array.emotiveColors);
-                break;
-            case MEDICAL:
-                emotionSubStrings = getResources().getStringArray(R.array.effectivenessString);
-                emotionColors = getResources().obtainTypedArray(R.array.emotiveColors);
-                break;
-            case PAIN:
-                emotionSubStrings = getResources().getStringArray(R.array.painStrings);
-                emotionColors = getResources().obtainTypedArray(R.array.emotiveColors);
-                break;
+        statusMaps = new StatusLoader(getActivity()).getStatusesForEntryType(appMode);
+        statusNames = new ArrayList<String>();
+        statusIDS = new ArrayList<Long>();
+        for (StatusLoader.StatusMap stats:statusMaps) {
+            statusNames.add(stats.getStatusName());
+            statusIDS.add(stats.getStatusID());
         }
-
-
-        List<Integer> emColors = new ArrayList<Integer>();
-        for (int i = 0; i < emotionColors.length(); i++) {
-            emColors.add(emotionColors.getColor(i, Color.WHITE));
-        }
-        parsedColors = ArrayUtils.toPrimitive(emColors.toArray(new Integer[0]));
 
     }
 
@@ -94,60 +79,49 @@ public class WeeklyChartFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list_chart, container, false);
         listView = (ListView) view.findViewById(R.id.listView1);
 
-        List<JournalChartData> weeks = ChartLoader.getWeeks(appMode);
-
-        ArrayList<BarData> bars = new ArrayList<BarData>();
-
-        for (JournalChartData week : weeks) {
-            bars.add(processDataFromWeek(week.getWeekstart(), week.getWeekend()));
-        }
-
-        ChartDataAdapter adapter = new ChartDataAdapter(getActivity().getApplicationContext(), bars);
-        listView.setAdapter(adapter);
-
+        setupGraphs();
         return view;
+
     }
 
-    private BarData processDataFromWeek(Date start, Date end) {
-        DateTime simpleStart = new DateTime(start);
-        DateTime simpleEnd = new DateTime(end);
+    private void setupGraphs() {
+        loader = new ChartLoader(getActivity());
+        Cursor weekCursor = loader.getWeeksCursor(appMode);
+
+        ArrayList<BarData> barDataSets = new ArrayList<BarData>();
+        while(weekCursor.moveToNext()) {
+            barDataSets.add(processDataFromWeek(new LocalDate(weekCursor.getLong(2)), new LocalDate(weekCursor.getLong(3))));
+        }
+        ChartDataAdapter adapter = new ChartDataAdapter(getActivity().getApplicationContext(), barDataSets);
+        listView.setAdapter(adapter);
+    }
+
+    private BarData processDataFromWeek(LocalDate start, LocalDate end) {
         DateTimeFormatter fmt = DateTimeFormat.forPattern("MMM dd, YYYY");
 
-        Log.e("BARCHART", "processing week " + fmt.print(simpleStart));
-
         ArrayList<BarEntry> barEntries = new ArrayList<BarEntry>();
-        for (int i = 0; i < emotionSubStrings.length; i++) {
+
+        for (int i = 0; i < statusMaps.size(); i++) {
             barEntries.add(new BarEntry(0, i));
         }
 
-        List<JournalChartData> chartDatas = ChartLoader.getPeriodData(start, end, appMode);
-
-        for (int i = 0; i < chartDatas.size(); i++) {
-            JournalChartData chartData = chartDatas.get(i);
-            barEntries.set(chartData.getMood_index(), new BarEntry(chartData.getMoodcount(), chartData.getMood_index()));
+        Cursor cursor = loader.getPeriodDataCursor(start, end, appMode);
+        while(cursor.moveToNext()) {
+            int idx = statusIDS.indexOf(cursor.getLong(1));
+            barEntries.set(idx, new BarEntry(cursor.getInt(2), idx));
         }
 
-        BarDataSet dataSet = new BarDataSet(barEntries, fmt.print(simpleStart) + " to " + fmt.print(simpleEnd));
+        BarDataSet dataSet = new BarDataSet(barEntries, fmt.print(start) + " to " + fmt.print(end));
         dataSet.setBarSpacePercent(15f);
-
-        switch (((TherableApp) getActivity().getApplication()).getAppMode()) {
-            case CBT:
-                dataSet.setColors(ColorTemplate.createColors(parsedColors));
-                break;
-            case FITNESS:
-            case MEDICAL:
-            case PAIN:
-                dataSet.setColors(ColorTemplate.JOYFUL_COLORS, getActivity().getApplicationContext());
-                break;
-        }
+        dataSet.setColors(ColorTemplate.JOYFUL_COLORS, getActivity());
 
         dataSet.setBarShadowColor(Color.rgb(203, 203, 203));
         ArrayList<BarDataSet> sets = new ArrayList<BarDataSet>();
         sets.add(dataSet);
 
-        BarData cd = new BarData(emotionSubStrings, sets);
 
-        Log.e("BARCHART", "end processing week " + fmt.print(simpleStart));
+        BarData cd = new BarData(statusNames, sets);
+
         return cd;
     }
 

@@ -3,6 +3,7 @@ package com.omnibuttie.therable.provider.status;
 import android.database.Cursor;
 
 import com.omnibuttie.therable.provider.base.AbstractCursor;
+import com.omnibuttie.therable.provider.journalentry.EntryType;
 
 /**
  * Cursor wrapper for the {@code status} table.
@@ -61,9 +62,9 @@ public class StatusCursor extends AbstractCursor {
      * Get the {@code status_type} value.
      * Cannot be {@code null}.
      */
-    public StatusType getStatusType() {
+    public EntryType getEntryType() {
         Integer intValue = getIntegerOrNull(StatusColumns.STATUS_TYPE);
         if (intValue == null) return null;
-        return StatusType.values()[intValue];
+        return EntryType.values()[intValue];
     }
 }

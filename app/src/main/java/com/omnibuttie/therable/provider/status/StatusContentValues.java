@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.net.Uri;
 
 import com.omnibuttie.therable.provider.base.AbstractContentValues;
+import com.omnibuttie.therable.provider.journalentry.EntryType;
 
 /**
  * Content values wrapper for the {@code status} table.
@@ -79,9 +80,9 @@ public class StatusContentValues extends AbstractContentValues {
     }
 
 
-    public StatusContentValues putStatusType(StatusType value) {
+    public StatusContentValues putEntryType(EntryType value) {
         if (value == null)
-            throw new IllegalArgumentException("value for statusType must not be null");
+            throw new IllegalArgumentException("value for EntryType must not be null");
         mContentValues.put(StatusColumns.STATUS_TYPE, value.ordinal());
         return this;
     }

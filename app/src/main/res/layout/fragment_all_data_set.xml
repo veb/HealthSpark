@@ -2,9 +2,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-    <view
+    <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart1"
-        class="com.github.mikephil.charting.charts.LineChart"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_above="@+id/spinners" />

@@ -67,7 +67,11 @@ public class AllDataAndroplotFragment extends Fragment {
     }
 
     void setupFilterSpinners() {
-        spinner.setItems(new StatusLoader(getActivity()).getStatusesForEntryType(null), "All Moods", new MultiSpinner.MultiSpinnerListener() {
+        ArrayList<String> statusNames = new ArrayList<String>();
+        for (StatusLoader.StatusMap stats:new StatusLoader(getActivity()).getStatusesForEntryType(null)) {
+            statusNames.add(stats.getStatusName());
+        }
+        spinner.setItems(statusNames, "Select status", new MultiSpinner.MultiSpinnerListener() {
             @Override
             public void onItemsSelected(boolean[] selected) {
                 setupGraph(selected);
